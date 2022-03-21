@@ -2,7 +2,8 @@
 
 
 
-March 21st Updates:
+**March 21st Updates:**
+
 Quick fixes:
   - Under rebase: top price and bottom price changed for Positive Rebase Price and Negative Rebase Price
 
@@ -15,7 +16,7 @@ New Feature:
   - The value in $ now appears near the cheapest price in TFUEL
   - Latest sales are now available at the bottom of the website
 
-March 20th Updates:
+**March 20th Updates:**
 - Dark Mode added
 - Tfuel and Tbill miss labelling has been fixed
 - Tfuel and Tbill numbers added to individual wallet view.
