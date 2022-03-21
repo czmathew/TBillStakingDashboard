@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using TBillStaking.Models;
 
 namespace TBillStaking.Pages
@@ -20,6 +21,13 @@ namespace TBillStaking.Pages
         public string tbillLocked { get; set; }
         public string tfuelLocked { get; set; }
         public string rewards { get; set; }
+
+        private readonly IConfiguration _configuration;
+
+        public IndexModel(IConfiguration conf)
+        {
+            _configuration = conf;
+        }
         public void OnGet()
         {
             NFTs = new List<NFTDetails>();
@@ -27,8 +35,8 @@ namespace TBillStaking.Pages
             {
                 Wallet = HttpContext.Request.Query["wallet"];
             }
-
-            using (SqlConnection connection = new SqlConnection("Server=tcp:huhusql.database.windows.net,1433;Database=sql-tbill;User ID=functionUser;Password=GpZyjaYW0slVXQPFyST2;Trusted_Connection=False;Encrypt=True;"))
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
             {
                 connection.Open();
                 using (var command = new SqlCommand("usp_getNFTDetails", connection)
