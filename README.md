@@ -28,7 +28,8 @@ New Features:
  - USD price for the NFT purchases
 
 Quick Fixes:
- - Minor UI updates
+ - Minor UI updates:
+   - Tfuel and Tbill prices stick at the top of the site
 
 ## **March 21st Updates:**
 
