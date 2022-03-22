@@ -22,6 +22,7 @@ Mat and Max!
 
 ## **March 22nd Updates:**
 New Features:
+ - Number of LP wallets added
  - TFuel price added
  - Buyer's address added together with the total amount of NFTs bought by this address
  - USD price for the NFT purchases
