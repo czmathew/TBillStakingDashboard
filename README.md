@@ -30,6 +30,7 @@ New Features:
 Quick Fixes:
  - Minor UI updates:
    - Tfuel and Tbill prices stick at the top of the site
+   - Tbill Favicon added
 
 ## **March 21st Updates:**
 
