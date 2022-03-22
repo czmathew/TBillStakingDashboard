@@ -13,9 +13,12 @@ $(document).ready(function () {
 function fetchData() {
     $.getJSON("api/rates", function (data) {
         var rate = "";
+        var rateTFuel = "";
         $.each(data['rates'], function (key, val) {
             if (val['pair'] == 'tbill_usd') {
                 rate = val['rate'];
+            } else if (val['pair'] == 'tfuel_usd') {
+                rateTFuel = val['rate'];
             }
         });
         var targetRate = data['targetRate'];
@@ -34,6 +37,7 @@ function fetchData() {
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
         $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));
         $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
+        $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
 
     });
 
@@ -44,9 +48,9 @@ function fetchData() {
             $('#rewardsTable > tbody:last-child').empty();
             $.each(data['data'], function (key, val) {
                 //get first 10 only
-                if (i > 10) {
-                    return false;
-                }
+                //if (i > 10) {
+                //    return false;
+                //}
                 var tvl = parseFloat(val['tv']).toFixed(2);
                 var mtvl = parseFloat(val['mtv']).toFixed(2);
                 var reward = parseFloat(val['reward']).toFixed(4);
@@ -56,7 +60,7 @@ function fetchData() {
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td>' + tbill1x + '</td><td>' + tbill15x + '</td><td>' + tbill2x + '</td><td>' + tfuel + '</td><td>' + tvl + '</td><td>' + mtvl + '</td><td>' + reward + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">' + tvl + '</td><td class="text-end">' + mtvl + '</td><td class="text-end">' + reward + '</td></tr>');
                 i++;
             });
         });
@@ -72,8 +76,14 @@ function fetchData() {
                 //ignore hte header (first record)
                 if (i > 1) {
                     rewards.push({
-                        date: val[0], tvl: val[1], mtvl: val[2], tbill1x: val[3], tbill15x: val[4]
-                        , tbill2x: val[5], tfuel: val[6], reward: val[7]
+                        date: val[0],
+                        tvl: parseFloat(val[1]).toFixed(2),
+                        mtvl: parseFloat(val[2]).toFixed(2),
+                        tbill1x: parseFloat(val[3]).toFixed(2),
+                        tbill15x: parseFloat(val[4]).toFixed(2),
+                        tbill2x: parseFloat(val[5]).toFixed(2),
+                        tfuel: parseFloat(val[6]).toFixed(2),
+                        reward: parseFloat(val[7]).toFixed(4)
                     });
                 }
                 i++;
@@ -86,11 +96,12 @@ function fetchData() {
 
             for (let y = 0; y < rewardsReverse.length; y++) {
                 //only first 10
-                if (y > 10) {
+                if (y > 30) {
                     break;
                 }
                 //console.log(rewardsReverse[y]);
-                $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td>' + rewardsReverse[y].tbill1x + '</td><td>' + rewardsReverse[y].tbill15x + '</td><td>' + rewardsReverse[y].tbill2x + '</td><td>' + rewardsReverse[y].tfuel + '</td><td>' + rewardsReverse[y].tvl + '</td><td>' + rewardsReverse[y].mtvl + '</td><td>' + rewardsReverse[y].reward + '</td></tr>');
+                $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
+                    + rewardsReverse[y].tfuel + '</td><td class="text-end">' + rewardsReverse[y].tvl + '</td><td class="text-end">' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td></tr>');
             }
         });
     }
