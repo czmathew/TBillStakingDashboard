@@ -27,7 +27,7 @@ New Features:
  - USD price for the NFT purchases
 
 Quick Fixes:
- - minor UI updates
+ - Minor UI updates
 
 ## **March 21st Updates:**
 
