@@ -24,6 +24,8 @@ namespace TBillStaking.Pages
         public string tfuelLocked { get; set; }
         public string rewards { get; set; }
 
+        public string lpWalletCount { get; set; }
+
         private readonly IConfiguration _configuration;
 
         public IndexModel(IConfiguration conf)
@@ -84,7 +86,7 @@ namespace TBillStaking.Pages
                             tbillLocked = String.Format("{0:n}", reader.GetDecimal("tbillLocked"));
                             tfuelLocked = String.Format("{0:n}", reader.GetDecimal("tfuelLocked"));
                             rewards = String.Format("{0:n}", reader.GetDecimal("rewards"));
-                            
+
                         }
                     }
                     finally
@@ -113,6 +115,27 @@ namespace TBillStaking.Pages
                             nft.PriceUsd = reader.GetDecimal("priceUsd");
                             nft.Buyer = reader.GetString("buyer");
                             NFTSales.Add(nft);
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("[dbo].[ups_getLPWalletCount]", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = 1;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            lpWalletCount = reader.GetInt32("walletCount").ToString();
                         }
                     }
                     finally
