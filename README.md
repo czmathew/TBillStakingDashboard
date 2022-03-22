@@ -1,13 +1,31 @@
 # TBillStakingDashboard
 
+# What is the dashboard?
+TBill Staking Dashboard is a community project created by @czmathew _(head developer)_ and Maxime, @TechSherpa _(community manager and idea spitter)_.
 
-**March 22nd Updates:**
+The main objective of this Dashboard it to have access at all times to every TBILL data **without** having to connect your wallet.
+
+## How does it work?
+First of all, none of your data is stored in our server.
+
+Then, every data is pulled from different websites (TBILL and OpenTheta) and aggregated in the Dashboard.
+
+It's clearer, way more user friendly and everything is in one place.
+
+You have access to the whole source code in here in GitHub to check everything.
+
+Thank you,
+Mat and Max!
+
+
+# Changes Notes
+## **March 22nd Updates:**
  - TFuel price added
  - Buyer's address added together with the total amount of NFTs bought by this address
  - USD price for the NFT purchases
  - minor UI updates
 
-**March 21st Updates:**
+## **March 21st Updates:**
 
 Quick fixes:
   - Under rebase: top price and bottom price changed for Positive Rebase Price and Negative Rebase Price
