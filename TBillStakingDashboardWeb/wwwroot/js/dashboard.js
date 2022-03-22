@@ -33,11 +33,13 @@ function fetchData() {
         }
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
+        $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
         $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));
         $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
+        $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
 
     });
 
