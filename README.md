@@ -3,7 +3,7 @@
 # What is the dashboard?
 TBill Staking Dashboard is a community project created by @czmathew _(head developer)_ and Maxime, @TechSherpa _(community manager and idea spitter)_.
 
-The main objective of this Dashboard it to have access at all times to every TBILL data **without** having to connect your wallet.
+The main objective of this Dashboard is to have access at all times to every TBILL data **without** having to connect your wallet.
 
 ## How does it work?
 First of all, none of your data is stored in our server.
@@ -19,10 +19,14 @@ Mat and Max!
 
 
 # Changes Notes
+
 ## **March 22nd Updates:**
+New Features:
  - TFuel price added
  - Buyer's address added together with the total amount of NFTs bought by this address
  - USD price for the NFT purchases
+
+Quick Fixes:
  - minor UI updates
 
 ## **March 21st Updates:**
@@ -35,11 +39,11 @@ Wallet Stats Panel:
   - Daily history extended to the whole day (scrolling)
   - Past history extended to 30 days
 
-New Feature:
+New Features:
   - The value in $ now appears near the cheapest price in TFUEL
   - Latest sales are now available at the bottom of the website
 
-**March 20th Updates:**
+## **March 20th Updates:**
 - Dark Mode added
 - Tfuel and Tbill miss labelling has been fixed
 - Tfuel and Tbill numbers added to individual wallet view.
