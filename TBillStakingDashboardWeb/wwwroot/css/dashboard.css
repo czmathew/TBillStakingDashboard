@@ -8,3 +8,7 @@
     overflow: auto;
     display: inline-block;
 }
+
+.apexcharts-title-text {
+    color:red;
+}
