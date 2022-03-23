@@ -1,48 +1,17 @@
 $(document).ready(function () {
 
     fetchData();
+    fetchNFTData();
 
     $("form").on("submit", function (event) {
 
-        fetchData();
+        fetchNFTData();
 
         event.preventDefault();
     });
 });
 
-function fetchData() {
-    $.getJSON("api/rates", function (data) {
-        var rate = "";
-        var rateTFuel = "";
-        $.each(data['rates'], function (key, val) {
-            if (val['pair'] == 'tbill_usd') {
-                rate = val['rate'];
-            } else if (val['pair'] == 'tfuel_usd') {
-                rateTFuel = val['rate'];
-            }
-        });
-        var targetRate = data['targetRate'];
-        var rebaseRate = data['rebaseRate'];
-        var noRebaseRangeTop = data['noRebaseRange']['top'];
-        var noRebaseRangeBottom = data['noRebaseRange']['bottom'];
-
-        if (rebaseRate > noRebaseRangeTop) {
-            $("#rebaseRate").addClass("text-success");
-        } else if (rebaseRate < noRebaseRangeBottom) {
-            $("#rebaseRate").addClass(".text-danger");
-        }
-
-        $("#tbillRate").html(parseFloat(rate).toFixed(4));
-        $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
-        $("#targetRate").html(parseFloat(targetRate).toFixed(4));
-        $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
-        $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));
-        $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
-        $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
-        $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
-
-    });
-
+function fetchNFTData() {
     var wallet = $("#walletAddress").val();
     if (wallet != "") {
         $.getJSON("api/rewards/" + wallet, function (data) {
@@ -107,6 +76,42 @@ function fetchData() {
             }
         });
     }
+}
+
+function fetchData() {
+    $.getJSON("api/rates", function (data) {
+        var rate = "";
+        var rateTFuel = "";
+        $.each(data['rates'], function (key, val) {
+            if (val['pair'] == 'tbill_usd') {
+                rate = val['rate'];
+            } else if (val['pair'] == 'tfuel_usd') {
+                rateTFuel = val['rate'];
+            }
+        });
+        var targetRate = data['targetRate'];
+        var rebaseRate = data['rebaseRate'];
+        var noRebaseRangeTop = data['noRebaseRange']['top'];
+        var noRebaseRangeBottom = data['noRebaseRange']['bottom'];
+
+        if (rebaseRate > noRebaseRangeTop) {
+            $("#rebaseRate").addClass("text-success");
+        } else if (rebaseRate < noRebaseRangeBottom) {
+            $("#rebaseRate").addClass(".text-danger");
+        }
+
+        $("#tbillRate").html(parseFloat(rate).toFixed(4));
+        $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
+        $("#targetRate").html(parseFloat(targetRate).toFixed(4));
+        $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
+        $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));
+        $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
+        $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
+        $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
+
+    });
+
+    
 
 }
 

@@ -1,0 +1,74 @@
+﻿@page
+@model TBillStakingDashboardWeb.Pages.MyWalletModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h4>Wallet stats</h4>
+    <div class="col-8">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Wallet address" aria-label="Wallet address" id="walletAddress" value="@ViewData["Wallet"]">
+
+            <div class="input-group-append">
+                <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-4">
+
+    </div>
+
+</div>
+
+<div class="row">
+    &nbsp;
+</div>
+<div class="row">
+    <div class="table-wrapper">
+        <table id="rewardsTable" class="table table-light table-sm">
+            <thead>
+                <tr>
+                    <td>Time</td>
+                    <td class="text-end">TBill 1x</td>
+                    <td class="text-end">TBill 1,5x</td>
+                    <td class="text-end">TBill 2x</td>
+                    <td class="text-end">TFuel 1x</td>
+                    <td class="text-end">TVL</td>
+                    <td class="text-end">MTVL</td>
+                    <td class="text-end">Rewards</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div class="row">
+    &nbsp;
+</div>
+<div class="row">
+    <div class="table-wrapper">
+        <table id="dailyRewardsTable" class="table table-light table-sm">
+            <thead>
+                <tr>
+                    <td>Date</td>
+                    <td class="text-end">TBill 1x</td>
+                    <td class="text-end">TBill 1,5x</td>
+                    <td class="text-end">TBill 2x</td>
+                    <td class="text-end">TFuel 1x</td>
+                    <td class="text-end">TVL</td>
+                    <td class="text-end">MTVL</td>
+                    <td class="text-end">Rewards</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
