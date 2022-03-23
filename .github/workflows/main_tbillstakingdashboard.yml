@@ -26,7 +26,7 @@ jobs:
         run: dotnet build TBillStakingDashboardWeb/TBillStakingDashboardWeb.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publishTBillStakingDashboardWeb/TBillStakingDashboardWeb.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish TBillStakingDashboardWeb/TBillStakingDashboardWeb.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
