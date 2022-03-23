@@ -148,18 +148,8 @@
         };
     </script>
 
-    <script src="irregular-data-series.js"></script>
     <script>
-        var ts2 = 1484418600000;
-        var dates = [];
-        var dates2 = [];
-        for (var i = 0; i < 120; i++) {
-            ts2 = ts2 + 86400000;
-            var innerArr = [ts2, dataSeries[1][i].value];
-            var innerArr2 = [ts2, dataSeries[1][i].value + 20000000];
-            dates.push(innerArr)
-            dates2.push(innerArr2)
-        }
+        
 
         var datesTvl = [];
         var datesTF = [];
