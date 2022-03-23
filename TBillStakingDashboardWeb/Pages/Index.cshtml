@@ -20,7 +20,7 @@
                 <p>
                     <strong>Total LP Activated</strong>
                     <br />
-                    <label id="tvLocked" class="form-label">@Model.tvLocked USD</label>
+                    <label id="tvLocked" class="form-label">@Model.TvLocked USD</label>
                 </p>
 
             </div>
@@ -28,20 +28,20 @@
                 <p>
                     <strong>Total Rewards</strong>
                     <br />
-                    <label id="rewards" class="form-label">@Model.rewards USD</label>
+                    <label id="rewards" class="form-label">@Model.Rewards USD</label>
                 </p>
 
             </div>
             <div class="col-lg-3 col-sm-12">
                 <p>
                     <strong>Total Activated TBILL</strong><br />
-                    <label id="tbillLocked" class="form-label">@Model.tbillLocked TBILL</label>
+                    <label id="tbillLocked" class="form-label">@Model.TbillLocked TBILL</label>
                 </p>
             </div>
             <div class="col-lg-3 col-sm-12">
                 <p>
                     <strong>Total Activated TFUEL</strong><br />
-                    <label id="tfuelLocked" class="form-label">@Model.tfuelLocked TFUEL</label>
+                    <label id="tfuelLocked" class="form-label">@Model.TfuelLocked TFUEL</label>
                 </p>
             </div>
 
@@ -108,157 +108,10 @@
 
 </div>
 
-<div class="row">
-    <h4>Wallet stats</h4>
-    <div class="col-8">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Wallet address" aria-label="Wallet address" id="walletAddress" value="@ViewData["Wallet"]">
 
-            <div class="input-group-append">
-                <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-
-
-    </div>
-    <div class="col-4">
-
-    </div>
-
-</div>
 
 <div class="row">
     &nbsp;
 </div>
-<div class="row">
-    <div class="table-wrapper">
-        <table id="rewardsTable" class="table table-light table-sm">
-            <thead>
-                <tr>
-                    <td>Time</td>
-                    <td class="text-end">TBill 1x</td>
-                    <td class="text-end">TBill 1,5x</td>
-                    <td class="text-end">TBill 2x</td>
-                    <td class="text-end">TFuel 1x</td>
-                    <td class="text-end">TVL</td>
-                    <td class="text-end">MTVL</td>
-                    <td class="text-end">Rewards</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr></tr>
-            </tbody>
-        </table>
 
-    </div>
-</div>
-<div class="row">
-    &nbsp;
-</div>
-<div class="row">
-    <div class="table-wrapper">
-        <table id="dailyRewardsTable" class="table table-light table-sm">
-            <thead>
-                <tr>
-                    <td>Date</td>
-                    <td class="text-end">TBill 1x</td>
-                    <td class="text-end">TBill 1,5x</td>
-                    <td class="text-end">TBill 2x</td>
-                    <td class="text-end">TFuel 1x</td>
-                    <td class="text-end">TVL</td>
-                    <td class="text-end">MTVL</td>
-                    <td class="text-end">Rewards</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr></tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="row">
-    &nbsp;
-</div>
-<div class="row">
-    <h4>NFT market</h4><small>(prices in TFuel, refreshed every 10 minutes)</small>
-    <table id="nftStats" class="table table-sm table-light">
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td class="text-end">Sold</td>
-                <td class="text-end">Available For Sale</td>
-                <td class="text-end">Cheapest avail. now</td>
-                <td class="text-end">USD</td>
-                <td class="text-end">Avg Price For Next 5 avail.</td>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-
-                @foreach (var record in Model.NFTs)
-                                    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => record.Name)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.Sold)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.AvailableForSale)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.CurrentSalePrice)
-                    </td>
-                    <td class="text-end">
-                        $@Html.DisplayFor(modelItem => record.CurrentSalePriceUsd)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.AvgPriceForNext5ForSale)
-                    </td>
-                </tr>
-                                    }
-            }
-        </tbody>
-    </table>
-    <div class="table-wrapper">
-        <table id="nftStats" class="table table-sm table-light">
-            <thead>
-                <tr>
-                    <td>Timestamp (UTC)</td>
-                    <td>Name</td>
-                    <td class="text-end">Sold for</td>
-                    <td class="text-end">Sold for USD</td>
-                    <td class="text-end">Buyer (bought in total)</td>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-
-                    @foreach (var record in Model.NFTSales)
-                                        {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => record.Timestamp)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => record.Name)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.Price)
-                        </td>
-                        <td class="text-end">
-                            $@Html.DisplayFor(modelItem => record.PriceUsd)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.Buyer)
-                        </td>
-                    </tr>
-                                        }
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
