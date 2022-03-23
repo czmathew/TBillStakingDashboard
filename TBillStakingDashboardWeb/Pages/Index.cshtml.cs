@@ -14,7 +14,9 @@ namespace TBillStaking.Pages
 {
     public class IndexModel : PageModel
     {
-        [BindProperty]
+        
+        public string Message { get; set; }
+        [ViewData]
         public string Wallet { get; set; }
         public List<NFTDetails> NFTs { get; set; }
         public List<NFTSaleDetails> NFTSales { get; set; }
@@ -34,6 +36,7 @@ namespace TBillStaking.Pages
         }
         public void OnGet()
         {
+
             NFTs = new List<NFTDetails>();
             NFTSales = new List<NFTSaleDetails>();
             if (!String.IsNullOrEmpty(HttpContext.Request.Query["wallet"]))

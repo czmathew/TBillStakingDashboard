@@ -9,8 +9,14 @@ namespace TBillStakingDashboardWeb.Pages
 {
     public class MyWalletModel : PageModel
     {
+        [ViewData]
+        public string Wallet { get; set; }
         public void OnGet()
         {
+            if (!String.IsNullOrEmpty(HttpContext.Request.Query["wallet"]))
+            {
+                Wallet = HttpContext.Request.Query["wallet"];
+            }
         }
     }
 }
