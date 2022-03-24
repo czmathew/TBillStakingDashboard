@@ -38,6 +38,9 @@ function fetchNFTData() {
     }
 
     if (wallet != "") {
+        var datesDaily = [];
+        var datesDailySum = [];
+        var rewardsSum = 0;
         $.getJSON("api/dailyRewards/" + wallet, function (data) {
             let i = 1;
             let rewards = [];
@@ -56,9 +59,16 @@ function fetchNFTData() {
                         tfuel: parseFloat(val[6]).toFixed(2),
                         reward: parseFloat(val[7]).toFixed(4)
                     });
+                    var innerArr = [val[0], parseFloat(val[7]).toFixed(4)];
+                    datesDaily.push(innerArr);
+                    rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[7]).toFixed(4));
+                    var innerArr = [val[0], rewardsSum];
+                    datesDailySum.push(innerArr);
                 }
                 i++;
             });
+            showDailyChart(datesDaily);
+            showDailySumChart(datesDailySum);
 
             //reverse the order to new array
             rewards.slice().reverse().forEach(function (x) {
@@ -77,6 +87,149 @@ function fetchNFTData() {
         });
     }
 }
+
+function showDailyChart(data) {
+
+    var options = {
+        series: [{
+            name: 'Daily',
+            data: data
+        }],
+        chart: {
+            type: 'area',
+            stacked: false,
+            height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        markers: {
+            size: 0,
+        },
+        title: {
+            text: 'Daily rewards',
+            align: 'left'
+        },
+        //fill: {
+        //    type: 'gradient',
+        //    gradient: {
+        //        shadeIntensity: 1,
+        //        inverseColors: false,
+        //        opacityFrom: 0.5,
+        //        opacityTo: 0,
+        //        stops: [0, 90, 100]
+        //    },
+        //},
+        yaxis: {
+            labels: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(4);
+                },
+            },
+            title: {
+                text: 'Price'
+            },
+        },
+        xaxis: {
+            type: 'datetime',
+        },
+        tooltip: {
+            enabled: true,
+            shared: false,
+            y: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(4)
+                }
+            }
+        },
+        theme: {
+            mode: 'dark'
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chartDaily"), options);
+    chart.render();
+}
+
+function showDailySumChart(data) {
+
+    var options = {
+        series: [{
+            name: 'Total rewards',
+            data: data
+        }],
+        chart: {
+            type: 'area',
+            stacked: false,
+            height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        markers: {
+            size: 0,
+        },
+        title: {
+            text: 'Rewards in total',
+            align: 'left'
+        },
+        //fill: {
+        //    type: 'gradient',
+        //    gradient: {
+        //        shadeIntensity: 1,
+        //        inverseColors: false,
+        //        opacityFrom: 0.5,
+        //        opacityTo: 0,
+        //        stops: [0, 90, 100]
+        //    },
+        //},
+        yaxis: {
+            labels: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(0);
+                },
+            },
+            title: {
+                text: 'Price'
+            },
+        },
+        xaxis: {
+            type: 'datetime',
+        },
+        tooltip: {
+            enabled: true,
+            shared: false,
+            y: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(0)
+                }
+            }
+        },
+        theme: {
+            mode: 'dark'
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chartDailySum"), options);
+    chart.render();
+}
+
 
 function fetchData() {
     $.getJSON("api/rates", function (data) {
