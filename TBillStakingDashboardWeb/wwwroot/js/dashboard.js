@@ -31,7 +31,7 @@ function fetchNFTData() {
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">' + tvl + '</td><td class="text-end">' + mtvl + '</td><td class="text-end">' + reward + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td></tr>');
                 i++;
             });
         });
@@ -82,7 +82,7 @@ function fetchNFTData() {
                 }
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
-                    + rewardsReverse[y].tfuel + '</td><td class="text-end">' + rewardsReverse[y].tvl + '</td><td class="text-end">' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td></tr>');
+                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td></tr>');
             }
         });
     }
@@ -95,18 +95,22 @@ function showDailyChart(data) {
             name: 'Daily',
             data: data
         }],
+        //chart: {
+        //    type: 'area',
+        //    stacked: false,
+        //    height: 350,
+        //    zoom: {
+        //        type: 'x',
+        //        enabled: true,
+        //        autoScaleYaxis: true
+        //    },
+        //    toolbar: {
+        //        autoSelected: 'zoom'
+        //    }
+        //},
         chart: {
-            type: 'area',
-            stacked: false,
-            height: 350,
-            zoom: {
-                type: 'x',
-                enabled: true,
-                autoScaleYaxis: true
-            },
-            toolbar: {
-                autoSelected: 'zoom'
-            }
+            type: 'bar',
+            height: 350
         },
         dataLabels: {
             enabled: false
@@ -135,7 +139,7 @@ function showDailyChart(data) {
                 },
             },
             title: {
-                text: 'Price'
+                text: 'TBILL'
             },
         },
         xaxis: {
@@ -206,7 +210,7 @@ function showDailySumChart(data) {
                 },
             },
             title: {
-                text: 'Price'
+                text: 'TBILL'
             },
         },
         xaxis: {
