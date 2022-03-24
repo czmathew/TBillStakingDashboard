@@ -117,6 +117,10 @@
             max-width: 650px;
             margin: 35px auto;
         }
+        #chartRewards {
+            max-width: 650px;
+            margin: 35px auto;
+        }
     </style>
 
     <script>
@@ -149,7 +153,7 @@
     </script>
 
     <script>
-        
+
 
         var datesTvl = [];
         var datesTF = [];
@@ -185,14 +189,18 @@
 
     </script>
 
-
-    <div id="chart"></div>
+    <div class=col-lg-6 col-sm-12">
+        <div id="chart" class="bg-dark" style="border:0px;"></div>
+    </div>
+    <div class=col-lg-6 col-sm-12">
+        <div id="chartRewards" class="bg-dark" style="border:0px;"></div>
+    </div>
 
     <script>
 
         var options = {
             series: [{
-                name: 'TvLocked',
+                name: 'TVL',
                 data: datesTvl
             }],
             chart: {
@@ -242,18 +250,89 @@
                 type: 'datetime',
             },
             tooltip: {
-                enabled: false,
+                enabled: true,
                 shared: false,
                 y: {
                     formatter: function (val) {
                         return (val / 1).toFixed(0)
                     }
                 }
+            },
+            theme: {
+                mode: 'dark'
+            }
+        };
+
+        var optionsRewards = {
+            series: [{
+                name: 'Rewards',
+                data: datesRewards
+            }],
+            chart: {
+                type: 'area',
+                stacked: false,
+                height: 350,
+                zoom: {
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    autoSelected: 'zoom'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+            },
+            title: {
+                text: 'Rewards (USD)',
+                align: 'left'
+            },
+            //fill: {
+            //    type: 'gradient',
+            //    gradient: {
+            //        shadeIntensity: 1,
+            //        inverseColors: false,
+            //        opacityFrom: 0.5,
+            //        opacityTo: 0,
+            //        stops: [0, 90, 100]
+            //    },
+            //},
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return (val / 1).toFixed(0);
+                    },
+                },
+                title: {
+                    text: 'Price'
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+            },
+            tooltip: {
+                enabled: true,
+                shared: false,
+                y: {
+                    formatter: function (val) {
+                        return (val / 1).toFixed(0)
+                    }
+                }
+            },
+            theme: {
+                mode: 'dark'
             }
         };
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+
+        var chartRewards = new ApexCharts(document.querySelector("#chartRewards"), optionsRewards);
+        chartRewards.render();
 
 
     </script>
