@@ -20,6 +20,22 @@ Mat and Max!
 
 # Changes Notes
 
+## **March 24th Updates:**
+This update sees a new layout of the website that was starting to be crowded and some massive implementation!
+
+New Features:
+- New pages to ease navigation | There is now "LP stats", "My wallet" and "NFT" tabs at the top of the website.
+- Added 'Total LP Activated' and 'Rewards' charts on the LP stats page.
+- Added Dark Mode to the charts.
+
+UI Fixes:
+- Removed the Tfuel Price from the rebase pannel.
+- Added the refreshing timeframe for LP stats and NFTs
+
+Misc:
+- Website is now divided in two : one production and one development. Please use the prodcution website.
+  A popup on the dev website will redirect you to the correct one if needed.
+
 ## **March 22nd Updates:**
 New Features:
  - Number of LP wallets added
