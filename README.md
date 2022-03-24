@@ -10,6 +10,8 @@ First of all, none of your data is stored in our server.
 
 Then, every data is pulled from different websites (TBILL and OpenTheta) and aggregated in the Dashboard.
 
+We are using APIs from those two websites so we are dependant on their access. If any of those stop working, we will do our best to get everything back up as fast as possible.
+
 It's clearer, way more user friendly and everything is in one place.
 
 You have access to the whole source code in here in GitHub to check everything.
