@@ -28,6 +28,7 @@ This update sees a new layout of the website that was starting to be crowded and
 New Features:
 - New pages to ease navigation | There is now "LP stats", "My wallet" and "NFT" tabs at the top of the website.
 - Added 'Total LP Activated' and 'Rewards' charts on the LP stats page.
+- Added 'Daily Rewards' and 'Rewards in Total' charts on My Wallet page.
 - Added Dark Mode to the charts.
 
 UI Fixes:
