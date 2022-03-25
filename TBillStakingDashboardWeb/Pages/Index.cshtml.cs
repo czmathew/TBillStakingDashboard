@@ -154,7 +154,7 @@ namespace TBillStaking.Pages
                                 //lpWalletCount = reader.GetInt32("walletCount").ToString();
                             } else if (rowCnt == 2)
                             {
-                                lpWalletCount = reader.GetInt32("walletCount").ToString() + " (24h change: " + (walletCalc - reader.GetInt32("walletCount")).ToString() + ")";
+                                lpWalletCount = walletCalc.ToString() + " (24h change: " + (walletCalc - reader.GetInt32("walletCount")).ToString() + ")";
                             }
 
                             WalletList.Add(new Tuple<string, string>(reader.GetDateTime("timestamp").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
