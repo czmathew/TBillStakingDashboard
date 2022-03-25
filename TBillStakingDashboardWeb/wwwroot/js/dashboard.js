@@ -162,6 +162,7 @@ function showDailyChart(data) {
     };
 
     var chart = new ApexCharts(document.querySelector("#chartDaily"), options);
+    $("#chartDaily").empty();
     chart.render();
 }
 
@@ -233,6 +234,7 @@ function showDailySumChart(data) {
     };
 
     var chart = new ApexCharts(document.querySelector("#chartDailySum"), options);
+    $("#chartDailySum").empty();
     chart.render();
 }
 
