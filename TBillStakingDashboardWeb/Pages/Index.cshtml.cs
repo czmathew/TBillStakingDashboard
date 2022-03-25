@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace TBillStaking.Pages
         public string Wallet { get; set; }
         [ViewData]
         public string DisplayDevMessage { get; set; }
+        public List<Tuple<string, string>> WalletList { get; set; }
         public List<NFTDetails> NFTs { get; set; }
         public List<NFTSaleDetails> NFTSales { get; set; }
 
@@ -137,13 +139,27 @@ namespace TBillStaking.Pages
                     CommandType = CommandType.StoredProcedure
                 })
                 {
-                    command.Parameters.Add("@top", SqlDbType.Int).Value = 1;
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = 100;
+                    WalletList = new List<Tuple<string, string>>();
                     SqlDataReader reader = command.ExecuteReader();
+                    int rowCnt = 1;
+                    int walletCalc = 0;
                     try
                     {
                         while (reader.Read())
                         {
-                            lpWalletCount = reader.GetInt32("walletCount").ToString();
+                            if (rowCnt == 1)
+                            {
+                                walletCalc = reader.GetInt32("walletCount");
+                                //lpWalletCount = reader.GetInt32("walletCount").ToString();
+                            } else if (rowCnt == 2)
+                            {
+                                lpWalletCount = reader.GetInt32("walletCount").ToString() + " (24h change: " + (walletCalc - reader.GetInt32("walletCount")).ToString() + ")";
+                            }
+
+                            WalletList.Add(new Tuple<string, string>(reader.GetDateTime("timestamp").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                                                        , reader.GetInt32("walletCount").ToString()));
+                            rowCnt++;
                         }
                     }
                     finally
