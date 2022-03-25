@@ -22,6 +22,10 @@ Mat and Max!
 
 # Changes Notes
 
+## **March 25th Updates:**
+New features:
+- Added an About page to the website.
+
 ## **March 24th Updates:**
 This update sees a new layout of the website that was starting to be crowded and some massive implementation!
 
