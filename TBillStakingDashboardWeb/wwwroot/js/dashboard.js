@@ -15,6 +15,7 @@ $(document).ready(function () {
 
 function fetchWalletData() {
     var wallet = $("#walletAddress").val();
+    var dailyTotal = 0;
     if (wallet != "") {
         $.getJSON("api/rewards/" + wallet, function (data) {
             let i = 1;
@@ -32,11 +33,17 @@ function fetchWalletData() {
                 var tbill15x = parseFloat(val['tbill15x']).toFixed(2);
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
+                $("#tvl").html(tvl);
+                $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
+                $("#activeTfuel").html(tfuel);
 
                 $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
+            $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4));
         });
+        
     }
 
     if (wallet != "") {
@@ -77,6 +84,8 @@ function fetchWalletData() {
                 rewardsReverse.push(x);
             });
 
+            var totalRewards = 0;
+
             for (let y = 0; y < rewardsReverse.length; y++) {
                 //only first 10
                 if (y > 30) {
@@ -85,7 +94,9 @@ function fetchWalletData() {
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
                     + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">' + parseFloat(rewardsReverse[y].reward * tbillRate).toFixed(4) + '</td></tr>');
+                totalRewards = parseFloat(totalRewards) + parseFloat(rewardsReverse[y].reward);
             }
+            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
         });
     }
 }
