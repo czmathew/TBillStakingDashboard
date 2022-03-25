@@ -1,17 +1,19 @@
+var tbillRate = 0;
+
 $(document).ready(function () {
 
     fetchData();
-    fetchNFTData();
+    
 
     $("form").on("submit", function (event) {
 
-        fetchNFTData();
+        fetchWalletData();
 
         event.preventDefault();
     });
 });
 
-function fetchNFTData() {
+function fetchWalletData() {
     var wallet = $("#walletAddress").val();
     if (wallet != "") {
         $.getJSON("api/rewards/" + wallet, function (data) {
@@ -31,7 +33,7 @@ function fetchNFTData() {
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 i++;
             });
         });
@@ -82,7 +84,7 @@ function fetchNFTData() {
                 }
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
-                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td></tr>');
+                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">' + parseFloat(rewardsReverse[y].reward * tbillRate).toFixed(4) + '</td></tr>');
             }
         });
     }
@@ -259,6 +261,7 @@ function fetchData() {
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
         $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
+        tbillRate = parseFloat(rate).toFixed(4);
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
         $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));

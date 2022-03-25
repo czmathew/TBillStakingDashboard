@@ -98,11 +98,11 @@
                 </p>
             </div>
             @*<div class=col-lg-2 col-sm-12">
-                <p>
-                    <strong>TFuel Price:</strong><br />
-                    <label id="tfuelPrice" class="form-label"></label>
-                </p>
-            </div>*@
+                    <p>
+                        <strong>TFuel Price:</strong><br />
+                        <label id="tfuelPrice" class="form-label"></label>
+                    </p>
+                </div>*@
         </div>
     </div>
 
@@ -117,6 +117,7 @@
             max-width: 650px;
             margin: 35px auto;
         }
+
         #chartRewards {
             max-width: 650px;
             margin: 35px auto;
@@ -327,5 +328,103 @@
 
     </script>
 </div>
+<div class="row">
+    &nbsp;
+</div>
+<div class="row">
+    <style>
+
+        #chartWallets {
+            max-width: 650px;
+            margin: 35px auto;
+        }
+    </style>
 
 
+
+    <script>
+
+
+        var datesWallets = [];
+
+        
+        var sourcearray = @Html.Raw(Json.Serialize(Model.WalletList));
+        sourcearray.forEach(async (value) => {
+            //sum = await sumFunction(sum, value);
+            var innerArr = [value["item1"], value["item2"]];
+            datesWallets.push(innerArr);
+        });
+
+    </script>
+
+    <div class=col-lg-6 col-sm-12">
+        <div id="chartWallets" class="bg-dark" style="border:0px;"></div>
+    </div>
+    <div class=col-lg-6 col-sm-12">
+        
+    </div>
+
+    <script>
+
+        var optionsWallets = {
+            series: [{
+                name: 'WalletCount',
+                data: datesWallets
+            }],
+            chart: {
+                type: 'area',
+                stacked: false,
+                height: 350,
+                zoom: {
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                toolbar: {
+                    autoSelected: 'zoom'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+            },
+            title: {
+                text: 'Number of wallets in LP',
+                align: 'left'
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return (val / 1).toFixed(0);
+                    },
+                },
+                title: {
+                    text: 'Wallet count'
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+            },
+            tooltip: {
+                enabled: true,
+                shared: false,
+                y: {
+                    formatter: function (val) {
+                        return (val / 1).toFixed(0)
+                    }
+                }
+            },
+            theme: {
+                mode: 'dark'
+            }
+        };
+
+
+        var chartWallets = new ApexCharts(document.querySelector("#chartWallets"), optionsWallets);
+        chartWallets.render();
+
+
+    </script>
+</div>
