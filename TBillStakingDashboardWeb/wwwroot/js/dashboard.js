@@ -33,9 +33,11 @@ function fetchWalletData() {
                 var tbill15x = parseFloat(val['tbill15x']).toFixed(2);
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
-                $("#tvl").html(tvl);
-                $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
-                $("#activeTfuel").html(tfuel);
+                if (i == 1) {
+                    $("#tvl").html(tvl);
+                    $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
+                    $("#activeTfuel").html(tfuel);
+                }
 
                 $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
@@ -55,6 +57,9 @@ function fetchWalletData() {
             let rewards = [];
             let rewardsReverse = [];
             $('#dailyRewardsTable > tbody:last-child').empty();
+
+
+            var totalRewards = 0;
             $.each(data['vals'], function (key, val) {
                 //ignore hte header (first record)
                 if (i > 1) {
@@ -73,9 +78,12 @@ function fetchWalletData() {
                     rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[7]).toFixed(4));
                     var innerArr = [val[0], rewardsSum];
                     datesDailySum.push(innerArr);
+                    totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[7]));
                 }
                 i++;
             });
+            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
+
             showDailyChart(datesDaily);
             showDailySumChart(datesDailySum);
 
@@ -83,8 +91,6 @@ function fetchWalletData() {
             rewards.slice().reverse().forEach(function (x) {
                 rewardsReverse.push(x);
             });
-
-            var totalRewards = 0;
 
             for (let y = 0; y < rewardsReverse.length; y++) {
                 //only first 10
@@ -94,9 +100,8 @@ function fetchWalletData() {
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
                     + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">' + parseFloat(rewardsReverse[y].reward * tbillRate).toFixed(4) + '</td></tr>');
-                totalRewards = parseFloat(totalRewards) + parseFloat(rewardsReverse[y].reward);
+                
             }
-            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
         });
     }
 }
