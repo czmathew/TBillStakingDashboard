@@ -23,8 +23,21 @@ Mat and Max!
 # Changes Notes
 
 ## **March 25th Updates:**
-New features:
+**New features:**
 - Added an About page to the website.
+
+LP stats page:
+- Added 24 hour change of the number of wallets
+- Added "Number of wallets in LP" chart
+
+My Wallet page:
+- New recap line added on top of the page <img width="987" alt="CleanShot 2022-03-25 at 22 13 15@2x" src="https://user-images.githubusercontent.com/79707346/160201516-c10102ba-0ce9-4325-80c8-e766bf9b84ed.png">
+- Added table headers
+- Added USD value in the tables
+
+**Bug fixes:**
+- Fixed a bug that was causing My wallets charts to not open properly when changing wallet address
+
 
 ## **March 24th Updates:**
 This update sees a new layout of the website that was starting to be crowded and some massive implementation!
