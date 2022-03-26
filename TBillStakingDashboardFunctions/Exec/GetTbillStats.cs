@@ -17,7 +17,11 @@ namespace TBillStakingDashboardFunctions.Exec
             {
                 var json = wc.DownloadString("https://api.gpool.io/tbill/overview");
                 var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
-                
+
+                //get tbill supply
+                var jsonSupply = wc.DownloadString("http://www.thetascan.io/api/contract/?contract=0x22cb20636c2d853de2b140c2eaddbfd6c3643a39");
+                var jsonSupplyClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonSupply);
+
                 string connString = Environment.GetEnvironmentVariable("sql-tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
@@ -26,8 +30,8 @@ namespace TBillStakingDashboardFunctions.Exec
 
                     connection.Open();
 
-                    string query = "INSERT INTO [dbo].[tbillStats]([tvLocked],[tbillLocked],[tfuelLocked],[rewards],[endTime])";
-                    query += " VALUES (@tvLocked, @tbillLocked, @tfuelLocked, @rewards, @endTime)";
+                    string query = "INSERT INTO [dbo].[tbillStats]([tvLocked],[tbillLocked],[tfuelLocked],[rewards],[endTime],[tbillSupply])";
+                    query += " VALUES (@tvLocked, @tbillLocked, @tfuelLocked, @rewards, @endTime, @tbillSupply)";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.Parameters.AddWithValue("@tvLocked", decimal.Parse(jsonClass.data.tv.ToString()));
@@ -35,6 +39,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     cmd.Parameters.AddWithValue("@tfuelLocked", decimal.Parse(jsonClass.data.tfuel.ToString()));
                     cmd.Parameters.AddWithValue("@rewards", decimal.Parse(jsonClass.data.reward.ToString()));
                     cmd.Parameters.AddWithValue("@endTime", int.Parse(jsonClass.data.end_time.ToString()));
+                    cmd.Parameters.AddWithValue("@tbillSupply", decimal.Parse(jsonSupplyClass.supply.ToString()));
 
                     cmd.ExecuteNonQuery();
 
