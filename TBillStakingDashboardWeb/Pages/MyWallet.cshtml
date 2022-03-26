@@ -147,7 +147,7 @@
                     <td class="text-end">TVL</td>
                     <td class="text-end">MTVL</td>
                     <td class="text-end">Rewards</td>
-                    <td class="text-end">Rewards USD</td>
+                    <td class="text-end">Time of Tx USD Value</td>
                 </tr>
             </thead>
             <tbody>
@@ -160,4 +160,10 @@
 <div class="row">
     &nbsp;
 </div>
-<script>fetchWalletData();</script>
+<script>
+    //TODO: a quick fix, find a better way to handle this. We need to make sure the rate is already fetched before calling this
+    setTimeout(function () {
+        fetchWalletData();
+    }, 500);
+    
+</script>
