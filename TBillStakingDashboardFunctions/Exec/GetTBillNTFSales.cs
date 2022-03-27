@@ -49,6 +49,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     bulkCopy.ColumnMappings.Add("owner", "owner");
                     bulkCopy.ColumnMappings.Add("seller", "seller");
                     bulkCopy.ColumnMappings.Add("itemId", "itemId");
+                    bulkCopy.ColumnMappings.Add("nftContract", "nftContract");
                     connection.Open();
 
                     SqlCommand commandTruncate = new SqlCommand("truncate table nftSales_rawData", connection);

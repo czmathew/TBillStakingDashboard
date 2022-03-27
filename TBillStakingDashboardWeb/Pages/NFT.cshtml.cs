@@ -52,6 +52,7 @@ namespace TBillStakingDashboardWeb.Pages
                             NFTDetails nft = new NFTDetails();
                             nft.Name = reader.GetString("name");
                             nft.Sold = reader.GetInt32("sold");
+                            nft.MintedTotal = reader.GetInt32("totalMinted");
                             nft.CurrentSalePrice = reader.GetDecimal("CurrentSalePrice");
                             nft.CurrentSalePriceUsd = reader.GetDecimal("CurrentSalePriceUsd");
                             nft.AvailableForSale = reader.GetInt32("AvailableForSale");

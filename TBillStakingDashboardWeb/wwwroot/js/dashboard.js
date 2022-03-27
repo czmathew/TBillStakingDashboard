@@ -39,7 +39,7 @@ function fetchWalletData() {
                     $("#activeTfuel").html(tfuel);
                 }
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });

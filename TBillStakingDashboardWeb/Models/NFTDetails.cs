@@ -9,6 +9,7 @@ namespace TBillStaking.Models
     {
         public string Name { get; set; }
         public int Sold { get; set; }
+        public int MintedTotal { get; set; }
         public decimal CurrentSalePrice { get; set; }
         public decimal CurrentSalePriceUsd { get; set; }
 
