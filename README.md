@@ -16,11 +16,22 @@ It's clearer, way more user friendly and everything is in one place.
 
 You have access to the whole source code in here in GitHub to check everything.
 
+# Why a donation address?
+Our primary goal is to give all that data to the community for free.
+The donation address is there to help us with the running expenses.
+Every donation (TFUEL or TBILL) will be put back into the LP and we will use the rewards to help us pay the costs.
+
 Thank you,
 Mat and Max!
 
 
 # Changes Notes
+
+## **March 27th Updates:**
+**New Features**
+- Added the numbers of all NFTs in circulation in 'NFTs' - You can now see the number of each type of NFT in circulation.
+- Added names for the tables in 'NFTs'
+- Added a donation address in 'About'
 
 ## **March 25th Updates:**
 **New features:**
