@@ -280,6 +280,7 @@ function fetchData() {
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
         $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
+        $("#tbillTfuelRatio").html('Ratio:' + parseFloat(parseFloat(rate) / parseFloat(rateTFuel)).toFixed(4));
         tbillRate = parseFloat(rate).toFixed(4);
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
