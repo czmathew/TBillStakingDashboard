@@ -1,4 +1,6 @@
 var tbillRate = 0;
+var nft15xlevel = 0;
+var nft2xlevel = 0;
 
 $(document).ready(function () {
 
@@ -14,6 +16,7 @@ $(document).ready(function () {
 });
 
 function fetchWalletData() {
+    
     var wallet = $("#walletAddress").val();
     var dailyTotal = 0;
     if (wallet != "") {
@@ -37,6 +40,8 @@ function fetchWalletData() {
                     $("#tvl").html(tvl);
                     $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
                     $("#activeTfuel").html(tfuel);
+                    nft15xlevel = tbill15x;
+                    nft2xlevel = tbill2x;
                 }
 
                 $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
@@ -44,6 +49,8 @@ function fetchWalletData() {
                 i++;
             });
             $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4));
+
+            fetchNFTforWallet();
         });
         
     }
@@ -105,6 +112,47 @@ function fetchWalletData() {
             }
         });
     }
+
+}
+
+function fetchNFTforWallet() {
+    //fetch NFT info for wallet
+    var data = $("#walletAddress").val();
+    var jsonData = {
+        "walletAddress": $("#walletAddress").val()
+    }
+    var nft15xsum = 0;
+    var nft2xsum = 0;
+
+    $('#myNFTsTable > tbody:last-child').empty();
+
+    $.post("api/getNFTforWallet/", jsonData, function (data, textStatus) {
+        var jsonObj = jQuery.parseJSON(data);
+        $.each(jsonObj, function (key, val) {
+            var Name = val['Name'];
+            var Multiplier = val['Multiplier'];
+            var TbillAmount = val['TbillAmount'];
+            var BoostPercentage = val['BoostPercentage'];
+            var Edition = val['Edition'];
+            if (Multiplier = "2x") {
+                nft2xsum += parseFloat(TbillAmount);
+            } else if (Multiplier = "1.5x") {
+                nft15xsum += parseFloat(TbillAmount);
+            }
+            $('#myNFTsTable > tbody:last-child').append('<tr><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
+
+        });
+
+        $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);
+        $("#nft15xlabel").html(nft15xlevel + ' / ' + nft15xsum);
+
+        var prct2x = parseFloat(parseFloat(nft2xlevel) / nft2xsum * 100).toFixed(1);
+        var prct15x = parseFloat(parseFloat(nft15xlevel) / nft15xsum * 100).toFixed(1);
+
+        $('#progress2x').css('width', prct2x + '%').attr('aria-valuenow', prct2x);
+        $('#progress15x').css('width', prct15x + '%').attr('aria-valuenow', prct15x);
+
+    }, "json");
 }
 
 function showDailyChart(data) {

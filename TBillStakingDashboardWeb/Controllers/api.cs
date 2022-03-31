@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TBillStaking.Models;
 using TBillStakingDashboardWeb.Models;
 
 namespace TBillStaking.Controllers
@@ -138,6 +141,87 @@ namespace TBillStaking.Controllers
                 }
             }
             return Ok(JsonSerializer.Serialize(stats));
+        }
+
+        [HttpPost]
+        [HttpPost("getNFTforWallet")]
+        public IActionResult GetNFTforWallet([FromForm] string walletAddress)
+        {
+            if (walletAddress == null)
+            {
+                return Problem("Invalid wallet address");
+            }
+            string jsonUrl = "http://www.thetascan.io/api/721/?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&address=" + walletAddress + "";
+            HttpContext.Response.ContentType = "application/json";
+
+            var tokenList = new List<int> { };
+
+            using (WebClient wc = new WebClient())
+            {
+                try
+                {
+                    var json = wc.DownloadString(jsonUrl);
+                    var data = JArray.Parse(json);
+                    foreach (JObject item in data) // <-- Note that here we used JObject instead of usual JProperty
+                    {
+                        string token = item.GetValue("token").ToString();
+                        tokenList.Add(int.Parse(token));
+                    }
+                }
+                catch (Exception e)//404 or anything
+                {
+                    return Problem("Error reading data");
+                    //HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+            }
+            List<NFTInWallet> nfts = new List<NFTInWallet>();
+            if (tokenList.Count > 0)
+            {
+                string connString = _configuration.GetConnectionString("sql-tbill");
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
+                    {
+                        CommandType = CommandType.Text,
+                        Connection = connection
+
+                    })
+                    {
+                        var sql = "SELECT [name],[multiplier],[tbillAmount],[boostPercentage],[edition] FROM [dbo].[nftMinted] WHERE [edition] in ({0})";
+                        var index = 0;
+                        var parameterList = new List<string>();
+                        foreach (var id in tokenList)
+                        {
+                            var paramName = "@idParam" + index;
+                            command.Parameters.AddWithValue(paramName, id);
+                            parameterList.Add(paramName);
+                            index++;
+                        }
+                        command.CommandText = string.Format(sql, string.Join(",", parameterList));
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                NFTInWallet nft = new NFTInWallet();
+                                nft.Name = reader.GetString("name");
+                                nft.Multiplier = reader.GetString("multiplier");
+                                nft.TbillAmount = reader.GetInt32("tbillAmount");
+                                nft.BoostPercentage = reader.GetInt32("boostPercentage");
+                                nft.Edition = reader.GetInt32("edition");
+                                nfts.Add(nft);
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+            return Ok(JsonSerializer.Serialize(nfts));
         }
     }
 }
