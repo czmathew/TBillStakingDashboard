@@ -20,6 +20,7 @@ namespace TBillStaking.Pages
         [ViewData]
         public string DisplayDevMessage { get; set; }
         public List<Tuple<string, string>> WalletList { get; set; }
+        public List<Tuple<string, string, string>> RebaseList { get; set; }
         public List<NFTDetails> NFTs { get; set; }
         public List<NFTSaleDetails> NFTSales { get; set; }
 
@@ -160,6 +161,31 @@ namespace TBillStaking.Pages
                             WalletList.Add(new Tuple<string, string>(reader.GetDateTime("timestamp").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
                                                                         , reader.GetInt32("walletCount").ToString()));
                             rowCnt++;
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("[dbo].[usp_getRebaseStats]", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    RebaseList = new List<Tuple<string, string, string>>();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            string tmp = String.Format(CultureInfo.InvariantCulture, "{0:0.##}", reader.GetDecimal("rebasePercentage").ToString());
+                            RebaseList.Add(new Tuple<string, string, string>(
+                                    reader.GetString("date")
+                                    , reader.GetDecimal("supplyToday").ToString()
+                                    , reader.GetDecimal("rebasePercentage").ToString().Replace(',','.')));
                         }
                     }
                     finally

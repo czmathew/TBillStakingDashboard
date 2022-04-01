@@ -61,6 +61,13 @@
             <label id="activeTfuel" class="form-label"></label><img height="20" src="~/img/tfuel.svg" />
         </p>
     </div>
+    <div class="col-lg-2 col-sm-6 col-6">
+        <p>
+            <strong>Days in LP</strong>
+            <br />
+            <label id="daysInLP" class="form-label"></label>
+        </p>
+    </div>
 </div>
 
 <style>
@@ -109,15 +116,16 @@
     <h5>My NFTs</h5>
     <div class="col-lg-8 col-sm-12">
         <div class="row">
-            <div class="table-wrapper tableFixHead">
-                <table id="myNFTsTable" class="table table-light table-sm">
+            <div class="table-wrapper">
+                <table id="myNFTsTable" class="table table-light table-sm tableFixHead">
                     <thead>
                         <tr>
-                            <td>Name</td>
-                            <td class="text-end">Multiplier</td>
-                            <td class="text-end">TBill Amount</td>
-                            <td class="text-end">Boost Percentage</td>
-                            <td class="text-end">Edition</td>
+                            <th width="30"></th>
+                            <th>Name</th>
+                            <th class="text-end">Multiplier</th>
+                            <th class="text-end">TBill Amount</th>
+                            <th class="text-end">Boost Percentage</th>
+                            <th class="text-end">Edition</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,19 +166,19 @@
 </div>
 <div class="row">
     <h5>Daily Rewards</h5>
-    <div class="table-wrapper tableFixHead">
-        <table id="rewardsTable" class="table table-light table-sm">
+    <div class="table-wrapper">
+        <table id="rewardsTable" class="table table-light table-sm tableFixHead">
             <thead>
                 <tr>
-                    <td>Time</td>
-                    <td class="text-end">TBill 1x</td>
-                    <td class="text-end">TBill 1,5x</td>
-                    <td class="text-end">TBill 2x</td>
-                    <td class="text-end">TFuel 1x</td>
-                    <td class="text-end">TVL</td>
-                    <td class="text-end">MTVL</td>
-                    <td class="text-end">Rewards</td>
-                    <td class="text-end">Rewards USD</td>
+                    <th>Time</th>
+                    <th class="text-end">TBill 1x</th>
+                    <th class="text-end">TBill 1,5x</th>
+                    <th class="text-end">TBill 2x</th>
+                    <th class="text-end">TFuel 1x</th>
+                    <th class="text-end">TVL</th>
+                    <th class="text-end">MTVL</th>
+                    <th class="text-end">Rewards</th>
+                    <th class="text-end">Rewards USD</th>
                 </tr>
             </thead>
             <tbody>
@@ -185,19 +193,19 @@
 </div>
 <div class="row">
     <h5>History</h5>
-    <div class="table-wrapper tableFixHead">
-        <table id="dailyRewardsTable" class="table table-light table-sm">
+    <div class="table-wrapper">
+        <table id="dailyRewardsTable" class="table table-light table-sm tableFixHead">
             <thead>
                 <tr>
-                    <td>Date</td>
-                    <td class="text-end">TBill 1x</td>
-                    <td class="text-end">TBill 1,5x</td>
-                    <td class="text-end">TBill 2x</td>
-                    <td class="text-end">TFuel 1x</td>
-                    <td class="text-end">TVL</td>
-                    <td class="text-end">MTVL</td>
-                    <td class="text-end">Rewards</td>
-                    <td class="text-end">Time of Tx USD Value</td>
+                    <th>Date</th>
+                    <th class="text-end">TBill 1x</th>
+                    <th class="text-end">TBill 1,5x</th>
+                    <th class="text-end">TBill 2x</th>
+                    <th class="text-end">TFuel 1x</th>
+                    <th class="text-end">TVL</th>
+                    <th class="text-end">MTVL</th>
+                    <th class="text-end">Rewards</th>
+                    <th class="text-end">Time of Tx USD Value</th>
                 </tr>
             </thead>
             <tbody>

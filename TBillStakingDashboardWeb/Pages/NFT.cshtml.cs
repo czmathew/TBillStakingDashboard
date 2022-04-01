@@ -51,6 +51,7 @@ namespace TBillStakingDashboardWeb.Pages
                         {
                             NFTDetails nft = new NFTDetails();
                             nft.Name = reader.GetString("name");
+                            nft.ImageURL = "https://ipfs.io/" + reader.GetString("nftImage");
                             nft.Sold = reader.GetInt32("sold");
                             nft.MintedTotal = reader.GetInt32("totalMinted");
                             nft.CurrentSalePrice = reader.GetDecimal("CurrentSalePrice");
@@ -81,6 +82,7 @@ namespace TBillStakingDashboardWeb.Pages
                         {
                             NFTSaleDetails nft = new NFTSaleDetails();
                             nft.Name = reader.GetString("name");
+                            nft.ImageURL = "https://ipfs.io/" + reader.GetString("nftImage");
                             nft.Timestamp = reader.GetDateTime("soldTimestamp");
                             nft.Price = reader.GetDecimal("price");
                             nft.PriceUsd = reader.GetDecimal("priceUsd");

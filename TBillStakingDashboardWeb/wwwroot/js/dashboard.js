@@ -91,6 +91,7 @@ function fetchWalletData() {
                 i++;
             });
             $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
+            $("#daysInLP").html(i-1);
 
             showDailyChart(datesDaily);
             showDailySumChart(datesDailySum);
@@ -102,7 +103,7 @@ function fetchWalletData() {
 
             for (let y = 0; y < rewardsReverse.length; y++) {
                 //only first 10
-                if (y > 30) {
+                if (y > 100) {
                     break;
                 }
                 //console.log(rewardsReverse[y]);
@@ -130,6 +131,7 @@ function fetchNFTforWallet() {
         var jsonObj = jQuery.parseJSON(data);
         $.each(jsonObj, function (key, val) {
             var Name = val['Name'];
+            var ImageURL = val['ImageURL'];
             var Multiplier = val['Multiplier'];
             var TbillAmount = val['TbillAmount'];
             var BoostPercentage = val['BoostPercentage'];
@@ -139,7 +141,7 @@ function fetchNFTforWallet() {
             } else if (Multiplier = "1.5x") {
                 nft15xsum += parseFloat(TbillAmount);
             }
-            $('#myNFTsTable > tbody:last-child').append('<tr><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
+            $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
 
         });
 

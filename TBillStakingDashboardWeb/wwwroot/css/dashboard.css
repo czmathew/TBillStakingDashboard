@@ -3,6 +3,7 @@
     overflow: auto;
     display: inline-block;
 }
+
 .table-wrapper-500 {
     max-height: 500px;
     overflow: auto;
@@ -19,4 +20,10 @@ body {
     bottom: 0;
     width: 100%;
     /*text-align: center;*/
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
