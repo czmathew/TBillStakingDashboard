@@ -4,7 +4,8 @@ var nft2xlevel = 0;
 
 $(document).ready(function () {
 
-    fetchData();
+    //check if we are on MyWallet page, if so, the wallet data will be fetched after rate
+    fetchData(window.location.pathname.includes("MyWallet"));
     
 
     $("form").on("submit", function (event) {
@@ -306,7 +307,7 @@ function showDailySumChart(data) {
 }
 
 
-function fetchData() {
+function fetchData(fetchWallet) {
     $.getJSON("api/rates", function (data) {
         var rate = "";
         var rateTFuel = "";
@@ -339,6 +340,9 @@ function fetchData() {
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
 
+        if (fetchWallet) {
+            fetchWalletData();
+        }
     });
 
     
