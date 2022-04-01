@@ -35,6 +35,24 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 1st Updates:**
+**New Features:**
+- Added Rebase/TBill Supply in 'LP Stats'
+- Added NFTs' images next to each NFT
+- Added Days in LP in 'My Wallet'
+- The dollar value of every NFT sold is now fixed to the time of the sale and doesn't fluctuate anymore
+
+**UI upgrade:**
+- The table header are now fixed.
+- The USD rewards in 'My wallet' don't get stuck to 0
+
+
+## **March 31st Updates:**
+**New features:**
+- Added My NFTs to 'My wallet' page
+- Added Contact to the 'About' page
+- Added a footer to the website
+
 ## **March 27th Updates:**
 **New Features**
 - Added the numbers of all NFTs in circulation in 'NFTs' - You can now see the number of each type of NFT in circulation.
