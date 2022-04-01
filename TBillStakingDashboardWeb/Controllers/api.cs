@@ -192,7 +192,7 @@ namespace TBillStaking.Controllers
                             ",[tbillAmount]" +
                             ",[boostPercentage]" +
                             ",[edition]" +
-                            ",(select top 1 replace(image,':/','') from dbo.nftMinted m where n.name = m.name) nftImage" +
+                            ",(select top 1 replace(image,'ipfs://','') from dbo.nftMinted m where n.name = m.name) nftImage" +
                             " FROM [dbo].[nftMinted] n WHERE [edition] in ({0})";
                         var index = 0;
                         var parameterList = new List<string>();
@@ -212,7 +212,7 @@ namespace TBillStaking.Controllers
                             {
                                 NFTInWallet nft = new NFTInWallet();
                                 nft.Name = reader.GetString("name");
-                                nft.ImageURL = "https://ipfs.io/" + reader.GetString("nftImage");
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
                                 nft.Multiplier = reader.GetString("multiplier");
                                 nft.TbillAmount = reader.GetInt32("tbillAmount");
                                 nft.BoostPercentage = reader.GetInt32("boostPercentage");
