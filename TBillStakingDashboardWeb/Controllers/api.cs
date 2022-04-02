@@ -155,12 +155,18 @@ namespace TBillStaking.Controllers
             HttpContext.Response.ContentType = "application/json";
 
             var tokenList = new List<int> { };
+            List<NFTInWallet> nfts = new List<NFTInWallet>();
 
             using (WebClient wc = new WebClient())
             {
                 try
                 {
                     var json = wc.DownloadString(jsonUrl);
+                    if (json.ToString().Equals("null"))
+                    {
+                        //no NFTs for wallet
+                        return Ok(JsonSerializer.Serialize(nfts));
+                    }
                     var data = JArray.Parse(json);
                     foreach (JObject item in data) // <-- Note that here we used JObject instead of usual JProperty
                     {
@@ -174,7 +180,7 @@ namespace TBillStaking.Controllers
                     //HttpContext.Response.StatusCode = 400;//BadRequest
                 }
             }
-            List<NFTInWallet> nfts = new List<NFTInWallet>();
+            
             if (tokenList.Count > 0)
             {
                 string connString = _configuration.GetConnectionString("sql-tbill");
