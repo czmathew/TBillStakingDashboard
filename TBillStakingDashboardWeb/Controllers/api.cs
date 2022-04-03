@@ -143,6 +143,61 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(stats));
         }
 
+        [HttpGet]
+        [HttpGet("getBalance/{wallet}")]
+        public IActionResult GetBalance(string wallet)
+        {
+            WalletBalance balance = new WalletBalance();
+            
+            // get theta tfuel
+            string jsonUrl = "https://www.thetascan.io/api/balance/?address=" + wallet + "";
+            HttpContext.Response.ContentType = "application/json";
+            
+
+            using (WebClient wc = new WebClient())
+            {
+                try
+                {
+                    var json = wc.DownloadString(jsonUrl);
+                    var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
+
+                    balance.Theta = decimal.Parse(jsonClass.theta.ToString());
+                    balance.TFuel = decimal.Parse(jsonClass.tfuel.ToString());
+                    balance.ThetaStake = decimal.Parse(jsonClass.theta_staked.ToString());
+                    balance.TFuelStake = decimal.Parse(jsonClass.tfuel_staked.ToString());
+
+                }
+                catch (Exception e)//404 or anything
+                {
+                    return Problem("Error reading data");
+                    //HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+            }
+
+            //get TBill balance
+            jsonUrl = "http://www.thetascan.io/api/contract/?contract=0x22cb20636c2d853de2b140c2eaddbfd6c3643a39&address=" + wallet + "";
+            HttpContext.Response.ContentType = "application/json";
+            using (WebClient wc = new WebClient())
+            {
+                try
+                {
+                    var json = wc.DownloadString(jsonUrl);
+                    var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
+
+                    balance.TBill = decimal.Parse(jsonClass.balance.ToString(), CultureInfo.InvariantCulture);
+                    
+                }
+                catch (Exception e)//404 or anything
+                {
+                    return Problem("Error reading data");
+                    //HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(balance));
+        }
+
         [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)

@@ -17,8 +17,15 @@ $(document).ready(function () {
 });
 
 function fetchWalletData() {
-    
+
+    clearMyWalletData();
+
     var wallet = $("#walletAddress").val();
+
+    //add wallet to URL
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?wallet=' + wallet;
+    window.history.replaceState(null, null, newurl);
+
     var dailyTotal = 0;
     if (wallet != "") {
         $.getJSON("api/rewards/" + wallet, function (data) {
@@ -114,7 +121,62 @@ function fetchWalletData() {
             }
         });
     }
+    if (wallet != "") {
+        $.getJSON("api/getBalance/" + wallet, function (data) {
+            var json = JSON.parse(data);
+            var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+            //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+            //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+
+            $("#tbillBalance").html(balanceTBill);
+            $("#tfuelBalance").html(balanceTFuel);
+            if (parseFloat(json.Theta) > 0) {
+                $("#thetaBlock").show();
+                $("#thetaBalance").html(balanceTheta);
+            }
+            if (parseFloat(json.ThetaStake) > 0) {
+                $("#thetaStakeBlock").show();
+                $("#thetaStake").html(stakeTheta);
+            }
+            if (parseFloat(json.TFuelStake) > 0) {
+                $("#tfuelStakeBlock").show();
+                $("#tfuelStake").html(stakeTFuel);
+            }
+        });
+    }
+
+}
+
+function clearMyWalletData() {
+    nft15xlevel = 0;
+    nft2xlevel = 0;
+    $("#thetaBalance").html('');
+    $("#tfuelBalance").html('');
+    $("#thetaStake").html('');
+    $("#tfuelStakeBlock").hide();
+    $("#tfuelStake").html('');
+    $("#thetaBlock").hide();
+    $("#tbillBalance").html('');
+    $("#thetaStakeBlock").hide();
+
+    $("#dayTotal").html('');
+    $("#totalTbill").html('');
+    $("#tvl").html('');
+    $("#activTbill").html('');
+    $("#activeTfuel").html('');
+    $("#daysInLP").html('');
+
+    $("#nft2xlabel").html(0 + ' / ' + 0);
+    $("#nft15xlabel").html(0 + ' / ' + 0);
+
+    
+    $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress15x').css('width', 0+ '%').attr('aria-valuenow', 0);
 }
 
 function fetchNFTforWallet() {
