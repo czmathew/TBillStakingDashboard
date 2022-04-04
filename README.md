@@ -35,6 +35,10 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 3rd Updates:**
+**New Features:**
+- Added the number of TBILL, THETA, TFUEL, THETA staked and TFUEL staked in 'My wallet'
+
 ## **April 1st Updates:**
 **New Features:**
 - Added Rebase/TBill Supply in 'LP Stats'
