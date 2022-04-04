@@ -278,6 +278,7 @@ namespace TBillStaking.Controllers
                                 nft.TbillAmount = reader.GetInt32("tbillAmount");
                                 nft.BoostPercentage = reader.GetInt32("boostPercentage");
                                 nft.Edition = reader.GetInt32("edition");
+                                nft.Count = 1;
                                 nfts.Add(nft);
                             }
                         }
@@ -289,6 +290,82 @@ namespace TBillStaking.Controllers
                     }
                 }
             }
+
+            //BigDog NFT
+            jsonUrl = "http://www.thetascan.io/api/721/?contract=0x3a8246be5efc8660a3618aefd9d767ae47df3c77&address=" + walletAddress + "";
+            HttpContext.Response.ContentType = "application/json";
+
+            tokenList = new List<int> { };
+            
+            using (WebClient wc = new WebClient())
+            {
+                try
+                {
+                    var json = wc.DownloadString(jsonUrl);
+                    if (json.ToString().Equals("null"))
+                    {
+                        //no NFTs for wallet
+                        return Ok(JsonSerializer.Serialize(nfts));
+                    }
+                    var data = JArray.Parse(json);
+                    foreach (JObject item in data) // <-- Note that here we used JObject instead of usual JProperty
+                    {
+                        string token = item.GetValue("token").ToString();
+                        tokenList.Add(int.Parse(token));
+                    }
+                }
+                catch (Exception e)//404 or anything
+                {
+                    return Problem("Error reading data");
+                    //HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+            }
+
+            if (tokenList.Count > 0)
+            {
+                string connString = _configuration.GetConnectionString("sql-tbill");
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
+                    {
+                        CommandType = CommandType.Text,
+                        Connection = connection
+
+                    })
+                    {
+                        var sql = "SELECT [name]" +
+                            ",replace(image,'ipfs://','')  nftImage" +
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '0x3a8246be5efc8660a3618aefd9d767ae47df3c77'";
+                        var parameterList = new List<string>();
+                        
+                        command.CommandText = sql;
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                NFTInWallet nft = new NFTInWallet();
+                                nft.Name = reader.GetString("name") + " (total minted: " + tokenList.Count.ToString() + ")";
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".png";
+                                nft.Multiplier = "1.25x";
+                                nft.TbillAmount = 100;
+                                nft.BoostPercentage = 100;
+                                nft.Edition = 0;
+                                nft.Count = tokenList.Count;
+                                nfts.Add(nft);
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+
+
             return Ok(JsonSerializer.Serialize(nfts));
         }
     }

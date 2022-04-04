@@ -13,5 +13,6 @@ namespace TBillStaking.Models
         public int TbillAmount { get; set; }
         public int BoostPercentage { get; set; }
         public int Edition { get; set; }
+        public int Count { get; set; }
     }
 }

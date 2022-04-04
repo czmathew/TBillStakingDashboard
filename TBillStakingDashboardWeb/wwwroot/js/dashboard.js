@@ -199,9 +199,9 @@ function fetchNFTforWallet() {
             var TbillAmount = val['TbillAmount'];
             var BoostPercentage = val['BoostPercentage'];
             var Edition = val['Edition'];
-            if (Multiplier = "2x") {
+            if (Multiplier == "2x") {
                 nft2xsum += parseFloat(TbillAmount);
-            } else if (Multiplier = "1.5x") {
+            } else if (Multiplier == "1.5x") {
                 nft15xsum += parseFloat(TbillAmount);
             }
             $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
