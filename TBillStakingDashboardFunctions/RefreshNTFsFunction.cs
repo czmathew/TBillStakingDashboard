@@ -18,8 +18,8 @@ namespace TBillStakingDashboardFunctions
         {
             //log.LogInformation("C# HTTP trigger function processed a request.");
 
-            Exec.GetTBillNTFSales.Execute();
-            Exec.GetTBillNTFForSale.Execute();
+            //Exec.GetTBillNTFSales.Execute();
+            //Exec.GetTBillNTFForSale.Execute();
 
 
 

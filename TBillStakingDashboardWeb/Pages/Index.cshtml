@@ -234,7 +234,7 @@
                     },
                 },
                 title: {
-                    text: 'Price'
+                    text: 'Value'
                 },
             },
             xaxis: {
@@ -299,7 +299,7 @@
                     },
                 },
                 title: {
-                    text: 'Price'
+                    text: 'Value'
                 },
             },
             xaxis: {
@@ -338,6 +338,11 @@
             max-width: 650px;
             margin: 35px auto;
         }
+
+        #chartRebase {
+            max-width: 650px;
+            margin: 35px auto;
+        }
     </style>
 
 
@@ -347,12 +352,30 @@
 
         var datesWallets = [];
 
-        
         var sourcearray = @Html.Raw(Json.Serialize(Model.WalletList));
         sourcearray.forEach(async (value) => {
             //sum = await sumFunction(sum, value);
             var innerArr = [value["item1"], value["item2"]];
             datesWallets.push(innerArr);
+        });
+
+        var datesRebases = [];
+        var datesTbillSupply = [];
+        var TbillSupplyMin = null;
+        var TbillSupplyMax = 0;
+        var sourcearrayRebase = @Html.Raw(Json.Serialize(Model.RebaseList));
+        sourcearrayRebase.forEach(async (value) => {
+            //sum = await sumFunction(sum, value);
+            var innerArr = [value["item1"], value["item3"]];
+            datesRebases.push(innerArr);
+            var innerArrSupply = [value["item1"], value["item2"]];
+            datesTbillSupply.push(innerArrSupply);
+            if (!TbillSupplyMin || parseFloat(value["item2"]) < parseFloat(TbillSupplyMin)) {
+                TbillSupplyMin = parseFloat(value["item2"]);
+            }
+            if (parseFloat(value["item2"]) > parseFloat(TbillSupplyMax)) {
+                TbillSupplyMax = parseFloat(value["item2"]);
+            }
         });
 
     </script>
@@ -361,7 +384,7 @@
         <div id="chartWallets" class="bg-dark" style="border:0px;"></div>
     </div>
     <div class=col-lg-6 col-sm-12">
-        
+        <div id="chartRebase" class="bg-dark" style="border:0px;"></div>
     </div>
 
     <script>
@@ -421,9 +444,82 @@
             }
         };
 
+        var optionsRebase = {
+            series: [{
+                name: 'Rebase %',
+                type: 'column',
+                data: datesRebases
+            }, {
+                name: 'TBILL supply',
+                type: 'line',
+                data: datesTbillSupply
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+            },
+            stroke: {
+                width: [0, 4]
+            },
+            title: {
+                text: 'Rebase / TBILL Supply'
+            },
+            xaxis: {
+                type: 'datetime'
+            },
+            yaxis: [{
+                title: {
+                    text: 'Rebase %',
+                }, labels: {
+                    formatter: function (val) {
+                        /*    return (val / 1).toFixed(2);*/
+                        return val.toFixed(2);
+                    }
+                },
+                min: -10,
+                max: 10
+
+            }, {
+                opposite: true,
+                title: {
+                    text: 'TBILL supply'
+                }, labels: {
+                    formatter: function (val) {
+                        return (val / 1000000).toFixed(2) + ' M';
+                    }
+                },
+                min: TbillSupplyMin * 0.98,
+                max: TbillSupplyMax * 1.02
+            }],
+            plotOptions: {
+                bar: {
+                    colors: {
+                        ranges: [{
+                            from: -100,
+                            to: 0,
+                            color: '#dc3545'
+                        }, {
+                            from: 0,
+                            to: 100,
+                            color: '#28a745'
+                        }]
+                    },
+                    columnWidth: '80%',
+                }
+            },
+            theme: {
+                mode: 'dark'
+            },
+            colors: ['#28a745', '#4ECDC4']
+        };
+
 
         var chartWallets = new ApexCharts(document.querySelector("#chartWallets"), optionsWallets);
         chartWallets.render();
+
+        var chartRebase = new ApexCharts(document.querySelector("#chartRebase"), optionsRebase);
+        chartRebase.render();
+
 
 
     </script>

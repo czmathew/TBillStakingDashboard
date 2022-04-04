@@ -1,7 +1,7 @@
 # TBillStakingDashboard
 
 # What is the dashboard?
-TBill Staking Dashboard is a community project created by @czmathew _(head developer)_ and Maxime, @TechSherpa _(community manager and idea spitter)_.
+TBill Staking Dashboard is a community project created by Matej, @czmathew _(head developer)_ and Maxime, @TechSherpa _(community manager and idea spitter)_.
 
 The main objective of this Dashboard is to have access at all times to every TBILL data **without** having to connect your wallet.
 
@@ -16,11 +16,52 @@ It's clearer, way more user friendly and everything is in one place.
 
 You have access to the whole source code in here in GitHub to check everything.
 
+# Why a donation address?
+Our primary goal is to give all that data to the community for free.
+The donation address is there to help us with the running expenses.
+Every donation (TFUEL or TBILL) will be put back into the LP and we will use the rewards to help us pay the costs.
+
+# Contact
+You can contact us either on Telegram or Discord.
+
+**Matej**: https://t.me/czmathew or czmathew#5832 on Discord
+
+**Maxime**: https://t.me/TechSherpa or Maxime🦙#7056 on Discord
+
+
 Thank you,
 Mat and Max!
 
 
 # Changes Notes
+
+## **April 3rd Updates:**
+**New Features:**
+- Added the number of TBILL, THETA, TFUEL, THETA staked and TFUEL staked in 'My wallet'
+
+## **April 1st Updates:**
+**New Features:**
+- Added Rebase/TBill Supply in 'LP Stats'
+- Added NFTs' images next to each NFT
+- Added Days in LP in 'My Wallet'
+- The dollar value of every NFT sold is now fixed to the time of the sale and doesn't fluctuate anymore
+
+**UI upgrade:**
+- The table header are now fixed.
+- The USD rewards in 'My wallet' don't get stuck to 0
+
+
+## **March 31st Updates:**
+**New features:**
+- Added My NFTs to 'My wallet' page
+- Added Contact to the 'About' page
+- Added a footer to the website
+
+## **March 27th Updates:**
+**New Features**
+- Added the numbers of all NFTs in circulation in 'NFTs' - You can now see the number of each type of NFT in circulation.
+- Added names for the tables in 'NFTs'
+- Added a donation address in 'About'
 
 ## **March 25th Updates:**
 **New features:**

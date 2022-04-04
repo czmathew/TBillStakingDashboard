@@ -3,9 +3,27 @@
     overflow: auto;
     display: inline-block;
 }
+
 .table-wrapper-500 {
     max-height: 500px;
     overflow: auto;
     display: inline-block;
 }
 
+body {
+    padding-bottom: 50px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /*text-align: center;*/
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    /*z-index: 1;*/
+}

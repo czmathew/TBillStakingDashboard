@@ -5,16 +5,25 @@
 }
 
 <div class="row">
-    <h4>NFT market</h4><small>(prices in TFuel, refreshed every 10 minutes)</small>
-    <table id="nftStats" class="table table-sm table-light">
+    <h4>NFT market</h4>
+    <h5>Secondary Market Stats</h5>
+    <small>(prices in TFuel, refreshed every 10 minutes)</small>
+    <br />
+    <small>
+        "Minted" refers to the number of NFT airdropped to influencers' community or purchased on the primary market.
+        Every other data refer to the secondary market.
+    </small>
+    <table id="nftStats" class="table table-sm table-light tableFixHead">
         <thead>
             <tr>
-                <td>Name</td>
-                <td class="text-end">Sold</td>
-                <td class="text-end">Available For Sale</td>
-                <td class="text-end">Cheapest avail. now</td>
-                <td class="text-end">USD</td>
-                <td class="text-end">Avg Price For Next 5 avail.</td>
+                <th width="30"></th>
+                <th>Name</th>
+                <th class="text-end">Sold</th>
+                <th class="text-end">Total Minted</th>
+                <th class="text-end">Available For Sale</th>
+                <th class="text-end">Cheapest avail. now</th>
+                <th class="text-end">USD</th>
+                <th class="text-end">Avg Price For Next 5 avail.</th>
             </tr>
         </thead>
         <tbody>
@@ -22,39 +31,49 @@
 
                 @foreach (var record in Model.NFTs)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => record.Name)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.Sold)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.AvailableForSale)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.CurrentSalePrice)
-                        </td>
-                        <td class="text-end">
-                            $@Html.DisplayFor(modelItem => record.CurrentSalePriceUsd)
-                        </td>
-                        <td class="text-end">
-                            @Html.DisplayFor(modelItem => record.AvgPriceForNext5ForSale)
-                        </td>
-                    </tr>
+                <tr>
+                    <td width="30">
+                        <img src="@Url.Content(record.ImageURL)" height="30" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => record.Name)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.Sold)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.MintedTotal)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.AvailableForSale)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.CurrentSalePrice)
+                    </td>
+                    <td class="text-end">
+                        $@Html.DisplayFor(modelItem => record.CurrentSalePriceUsd)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.AvgPriceForNext5ForSale)
+                    </td>
+                </tr>
                 }
             }
         </tbody>
     </table>
+
+    <h5>Sales History</h5>
     <div class="table-wrapper-500">
-        <table id="nftStats" class="table table-sm table-light">
+        <table id="nftStats" class="table table-sm table-light tableFixHead">
             <thead>
                 <tr>
-                    <td>Timestamp (UTC)</td>
-                    <td>Name</td>
-                    <td class="text-end">Sold for</td>
-                    <td class="text-end">Sold for USD</td>
-                    <td class="text-end">Buyer (bought in total)</td>
+
+                    <th width="30"></th>
+                    <th>Name</th>
+                    <th>Timestamp (UTC)</th>
+                    <th class="text-end">Sold for</th>
+                    <th class="text-end">Time of sale USD Value</th>
+                    <th class="text-end">Buyer (bought in total)</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,23 +81,26 @@
 
                     @foreach (var record in Model.NFTSales)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Timestamp)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Name)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Price)
-                            </td>
-                            <td class="text-end">
-                                $@Html.DisplayFor(modelItem => record.PriceUsd)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Buyer)
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        <img src="@Url.Content(record.ImageURL)" height="30" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => record.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => record.Timestamp)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.Price)
+                    </td>
+                    <td class="text-end">
+                        $@Html.DisplayFor(modelItem => record.PriceUsd)
+                    </td>
+                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => record.Buyer)
+                    </td>
+                </tr>
                     }
                 }
             </tbody>

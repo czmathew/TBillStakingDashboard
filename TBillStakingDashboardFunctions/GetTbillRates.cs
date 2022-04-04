@@ -19,7 +19,7 @@ namespace TBillStakingDashboardFunctions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            Exec.GetTbillRates.Execute();
+            //Exec.GetTbillRates.Execute();
 
             string responseMessage = "Function executed successfully.";
 

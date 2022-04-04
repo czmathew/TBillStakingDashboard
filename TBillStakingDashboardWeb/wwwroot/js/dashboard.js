@@ -1,8 +1,11 @@
 var tbillRate = 0;
+var nft15xlevel = 0;
+var nft2xlevel = 0;
 
 $(document).ready(function () {
 
-    fetchData();
+    //check if we are on MyWallet page, if so, the wallet data will be fetched after rate
+    fetchData(window.location.pathname.includes("MyWallet"));
     
 
     $("form").on("submit", function (event) {
@@ -14,7 +17,15 @@ $(document).ready(function () {
 });
 
 function fetchWalletData() {
+
+    clearMyWalletData();
+
     var wallet = $("#walletAddress").val();
+
+    //add wallet to URL
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?wallet=' + wallet;
+    window.history.replaceState(null, null, newurl);
+
     var dailyTotal = 0;
     if (wallet != "") {
         $.getJSON("api/rewards/" + wallet, function (data) {
@@ -37,13 +48,17 @@ function fetchWalletData() {
                     $("#tvl").html(tvl);
                     $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
                     $("#activeTfuel").html(tfuel);
+                    nft15xlevel = tbill15x;
+                    nft2xlevel = tbill2x;
                 }
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
             $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4));
+
+            fetchNFTforWallet();
         });
         
     }
@@ -84,6 +99,7 @@ function fetchWalletData() {
                 i++;
             });
             $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
+            $("#daysInLP").html(i-1);
 
             showDailyChart(datesDaily);
             showDailySumChart(datesDailySum);
@@ -95,7 +111,7 @@ function fetchWalletData() {
 
             for (let y = 0; y < rewardsReverse.length; y++) {
                 //only first 10
-                if (y > 30) {
+                if (y > 100) {
                     break;
                 }
                 //console.log(rewardsReverse[y]);
@@ -105,6 +121,103 @@ function fetchWalletData() {
             }
         });
     }
+    if (wallet != "") {
+        $.getJSON("api/getBalance/" + wallet, function (data) {
+            var json = JSON.parse(data);
+            var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+            //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+
+            $("#tbillBalance").html(balanceTBill);
+            $("#tfuelBalance").html(balanceTFuel);
+            if (parseFloat(json.Theta) > 0) {
+                $("#thetaBlock").show();
+                $("#thetaBalance").html(balanceTheta);
+            }
+            if (parseFloat(json.ThetaStake) > 0) {
+                $("#thetaStakeBlock").show();
+                $("#thetaStake").html(stakeTheta);
+            }
+            if (parseFloat(json.TFuelStake) > 0) {
+                $("#tfuelStakeBlock").show();
+                $("#tfuelStake").html(stakeTFuel);
+            }
+        });
+    }
+
+}
+
+function clearMyWalletData() {
+    nft15xlevel = 0;
+    nft2xlevel = 0;
+    $("#thetaBalance").html('');
+    $("#tfuelBalance").html('');
+    $("#thetaStake").html('');
+    $("#tfuelStakeBlock").hide();
+    $("#tfuelStake").html('');
+    $("#thetaBlock").hide();
+    $("#tbillBalance").html('');
+    $("#thetaStakeBlock").hide();
+
+    $("#dayTotal").html('');
+    $("#totalTbill").html('');
+    $("#tvl").html('');
+    $("#activTbill").html('');
+    $("#activeTfuel").html('');
+    $("#daysInLP").html('');
+
+    $("#nft2xlabel").html(0 + ' / ' + 0);
+    $("#nft15xlabel").html(0 + ' / ' + 0);
+
+    
+    $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress15x').css('width', 0+ '%').attr('aria-valuenow', 0);
+}
+
+function fetchNFTforWallet() {
+    //fetch NFT info for wallet
+    var data = $("#walletAddress").val();
+    var jsonData = {
+        "walletAddress": $("#walletAddress").val()
+    }
+    var nft15xsum = 0;
+    var nft2xsum = 0;
+
+    $('#myNFTsTable > tbody:last-child').empty();
+
+    $.post("api/getNFTforWallet/", jsonData, function (data, textStatus) {
+        var jsonObj = jQuery.parseJSON(data);
+        $.each(jsonObj, function (key, val) {
+            var Name = val['Name'];
+            var ImageURL = val['ImageURL'];
+            var Multiplier = val['Multiplier'];
+            var TbillAmount = val['TbillAmount'];
+            var BoostPercentage = val['BoostPercentage'];
+            var Edition = val['Edition'];
+            if (Multiplier == "2x") {
+                nft2xsum += parseFloat(TbillAmount);
+            } else if (Multiplier == "1.5x") {
+                nft15xsum += parseFloat(TbillAmount);
+            }
+            $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
+
+        });
+
+        $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);
+        $("#nft15xlabel").html(nft15xlevel + ' / ' + nft15xsum);
+
+        var prct2x = parseFloat(parseFloat(nft2xlevel) / nft2xsum * 100).toFixed(1);
+        var prct15x = parseFloat(parseFloat(nft15xlevel) / nft15xsum * 100).toFixed(1);
+
+        $('#progress2x').css('width', prct2x + '%').attr('aria-valuenow', prct2x);
+        $('#progress15x').css('width', prct15x + '%').attr('aria-valuenow', prct15x);
+
+    }, "json");
 }
 
 function showDailyChart(data) {
@@ -256,7 +369,7 @@ function showDailySumChart(data) {
 }
 
 
-function fetchData() {
+function fetchData(fetchWallet) {
     $.getJSON("api/rates", function (data) {
         var rate = "";
         var rateTFuel = "";
@@ -280,6 +393,7 @@ function fetchData() {
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
         $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
+        $("#tbillTfuelRatio").html('Ratio:' + parseFloat(parseFloat(rate) / parseFloat(rateTFuel)).toFixed(4));
         tbillRate = parseFloat(rate).toFixed(4);
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
@@ -288,6 +402,9 @@ function fetchData() {
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
 
+        if (fetchWallet) {
+            fetchWalletData();
+        }
     });
 
     
