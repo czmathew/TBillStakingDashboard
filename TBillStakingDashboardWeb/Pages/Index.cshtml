@@ -220,7 +220,7 @@
                 size: 0,
             },
             title: {
-                text: 'Total LP Activated (USD)',
+                text: 'Total Value Locked',
                 align: 'left'
             },
             //fill: {
@@ -248,7 +248,7 @@
             },
             tooltip: {
                 enabled: true,
-                shared: false,
+                shared: true,
                 y: {
                     formatter: function (val) {
                         return (val / 1000000).toFixed(2) + ' M'
