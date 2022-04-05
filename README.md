@@ -35,6 +35,11 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 4th Updates:**
+**New Features:**
+- Added BigDog stickers to My NFTs in 'My wallet' - You can see the number you have in brackets 'Total minted'
+
+
 ## **April 3rd Updates:**
 **New Features:**
 - Added the number of TBILL, THETA, TFUEL, THETA staked and TFUEL staked in 'My wallet'
