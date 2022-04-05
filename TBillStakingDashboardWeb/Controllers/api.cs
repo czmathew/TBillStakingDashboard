@@ -34,6 +34,16 @@ namespace TBillStaking.Controllers
             _configuration = configuration;
         }
 
+        //[HttpGet]
+        //[HttpGet("getIp")]
+        //public IActionResult GetIP()
+        //{
+        //    string externalIpString = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
+        //    var externalIp = IPAddress.Parse(externalIpString);
+
+        //    return Ok(externalIp.ToString()) ;
+        //}
+
         [HttpGet]
         [HttpGet("rates")]
         public async Task GetRate()
