@@ -18,6 +18,7 @@ namespace TBillStakingDashboardWeb.Pages
         public string Wallet { get; set; }
         public List<NFTDetails> NFTs { get; set; }
         public List<NFTSaleDetails> NFTSales { get; set; }
+        public List<NFTSalesDaily> NFTsales { get; set; }
         private readonly IConfiguration _configuration;
 
         public NTFModel(IConfiguration conf)
@@ -68,7 +69,7 @@ namespace TBillStakingDashboardWeb.Pages
                     }
                 }
 
-                
+
                 using (var command = new SqlCommand("usp_getNFTSalesDetails", connection)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -97,8 +98,44 @@ namespace TBillStakingDashboardWeb.Pages
                     }
                 }
 
-                
+                //get daily NFT sales for chart
+                using (var command = new SqlCommand("usp_getNFTSalesDaily", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    //should it maybe be it's own class instead of the Tuple?
+                    NFTsales = new List<NFTSalesDaily>();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+
+                            NFTsales.Add(new NFTSalesDaily()
+                            {
+                                dateSold = reader.GetString("dateSold"),
+                                priceAAA = reader.GetString("priceAAA"),
+                                priceC4C = reader.GetString("priceC4C"),
+                                price100K = reader.GetString("price100K"),
+                                price500K = reader.GetString("price500K"),
+                                price1M = reader.GetString("price1M"),
+                                priceHodl = reader.GetString("priceHodl"),
+                                priceLurk = reader.GetString("priceLurk"),
+                                pricePatron = reader.GetString("pricePatron")
+                            });
+
+                    }
+                    }
+                    finally
+                {
+                    // Always call Close when done reading.
+                    reader.Close();
+                }
             }
+
+
         }
     }
+}
 }
