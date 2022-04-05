@@ -1,4 +1,5 @@
 var tbillRate = 0;
+var tfuelRate = 0;
 var nft15xlevel = 0;
 var nft2xlevel = 0;
 
@@ -56,8 +57,8 @@ function fetchWalletData() {
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
-            $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4));
-
+            $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(dailyTotal * tbillRate).toFixed(2));
+            
             fetchNFTforWallet();
         });
         
@@ -98,7 +99,7 @@ function fetchWalletData() {
                 }
                 i++;
             });
-            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4));
+            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(totalRewards * tbillRate).toFixed(2));
             $("#daysInLP").html(i-1);
 
             showDailyChart(datesDaily);
@@ -130,11 +131,15 @@ function fetchWalletData() {
             var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+            var balanceTFuelUSD = (parseFloat(json.TFuel) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var balanceTBillUSD = (parseFloat(json.TBill) * tbillRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var stakeTFuelUSD = (parseFloat(json.TFuelStake) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
             //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
             //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
 
-            $("#tbillBalance").html(balanceTBill);
-            $("#tfuelBalance").html(balanceTFuel);
+            $("#tbillBalance").html(balanceTBill + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + balanceTBillUSD);
+            $("#tfuelBalance").html(balanceTFuel + '<img height="20" src="/img/tfuel.svg" /><br/>' + '$' + balanceTFuelUSD);
             if (parseFloat(json.Theta) > 0) {
                 $("#thetaBlock").show();
                 $("#thetaBalance").html(balanceTheta);
@@ -145,7 +150,7 @@ function fetchWalletData() {
             }
             if (parseFloat(json.TFuelStake) > 0) {
                 $("#tfuelStakeBlock").show();
-                $("#tfuelStake").html(stakeTFuel);
+                $("#tfuelStake").html(stakeTFuel + '<img height="20" src="/img/tfuel.svg" /><br/>' + '$' + stakeTFuelUSD);
             }
         });
     }
@@ -395,6 +400,7 @@ function fetchData(fetchWallet) {
         $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
         $("#tbillTfuelRatio").html('Ratio:' + parseFloat(parseFloat(rate) / parseFloat(rateTFuel)).toFixed(4));
         tbillRate = parseFloat(rate).toFixed(4);
+        tfuelRate = parseFloat(rateTFuel).toFixed(4);
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
         $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));

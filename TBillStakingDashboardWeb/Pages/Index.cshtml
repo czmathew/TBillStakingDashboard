@@ -193,9 +193,15 @@
             series: [{
                 name: 'TVL',
                 data: datesTvl
+            }, {
+                name: 'TFuel',
+                data: datesTF
+            }, {
+                name: 'TBill',
+                data: datesTB
             }],
             chart: {
-                type: 'area',
+                type: 'line',
                 stacked: false,
                 height: 350,
                 zoom: {
@@ -214,7 +220,7 @@
                 size: 0,
             },
             title: {
-                text: 'Total LP Activated (USD)',
+                text: 'Total Value Locked',
                 align: 'left'
             },
             //fill: {
@@ -230,7 +236,7 @@
             yaxis: {
                 labels: {
                     formatter: function (val) {
-                        return (val / 1).toFixed(0);
+                        return (val / 1000000).toFixed(0) + ' M';
                     },
                 },
                 title: {
@@ -242,16 +248,17 @@
             },
             tooltip: {
                 enabled: true,
-                shared: false,
+                shared: true,
                 y: {
                     formatter: function (val) {
-                        return (val / 1).toFixed(0)
+                        return (val / 1000000).toFixed(2) + ' M'
                     }
                 }
             },
             theme: {
                 mode: 'dark'
-            }
+            },
+            colors: ['#85bb65', '#e75c10', '#1d2c3b']
         };
 
         var optionsRewards = {

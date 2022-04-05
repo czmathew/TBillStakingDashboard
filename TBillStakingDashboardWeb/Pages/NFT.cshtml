@@ -63,6 +63,191 @@
     </table>
 
     <h5>Sales History</h5>
+
+    <div class="row">
+        <style>
+
+            chartNFTSold {
+                max-width: 950px;
+                margin: 35px auto;
+            }
+        </style>
+
+
+
+        <script>
+
+
+            var seriesPrice100K = [];
+            var seriesPrice1M = [];
+            var seriesPrice500K = [];
+            var seriesPriceAAA = [];
+            var seriesPriceC4C = [];
+            var seriesPriceHodl = [];
+            var seriesPriceLurk = [];
+            var seriesPricePatron = [];
+
+        var sourcearray = @Html.Raw(Json.Serialize(Model.NFTsales));
+        sourcearray.forEach(async (value) => {
+            //sum = await sumFunction(sum, value);
+            if (value["price100K"] != "") {
+                var innerArr = [value["dateSold"], value["price100K"]];
+                seriesPrice100K.push(innerArr);
+            }
+            if (value["price1M"] != "") {
+                var innerArr = [value["dateSold"], value["price1M"]];
+                seriesPrice1M.push(innerArr);
+            }
+            if (value["price500K"] != "") {
+                var innerArr = [value["dateSold"], value["price500K"]];
+                seriesPrice500K.push(innerArr);
+            }
+            if (value["priceAAA"] != "") {
+                var innerArr = [value["dateSold"], value["priceAAA"]];
+                seriesPriceAAA.push(innerArr);
+            }
+            if (value["priceC4C"] != "") {
+                var innerArr = [value["dateSold"], value["priceC4C"]];
+                seriesPriceC4C.push(innerArr);
+            }
+            if (value["priceHodl"] != "") {
+                var innerArr = [value["dateSold"], value["priceHodl"]];
+                seriesPriceHodl.push(innerArr);
+            }
+            if (value["priceLurk"] != "") {
+                var innerArr = [value["dateSold"], value["priceLurk"]];
+                seriesPriceLurk.push(innerArr);
+            }
+            if (value["pricePatron"] != "") {
+                var innerArr = [value["dateSold"], value["pricePatron"]];
+                seriesPricePatron.push(innerArr);
+            }
+
+        });
+
+
+
+        </script>
+
+        <div class=col-lg-12 col-sm-12">
+            <div id="chartNFTSold" class="bg-dark" style="border:0px;"></div>
+        </div>
+
+        <script>
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+                )
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+                )
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+                )
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script>
+
+            var optionsChartNFTSold = {
+                series: [{
+                    name: 'Price 100K',
+                    data: seriesPrice100K
+                }, {
+                    name: 'Price 1M',
+                    data: seriesPrice1M
+                }, {
+                    name: 'Price 500K',
+                    data: seriesPrice500K
+                }, {
+                    name: 'Price AAA',
+                    data: seriesPriceAAA
+                }, {
+                    name: 'Price C4C',
+                    data: seriesPriceC4C
+                }, {
+                    name: 'Price Hodl',
+                    data: seriesPriceHodl
+                }, {
+                    name: 'Price Lurk',
+                    data: seriesPriceLurk
+                }, {
+                    name: 'Price Patron',
+                    data: seriesPricePatron
+                }],
+                chart: {
+                    type: 'line',
+                    stacked: false,
+                    height: 500,
+                    zoom: {
+                        type: 'x',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        autoSelected: 'zoom'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                markers: {
+                    size: 0,
+                },
+                title: {
+                    text: 'NFT daily sales',
+                    align: 'left'
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (val) {
+                            return (val / 1).toFixed(0);
+                        },
+                    },
+                    title: {
+                        text: 'Price TFuel'
+                    },
+                    logarithmic: true,
+                    logBase: 5,
+                    tickAmount: 6,
+                    min: 100
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                tooltip: {
+                    enabled: true,
+                    shared: true,
+                    y: {
+                        formatter: function (val) {
+                            return (val / 1).toFixed(0)
+                        }
+                    }
+                },
+                theme: {
+                    mode: 'dark'
+                },
+                stroke: {
+                    width: 2
+                }
+            };
+
+
+
+
+            var chartNFTSold = new ApexCharts(document.querySelector("#chartNFTSold"), optionsChartNFTSold);
+            chartNFTSold.render();
+
+
+
+
+
+        </script>
+    </div>
+
     <div class="table-wrapper-500">
         <table id="nftStats" class="table table-sm table-light tableFixHead">
             <thead>
@@ -81,26 +266,26 @@
 
                     @foreach (var record in Model.NFTSales)
                     {
-                <tr>
-                    <td>
-                        <img src="@Url.Content(record.ImageURL)" height="30" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => record.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => record.Timestamp)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.Price)
-                    </td>
-                    <td class="text-end">
-                        $@Html.DisplayFor(modelItem => record.PriceUsd)
-                    </td>
-                    <td class="text-end">
-                        @Html.DisplayFor(modelItem => record.Buyer)
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(record.ImageURL)" height="30" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => record.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => record.Timestamp)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.Price)
+                        </td>
+                        <td class="text-end">
+                            $@Html.DisplayFor(modelItem => record.PriceUsd)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.Buyer)
+                        </td>
+                    </tr>
                     }
                 }
             </tbody>
