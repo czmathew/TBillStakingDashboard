@@ -35,6 +35,14 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 5th Updates:**
+**New Features:**
+- New domain name : tbillstats.io
+- Added the TFUEL and TBILL Total Value Locked on the first chart in 'LP Stats' and change its name to "Total Value Locked"
+- Added a chart to Sales History in 'NFT' - You can know see the last price within a chart for every NFT sold.
+- Added the $ value for "Day's Total Reward", "Total TBill received", "Tbill" and "Tfuel" in 'My wallet'
+
+
 ## **April 4th Updates:**
 **New Features:**
 - Added BigDog stickers to My NFTs in 'My wallet' - You can see the number you have in brackets 'Total minted'
