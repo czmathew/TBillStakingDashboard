@@ -216,10 +216,18 @@ namespace TBillStaking.Controllers
             {
                 return Problem("Invalid wallet address");
             }
-            string jsonUrl = "http://www.thetascan.io/api/721/?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&address=" + walletAddress + "";
+
+            string NFTs2x = "0x172d0bd953566538f050aabfeef5e2e8143e09f4";
+            string NFTBigDog1111sticker = "0x3a8246be5efc8660a3618aefd9d767ae47df3c77";
+
+
+            //get all NFTs for wallet
+            string jsonUrl = "http://www.thetascan.io/api/721/?address="+ walletAddress + "&type=list&sort=contract" + "";
+            //string jsonUrl = "http://www.thetascan.io/api/721/?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&address=" + walletAddress + "";
             HttpContext.Response.ContentType = "application/json";
 
-            var tokenList = new List<int> { };
+            var tokenList2x = new List<int> { };
+            var tokenListBigDog1111 = new List<int> { };
             List<NFTInWallet> nfts = new List<NFTInWallet>();
 
             using (WebClient wc = new WebClient())
@@ -235,8 +243,17 @@ namespace TBillStaking.Controllers
                     var data = JArray.Parse(json);
                     foreach (JObject item in data) // <-- Note that here we used JObject instead of usual JProperty
                     {
+                        string contract = item.GetValue("contract").ToString();
                         string token = item.GetValue("token").ToString();
-                        tokenList.Add(int.Parse(token));
+                        if (contract.Equals(NFTs2x))
+                        {
+                            tokenList2x.Add(int.Parse(token));
+                        } else if (contract.Equals(NFTBigDog1111sticker))
+                        {
+                            tokenListBigDog1111.Add(int.Parse(token));
+
+                        }
+                        
                     }
                 }
                 catch (Exception e)//404 or anything
@@ -246,7 +263,7 @@ namespace TBillStaking.Controllers
                 }
             }
             
-            if (tokenList.Count > 0)
+            if (tokenList2x.Count > 0)
             {
                 string connString = _configuration.GetConnectionString("sql-tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
@@ -267,7 +284,7 @@ namespace TBillStaking.Controllers
                             " FROM [dbo].[nftMinted] n WHERE [edition] in ({0})";
                         var index = 0;
                         var parameterList = new List<string>();
-                        foreach (var id in tokenList)
+                        foreach (var id in tokenList2x)
                         {
                             var paramName = "@idParam" + index;
                             command.Parameters.AddWithValue(paramName, id);
@@ -302,36 +319,7 @@ namespace TBillStaking.Controllers
             }
 
             //BigDog NFT
-            jsonUrl = "http://www.thetascan.io/api/721/?contract=0x3a8246be5efc8660a3618aefd9d767ae47df3c77&address=" + walletAddress + "";
-            HttpContext.Response.ContentType = "application/json";
-
-            tokenList = new List<int> { };
-            
-            using (WebClient wc = new WebClient())
-            {
-                try
-                {
-                    var json = wc.DownloadString(jsonUrl);
-                    if (json.ToString().Equals("null"))
-                    {
-                        //no NFTs for wallet
-                        return Ok(JsonSerializer.Serialize(nfts));
-                    }
-                    var data = JArray.Parse(json);
-                    foreach (JObject item in data) // <-- Note that here we used JObject instead of usual JProperty
-                    {
-                        string token = item.GetValue("token").ToString();
-                        tokenList.Add(int.Parse(token));
-                    }
-                }
-                catch (Exception e)//404 or anything
-                {
-                    return Problem("Error reading data");
-                    //HttpContext.Response.StatusCode = 400;//BadRequest
-                }
-            }
-
-            if (tokenList.Count > 0)
+            if (tokenListBigDog1111.Count > 0)
             {
                 string connString = _configuration.GetConnectionString("sql-tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
@@ -356,13 +344,13 @@ namespace TBillStaking.Controllers
                             while (reader.Read())
                             {
                                 NFTInWallet nft = new NFTInWallet();
-                                nft.Name = reader.GetString("name") + " (total minted: " + tokenList.Count.ToString() + ")";
+                                nft.Name = reader.GetString("name") + " (total minted: " + tokenListBigDog1111.Count.ToString() + ")";
                                 nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".png";
                                 nft.Multiplier = "1.25x";
                                 nft.TbillAmount = 100;
                                 nft.BoostPercentage = 100;
                                 nft.Edition = 0;
-                                nft.Count = tokenList.Count;
+                                nft.Count = tokenListBigDog1111.Count;
                                 nfts.Add(nft);
                             }
                         }

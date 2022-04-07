@@ -21,6 +21,8 @@ namespace TBillStaking.Pages
         public string Wallet { get; set; }
         [ViewData]
         public string DisplayDevMessage { get; set; }
+        [ViewData]
+        public string DisplayNewDomainMessage { get; set; }
         public List<Tuple<string, string>> WalletList { get; set; }
         public List<Tuple<string, string, string>> RebaseList { get; set; }
         public List<NFTDetails> NFTs { get; set; }
@@ -49,6 +51,11 @@ namespace TBillStaking.Pages
                 if (_configuration["DisplayDevMessage"] != null)
                 {
                     DisplayDevMessage = _configuration["DisplayDevMessage"];
+                }
+                DisplayNewDomainMessage = "false";
+                if (_configuration["DisplayNewDomainMessage"] != null)
+                {
+                    DisplayNewDomainMessage = _configuration["DisplayNewDomainMessage"];
                 }
                 NFTs = new List<NFTDetails>();
                 NFTSales = new List<NFTSaleDetails>();

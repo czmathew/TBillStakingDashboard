@@ -85,7 +85,7 @@
                     <div class="row">
                         &nbsp;
                     </div>
-                    
+
                 </div>
                 <div class="col">
 
@@ -117,8 +117,8 @@
             </div>
         </div>
         @*<div class="container">
-            
-        </div>*@
+
+            </div>*@
     </footer>
     @* this script needs to be at the end to make sure all componenets are toggled *@
 
@@ -126,25 +126,48 @@
 
     @if (@ViewData["DisplayDevMessage"]?.ToString() == "true")
     {
-    <div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog text-white">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-black">
-                    <h5 class="modal-title" id="warningModalLabel">Please note...</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body bg-warning text-black">
-                    This is a development version. It might not be working at all times. Please consider bookmarking the stable version instead: <br />
-                    <a href="https://tbillstats.io/">https://tbillstats.io/</a><br />
+        <div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog text-white">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-black">
+                        <h5 class="modal-title" id="warningModalLabel">Please note...</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body bg-warning text-black">
+                        This is a development version. It might not be working at all times. Please consider bookmarking the stable version instead: <br />
+                        <a href="https://tbillstats.io/">https://tbillstats.io/</a><br />
 
-                </div>
-                <div class="modal-footer bg-warning text-black">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    <div class="modal-footer bg-warning text-black">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript" src="js/devMessage.js?1"></script>
+        <script type="text/javascript" src="js/devMessage.js?1"></script>
+    }
+
+    @if (@ViewData["DisplayNewDomainMessage"]?.ToString() == "true")
+    {
+        <div class="modal fade" id="newDomainModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog text-white">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-black">
+                        <h5 class="modal-title" id="warningModalLabel">Please note...</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body bg-warning text-black">
+                        We have a new domain: <br />
+                        <a href="https://tbillstats.io/">https://tbillstats.io/</a><br />
+
+                    </div>
+                    <div class="modal-footer bg-warning text-black">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/newDomain.js?1"></script>
     }
 
 

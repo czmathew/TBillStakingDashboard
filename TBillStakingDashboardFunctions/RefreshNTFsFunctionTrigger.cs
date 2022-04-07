@@ -8,7 +8,7 @@ namespace TBillStakingDashboardFunctions
     public static class RefreshNTFsFunctionTrigger
     {
         [FunctionName("RefreshNTFsFunctionTrigger")]
-        public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, ILogger log)
+        public static void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"RefreshNTFsFunctionTrigger executed at: {DateTime.Now}");
             Exec.GetTBillNTFSales.Execute();

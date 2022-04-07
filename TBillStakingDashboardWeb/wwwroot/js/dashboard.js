@@ -393,7 +393,7 @@ function fetchData(fetchWallet) {
         if (rebaseRate > noRebaseRangeTop) {
             $("#rebaseRate").addClass("text-success");
         } else if (rebaseRate < noRebaseRangeBottom) {
-            $("#rebaseRate").addClass(".text-danger");
+            $("#rebaseRate").addClass("text-danger");
         }
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
