@@ -84,18 +84,21 @@ function fetchWalletData() {
                         tvl: parseFloat(val[1]).toFixed(2),
                         mtvl: parseFloat(val[2]).toFixed(2),
                         tbill1x: parseFloat(val[3]).toFixed(2),
-                        tbill15x: parseFloat(val[4]).toFixed(2),
-                        tbill2x: parseFloat(val[5]).toFixed(2),
-                        tfuel: parseFloat(val[6]).toFixed(2),
-                        reward: parseFloat(val[7]).toFixed(4),
-                        rewardUSD: parseFloat(val[8]).toFixed(2)
+                        tbill125x: parseFloat(val[4]).toFixed(2),
+                        tbill15x: parseFloat(val[5]).toFixed(2),
+                        tbill2x: parseFloat(val[6]).toFixed(2),
+                        tbill3x: parseFloat(val[7]).toFixed(2),
+                        tbill4x: parseFloat(val[8]).toFixed(2),
+                        tfuel: parseFloat(val[9]).toFixed(2),
+                        reward: parseFloat(val[10]).toFixed(4),
+                        rewardUSD: parseFloat(val[11]).toFixed(2)
                     });
-                    var innerArr = [val[0], parseFloat(val[7]).toFixed(4)];
+                    var innerArr = [val[0], parseFloat(val[10]).toFixed(4)];
                     datesDaily.push(innerArr);
-                    rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[7]).toFixed(4));
+                    rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[10]).toFixed(4));
                     var innerArr = [val[0], rewardsSum];
                     datesDailySum.push(innerArr);
-                    totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[7]));
+                    totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[10]));
                 }
                 i++;
             });
