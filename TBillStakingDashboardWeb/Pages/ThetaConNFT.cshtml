@@ -1,0 +1,334 @@
+﻿@page
+@model TBillStakingDashboardWeb.Pages.ThetaConNFTModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h4>ThetaCon NFT market</h4>
+
+
+    <h5>Sales History</h5>
+
+    <div class="row">
+        <style>
+
+            .chartThetaCon {
+                max-width: 650px;
+                margin: 35px auto;
+            }
+
+            .imgNFT {
+                max-width: 300px;
+                max-height: 300px;
+            }
+        </style>
+
+
+
+        <script>
+
+
+            var seriesBarrizan = [];
+            var seriesCrazy4Cryptos = [];
+            var seriesDoctorTheta = [];
+            var seriesGworld = [];
+            var seriesHighsGamingHub = [];
+            var seriesHinse = [];
+            var seriesImaginaryFriendsCo = [];
+            var seriesJoeytV = [];
+            var seriesJustWeirdTV = [];
+            var seriesMysticGurus = [];
+            var seriesOrderOfTheTigons = [];
+            var seriesPassaways = [];
+            var seriesRobFeldman = [];
+            var seriesSecretPineappleSociety = [];
+            var seriesSkeletonArts = [];
+            var seriesSymbioteCreatives = [];
+            var seriesThetaVibes = [];
+            var seriesThetaBet = [];
+            var seriesThetaBoard = [];
+            var seriesThetaBulls = [];
+            var seriesThetaDiamond = [];
+            var seriesThetaPugs = [];
+            var seriesThetapunks = [];
+            var seriesThetaZillaClub = [];
+
+
+
+
+
+        </script>
+
+        <div class=col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-2 d-flex align-items-center"><img id="imgBarrizan" class="img-fluid" src="" /></div>
+                <div class="col-10">
+                    <div id="chartBarrizan" class="bg-dark chartThetaCon" style="border:0px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class=col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-2 d-flex align-items-center"><img id="imgCrazy4Cryptos" class="img-fluid" src="" /></div>
+                <div class="col-10">
+                    <div id="chartCrazy4Cryptos" class="bg-dark chartThetaCon" style="border:0px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class=col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-2 d-flex align-items-center"><img id="imgDoctorTheta" class="img-fluid" src="" /></div>
+                <div class="col-10">
+                    <div id="chartDoctorTheta" class="bg-dark chartThetaCon" style="border:0px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class=col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-2 d-flex align-items-center"><img id="imgGworld" class="img-fluid" src="" /></div>
+                <div class="col-10">
+                    <div id="chartGworld" class="bg-dark chartThetaCon" style="border:0px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+             var sourcearray = @Html.Raw(Json.Serialize(Model.NFTs));
+        sourcearray.forEach(async (value) => {
+            //sum = await sumFunction(sum, value);
+            if (value["creator"] == "Barrizan") {
+                var innerArr = [value["dateSold"], value["price"]];
+                seriesBarrizan.push(innerArr);
+                $("#imgBarrizan").attr("src", value["imageURL"]);
+            }
+            if (value["creator"] == "Crazy4Cryptos") {
+                var innerArr = [value["dateSold"], value["price"]];
+                seriesCrazy4Cryptos.push(innerArr);
+                $("#imgCrazy4Cryptos").attr("src", value["imageURL"]);
+            }
+            if (value["creator"] == "Doctor Theta") {
+                var innerArr = [value["dateSold"], value["price"]];
+                seriesDoctorTheta.push(innerArr);
+                $("#imgDoctorTheta").attr("src", value["imageURL"]);
+            }
+            if (value["creator"] == "Gworld") {
+                var innerArr = [value["dateSold"], value["price"]];
+                seriesGworld.push(innerArr);
+                $("#imgGworld").attr("src", value["imageURL"]);
+            }
+
+
+        });
+
+
+
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+                )
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+                )
+            window.Promise ||
+                document.write(
+                    '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+                )
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script>
+
+            var optionsBase = {
+
+                chart: {
+                    type: 'line',
+                    stacked: false,
+                    height: 300,
+                    zoom: {
+                        type: 'x',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        autoSelected: 'zoom'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                markers: {
+                    size: 0,
+                },
+
+                yaxis: {
+                    labels: {
+                        formatter: function (val) {
+                            return (val / 1).toFixed(0);
+                        },
+                    },
+                    title: {
+                        text: 'Price'
+                    },
+                    logarithmic: false,
+                    tickAmount: 6,
+                    min: 100
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                tooltip: {
+                    enabled: true,
+                    shared: true,
+                    y: {
+                        formatter: function (val) {
+                            return (val / 1).toFixed(0)
+                        }
+                    }
+                },
+                theme: {
+                    mode: 'dark'
+                },
+                stroke: {
+                    width: 2
+                }
+            };
+
+            var optionsBarrizan = {
+                series: [{
+                    name: 'Barrizan',
+                    data: seriesBarrizan
+                }],
+                title: {
+                    text: 'Barrizan',
+                    align: 'left'
+                },
+            };
+            $.extend(optionsBarrizan, optionsBase);
+
+            var optionsCrazy4Cryptos = {
+                series: [{
+                    name: 'Crazy4Cryptos',
+                    data: seriesCrazy4Cryptos
+                }],
+                title: {
+                    text: 'Crazy4Cryptos',
+                    align: 'left'
+                },
+            };
+            $.extend(optionsCrazy4Cryptos, optionsBase);
+
+            var optionsDoctorTheta = {
+                series: [{
+                    name: 'Doctor Theta',
+                    data: seriesDoctorTheta
+                }],
+                title: {
+                    text: 'Doctor Theta',
+                    align: 'left'
+                },
+            };
+            $.extend(optionsDoctorTheta, optionsBase);
+
+            var optionsGworld = {
+                series: [{
+                    name: 'Gworld',
+                    data: seriesGworld
+                }],
+                title: {
+                    text: 'Gworld',
+                    align: 'left'
+                },
+            };
+            $.extend(optionsGworld, optionsBase);
+
+            var optionsHighsGamingHub = {};
+            $.extend(optionsHighsGamingHub, optionsBase);
+
+            var optionsHinse = {};
+            $.extend(optionsHinse, optionsBase);
+
+            var optionsImaginaryFriendsCo = {};
+            $.extend(optionsImaginaryFriendsCo, optionsBase);
+
+            var optionsJoeytV = {};
+            $.extend(optionsJoeytV, optionsBase);
+
+            var optionsJustWeirdTV = {};
+            $.extend(optionsJustWeirdTV, optionsBase);
+
+            var optionsMysticGurus = {};
+            $.extend(optionsMysticGurus, optionsBase);
+
+            var optionsOrderOfTheTigons = {};
+            $.extend(optionsOrderOfTheTigons, optionsBase);
+
+            var optionsPassaways = {};
+            $.extend(optionsPassaways, optionsBase);
+
+            var optionsRobFeldman = {};
+            $.extend(optionsRobFeldman, optionsBase);
+
+            var optionsSecretPineappleSociety = {};
+            $.extend(optionsSecretPineappleSociety, optionsBase);
+
+            var optionsSkeletonArts = {};
+            $.extend(optionsSkeletonArts, optionsBase);
+
+            var optionsSymbioteCreatives = {};
+            $.extend(optionsSymbioteCreatives, optionsBase);
+
+            var optionsThetaVibes = {};
+            $.extend(optionsThetaVibes, optionsBase);
+
+            var optionsThetaBet = {};
+            $.extend(optionsThetaBet, optionsBase);
+
+            var optionsThetaBoard = {};
+            $.extend(optionsThetaBoard, optionsBase);
+
+            var optionsThetaBulls = {};
+            $.extend(optionsThetaBulls, optionsBase);
+
+            var optionsThetaDiamond = {};
+            $.extend(optionsThetaDiamond, optionsBase);
+
+            var optionsThetaPugs = {};
+            $.extend(optionsThetaPugs, optionsBase);
+
+            var optionsThetapunks = {};
+            $.extend(optionsThetapunks, optionsBase);
+
+            var optionsThetaZillaClub = {};
+            $.extend(optionsThetaZillaClub, optionsBase);
+
+
+
+
+
+
+
+            var chartBarrizan = new ApexCharts(document.querySelector("#chartBarrizan"), optionsBarrizan);
+            chartBarrizan.render();
+
+            var chartCrazy4Cryptos = new ApexCharts(document.querySelector("#chartCrazy4Cryptos"), optionsCrazy4Cryptos);
+            chartCrazy4Cryptos.render();
+
+            var chartDoctorTheta = new ApexCharts(document.querySelector("#chartDoctorTheta"), optionsDoctorTheta);
+            chartDoctorTheta.render();
+
+            var chartGworld = new ApexCharts(document.querySelector("#chartGworld"), optionsGworld);
+            chartGworld.render();
+
+
+
+
+
+        </script>
+    </div>
+
+
+</div>
