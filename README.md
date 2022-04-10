@@ -35,6 +35,10 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 10th Updates:**
+**New Features:**
+- Added BigDog's stickers to the secondary market stats in 'NFTs'
+
 ## **April 5th Updates:**
 **New Features:**
 - New domain name : tbillstats.io
