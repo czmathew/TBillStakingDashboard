@@ -42,6 +42,7 @@ function fetchWalletData() {
                 var reward = parseFloat(val['reward']).toFixed(4);
                 var time = getTimeFromTimestamp(val['end_time']);
                 var tbill1x = parseFloat(val['tbill1x']).toFixed(2);
+                var tbill125x = parseFloat(val['tbill125x']).toFixed(2);
                 var tbill15x = parseFloat(val['tbill15x']).toFixed(2);
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
@@ -53,7 +54,7 @@ function fetchWalletData() {
                     nft2xlevel = tbill2x;
                 }
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill125x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
@@ -119,7 +120,7 @@ function fetchWalletData() {
                     break;
                 }
                 //console.log(rewardsReverse[y]);
-                $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
+                $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill125x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
                     + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
                 
             }
@@ -413,6 +414,8 @@ function fetchData(fetchWallet) {
 
         if (fetchWallet) {
             fetchWalletData();
+            //refresh wallet data every 10 minutes
+            setInterval(fetchWalletData, 600000);
         }
     });
 

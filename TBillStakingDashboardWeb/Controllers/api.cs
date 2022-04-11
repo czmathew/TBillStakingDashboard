@@ -219,6 +219,7 @@ namespace TBillStaking.Controllers
 
             string NFTs2x = "0x172d0bd953566538f050aabfeef5e2e8143e09f4";
             string NFTBigDog1111sticker = "0x3a8246be5efc8660a3618aefd9d767ae47df3c77";
+            string NFTAlienlikeTBILLSticker = "0x4de555c77fddab5d40310e3cba254a41647c3af7";
 
 
             //get all NFTs for wallet
@@ -228,6 +229,7 @@ namespace TBillStaking.Controllers
 
             var tokenList2x = new List<int> { };
             var tokenListBigDog1111 = new List<int> { };
+            var tokenAlienlike = new List<int> { };
             List<NFTInWallet> nfts = new List<NFTInWallet>();
 
             using (WebClient wc = new WebClient())
@@ -248,12 +250,18 @@ namespace TBillStaking.Controllers
                         if (contract.Equals(NFTs2x))
                         {
                             tokenList2x.Add(int.Parse(token));
-                        } else if (contract.Equals(NFTBigDog1111sticker))
+                        }
+                        else if (contract.Equals(NFTBigDog1111sticker))
                         {
                             tokenListBigDog1111.Add(int.Parse(token));
 
                         }
-                        
+                        else if (contract.Equals(NFTAlienlikeTBILLSticker))
+                        {
+                            tokenAlienlike.Add(int.Parse(token));
+
+                        }
+
                     }
                 }
                 catch (Exception e)//404 or anything
@@ -333,7 +341,7 @@ namespace TBillStaking.Controllers
                     {
                         var sql = "SELECT [name]" +
                             ",replace(image,'ipfs://','')  nftImage" +
-                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '0x3a8246be5efc8660a3618aefd9d767ae47df3c77'";
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '"+ NFTAlienlikeTBILLSticker+"'";
                         var parameterList = new List<string>();
                         
                         command.CommandText = sql;
@@ -344,11 +352,57 @@ namespace TBillStaking.Controllers
                             while (reader.Read())
                             {
                                 NFTInWallet nft = new NFTInWallet();
-                                nft.Name = reader.GetString("name") + " (total minted: " + tokenListBigDog1111.Count.ToString() + ")";
+                                nft.Name = reader.GetString("name") + " (total: " + tokenListBigDog1111.Count.ToString() + ")";
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".jpg";
+                                nft.Multiplier = "1.25x";
+                                nft.TbillAmount = 100;
+                                nft.BoostPercentage = 25;
+                                nft.Edition = 0;
+                                nft.Count = tokenListBigDog1111.Count;
+                                nfts.Add(nft);
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+
+
+            //Alienlike TBILL Sticker
+            if (tokenAlienlike.Count > 0)
+            {
+                string connString = _configuration.GetConnectionString("sql-tbill");
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
+                    {
+                        CommandType = CommandType.Text,
+                        Connection = connection
+
+                    })
+                    {
+                        var sql = "SELECT [name]" +
+                            ",replace(image,'ipfs://','')  nftImage" +
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '0x3a8246be5efc8660a3618aefd9d767ae47df3c77'";
+                        var parameterList = new List<string>();
+
+                        command.CommandText = sql;
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                NFTInWallet nft = new NFTInWallet();
+                                nft.Name = reader.GetString("name") + " (total: " + tokenAlienlike.Count.ToString() + ")";
                                 nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".png";
                                 nft.Multiplier = "1.25x";
                                 nft.TbillAmount = 100;
-                                nft.BoostPercentage = 100;
+                                nft.BoostPercentage = 25;
                                 nft.Edition = 0;
                                 nft.Count = tokenListBigDog1111.Count;
                                 nfts.Add(nft);
