@@ -35,6 +35,12 @@ Mat and Max!
 
 # Changes Notes
 
+## **April 11th Updates:**
+**New Features:**
+- Added an automatic refresh on 'My wallet' every 10 minutes to keep your data up to date.
+- Added the 1.25x section in Daily Rewards and History in 'My Wallet'
+- Added the AlienLike stickers in 'NFT'
+
 ## **April 10th Updates:**
 **New Features:**
 - Added BigDog's stickers to the secondary market stats in 'NFTs'
