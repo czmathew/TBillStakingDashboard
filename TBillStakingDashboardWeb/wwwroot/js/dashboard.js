@@ -1,5 +1,6 @@
 var tbillRate = 0;
 var tfuelRate = 0;
+var nft125xlevel = 0;
 var nft15xlevel = 0;
 var nft2xlevel = 0;
 
@@ -50,6 +51,7 @@ function fetchWalletData() {
                     $("#tvl").html(tvl);
                     $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
                     $("#activeTfuel").html(tfuel);
+                    nft125xlevel = tbill125x;
                     nft15xlevel = tbill15x;
                     nft2xlevel = tbill2x;
                 }
@@ -162,6 +164,7 @@ function fetchWalletData() {
 }
 
 function clearMyWalletData() {
+    nft125xlevel = 0;
     nft15xlevel = 0;
     nft2xlevel = 0;
     $("#thetaBalance").html('');
@@ -182,10 +185,12 @@ function clearMyWalletData() {
 
     $("#nft2xlabel").html(0 + ' / ' + 0);
     $("#nft15xlabel").html(0 + ' / ' + 0);
+    $("#nft125xlabel").html(0 + ' / ' + 0);
 
     
     $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
-    $('#progress15x').css('width', 0+ '%').attr('aria-valuenow', 0);
+    $('#progress15x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress125x').css('width', 0 + '%').attr('aria-valuenow', 0);
 }
 
 function fetchNFTforWallet() {
@@ -194,6 +199,7 @@ function fetchNFTforWallet() {
     var jsonData = {
         "walletAddress": $("#walletAddress").val()
     }
+    var nft125xsum = 0;
     var nft15xsum = 0;
     var nft2xsum = 0;
 
@@ -212,6 +218,8 @@ function fetchNFTforWallet() {
                 nft2xsum += parseFloat(TbillAmount);
             } else if (Multiplier == "1.5x") {
                 nft15xsum += parseFloat(TbillAmount);
+            } else if (Multiplier == "1.25x" && !Name.includes("Sticker")) {
+                nft125xsum += parseFloat(TbillAmount);
             }
             $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
 
@@ -219,12 +227,15 @@ function fetchNFTforWallet() {
 
         $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);
         $("#nft15xlabel").html(nft15xlevel + ' / ' + nft15xsum);
+        $("#nft125xlabel").html(nft125xlevel + ' / ' + nft125xsum);
 
         var prct2x = parseFloat(parseFloat(nft2xlevel) / nft2xsum * 100).toFixed(1);
         var prct15x = parseFloat(parseFloat(nft15xlevel) / nft15xsum * 100).toFixed(1);
+        var prct125x = parseFloat(parseFloat(nft125xlevel) / nft125xsum * 100).toFixed(1);
 
         $('#progress2x').css('width', prct2x + '%').attr('aria-valuenow', prct2x);
         $('#progress15x').css('width', prct15x + '%').attr('aria-valuenow', prct15x);
+        $('#progress125x').css('width', prct125x + '%').attr('aria-valuenow', prct125x);
 
     }, "json");
 }

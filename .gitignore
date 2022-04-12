@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /TBillStakingDashboardWeb/appsettings.Production.json
 /NodejsAPI/.env
 /TBillStakingDashboardWeb/.config/dotnet-tools.json
+/TBillStakingDashboardFunctionsTest

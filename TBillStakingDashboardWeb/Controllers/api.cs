@@ -158,11 +158,11 @@ namespace TBillStaking.Controllers
         public IActionResult GetBalance(string wallet)
         {
             WalletBalance balance = new WalletBalance();
-            
+
             // get theta tfuel
             string jsonUrl = "https://www.thetascan.io/api/balance/?address=" + wallet + "";
             HttpContext.Response.ContentType = "application/json";
-            
+
 
             using (WebClient wc = new WebClient())
             {
@@ -195,7 +195,7 @@ namespace TBillStaking.Controllers
                     var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
                     balance.TBill = decimal.Parse(jsonClass.balance.ToString(), CultureInfo.InvariantCulture);
-                    
+
                 }
                 catch (Exception e)//404 or anything
                 {
@@ -223,13 +223,14 @@ namespace TBillStaking.Controllers
 
 
             //get all NFTs for wallet
-            string jsonUrl = "http://www.thetascan.io/api/721/?address="+ walletAddress + "&type=list&sort=contract" + "";
+            string jsonUrl = "http://www.thetascan.io/api/721/?address=" + walletAddress + "&type=list&sort=contract" + "";
             //string jsonUrl = "http://www.thetascan.io/api/721/?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&address=" + walletAddress + "";
             HttpContext.Response.ContentType = "application/json";
 
             var tokenList2x = new List<int> { };
             var tokenListBigDog1111 = new List<int> { };
             var tokenAlienlike = new List<int> { };
+            var unknownNFT = new List<(string, int)> { };
             List<NFTInWallet> nfts = new List<NFTInWallet>();
 
             using (WebClient wc = new WebClient())
@@ -270,7 +271,8 @@ namespace TBillStaking.Controllers
                     //HttpContext.Response.StatusCode = 400;//BadRequest
                 }
             }
-            
+
+
             if (tokenList2x.Count > 0)
             {
                 string connString = _configuration.GetConnectionString("sql-tbill");
@@ -306,21 +308,52 @@ namespace TBillStaking.Controllers
                         {
                             while (reader.Read())
                             {
+                                //FIXME - quick fix to make sure there is no link to non existing image
+                                string imageFromDB = reader.GetString("nftImage");
+                                string image = "";
+                                if (!imageFromDB.EndsWith(".gif")) { 
+                                    image = "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                                }
                                 NFTInWallet nft = new NFTInWallet();
                                 nft.Name = reader.GetString("name");
-                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                                nft.ImageURL = image;
                                 nft.Multiplier = reader.GetString("multiplier");
                                 nft.TbillAmount = reader.GetInt32("tbillAmount");
                                 nft.BoostPercentage = reader.GetInt32("boostPercentage");
                                 nft.Edition = reader.GetInt32("edition");
                                 nft.Count = 1;
                                 nfts.Add(nft);
+
+                                //remove existing NFTs and later check if there are still any left
+                                tokenList2x.Remove(reader.GetInt32("edition"));
                             }
                         }
                         finally
                         {
                             // Always call Close when done reading.
                             reader.Close();
+                        }
+                    }
+                }
+            }
+
+            if (tokenList2x.Count > 0)
+            {
+                string connString = _configuration.GetConnectionString("sql-tbill");
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    connection.Open();
+                    foreach (int tokenId in tokenList2x)
+                    {
+                        using (var command = new SqlCommand("usp_insertNFTtoQueue", connection)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        })
+                        {
+
+                            command.Parameters.Add("@contract", SqlDbType.NVarChar).Value = NFTs2x;
+                            command.Parameters.Add("@tokenId", SqlDbType.Int).Value = tokenId;
+                            command.ExecuteNonQuery();
                         }
                     }
                 }
@@ -341,9 +374,9 @@ namespace TBillStaking.Controllers
                     {
                         var sql = "SELECT [name]" +
                             ",replace(image,'ipfs://','')  nftImage" +
-                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '"+ NFTBigDog1111sticker+"'";
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '" + NFTBigDog1111sticker + "'";
                         var parameterList = new List<string>();
-                        
+
                         command.CommandText = sql;
                         connection.Open();
                         SqlDataReader reader = command.ExecuteReader();
