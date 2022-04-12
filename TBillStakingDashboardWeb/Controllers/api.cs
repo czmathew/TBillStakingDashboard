@@ -341,7 +341,7 @@ namespace TBillStaking.Controllers
                     {
                         var sql = "SELECT [name]" +
                             ",replace(image,'ipfs://','')  nftImage" +
-                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '"+ NFTAlienlikeTBILLSticker+"'";
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '"+ NFTBigDog1111sticker+"'";
                         var parameterList = new List<string>();
                         
                         command.CommandText = sql;
@@ -353,7 +353,7 @@ namespace TBillStaking.Controllers
                             {
                                 NFTInWallet nft = new NFTInWallet();
                                 nft.Name = reader.GetString("name") + " (total: " + tokenListBigDog1111.Count.ToString() + ")";
-                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".jpg";
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".png";
                                 nft.Multiplier = "1.25x";
                                 nft.TbillAmount = 100;
                                 nft.BoostPercentage = 25;
@@ -387,7 +387,7 @@ namespace TBillStaking.Controllers
                     {
                         var sql = "SELECT [name]" +
                             ",replace(image,'ipfs://','')  nftImage" +
-                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '0x3a8246be5efc8660a3618aefd9d767ae47df3c77'";
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '" + NFTAlienlikeTBILLSticker + "'";
                         var parameterList = new List<string>();
 
                         command.CommandText = sql;
@@ -399,7 +399,7 @@ namespace TBillStaking.Controllers
                             {
                                 NFTInWallet nft = new NFTInWallet();
                                 nft.Name = reader.GetString("name") + " (total: " + tokenAlienlike.Count.ToString() + ")";
-                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".png";
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".jpg";
                                 nft.Multiplier = "1.25x";
                                 nft.TbillAmount = 100;
                                 nft.BoostPercentage = 25;
