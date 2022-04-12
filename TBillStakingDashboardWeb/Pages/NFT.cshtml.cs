@@ -50,9 +50,16 @@ namespace TBillStakingDashboardWeb.Pages
                     {
                         while (reader.Read())
                         {
+                            //FIXME - quick fix to make sure there is no link to non existing image
+                            string imageFromDB = reader.GetString("nftImage");
+                            string image = "";
+                            if (!imageFromDB.EndsWith(".gif") && !imageFromDB.Equals(""))
+                            {
+                                image = "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                            }
                             NFTDetails nft = new NFTDetails();
                             nft.Name = reader.GetString("name");
-                            nft.ImageURL = reader.GetString("nftImage").Equals("") ? "" : "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                            nft.ImageURL = image;
                             nft.Sold = reader.GetInt32("sold");
                             nft.MintedTotal = reader.GetInt32("totalMinted");
                             nft.CurrentSalePrice = reader.GetDecimal("CurrentSalePrice");
@@ -81,9 +88,16 @@ namespace TBillStakingDashboardWeb.Pages
                     {
                         while (reader.Read())
                         {
+                            //FIXME - quick fix to make sure there is no link to non existing image
+                            string imageFromDB = reader.GetString("nftImage");
+                            string image = "";
+                            if (!imageFromDB.EndsWith(".gif") && !imageFromDB.Equals(""))
+                            {
+                                image = "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                            }
                             NFTSaleDetails nft = new NFTSaleDetails();
                             nft.Name = reader.GetString("name");
-                            nft.ImageURL = reader.GetString("nftImage").Equals("") ? "" : "/img/nft/" + reader.GetString("nftImage") + "_30.gif";
+                            nft.ImageURL = image;
                             nft.Timestamp = reader.GetDateTime("soldTimestamp");
                             nft.Price = reader.GetDecimal("price");
                             nft.PriceUsd = reader.GetDecimal("priceUsd");
