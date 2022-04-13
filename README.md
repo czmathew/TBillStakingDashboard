@@ -36,6 +36,11 @@ Mat and Max!
 # Changes Notes
 ## **April 13th Updates:**
 **New Features:**
+- Added a table in 'LP Stats' showing the % of holdings that top wallets have.
+
+
+## **April 13th Updates:**
+**New Features:**
 - Added 1.25x progression bar in 'My Wallet'
 
 **Optimisation and UI Changes**
