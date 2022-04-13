@@ -45,7 +45,7 @@ Mat and Max!
 
 **Optimisation and UI Changes**
 - Changed the favicon that shows in the browser tab with the new logo - It's not the TBILL logo, no more confusion.
-- The NFT fetching for your wallet has been made automatic. If one of your NFT is missing in 'My wallet', it will be queued up and fetched withing 5 minutes.
+- The NFT fetching for your wallet has been made automatic. If one of your NFT is missing in 'My wallet', it will be queued up and fetched within 5 minutes.
 Refresh the wallet after 5 minutes and voilà
 
 ## **April 11th Updates:**
