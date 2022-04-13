@@ -34,7 +34,7 @@ Mat and Max!
 
 
 # Changes Notes
-## **April 13th Updates:**
+## **April 13th Updates #2:**
 **New Features:**
 - Added a table in 'LP Stats' showing the % of holdings that top wallets have.
 
