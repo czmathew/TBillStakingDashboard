@@ -208,6 +208,47 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(balance));
         }
 
+        [HttpGet]
+        [HttpGet("getMyWalletLpStats/{wallet}")]
+        public IActionResult GetMyWalletLpStats(string wallet)
+        {
+            MyWalletLpStats lpStats = new MyWalletLpStats();
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getMyWalletLPStats", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+
+                })
+                {
+                    connection.Open();
+                    command.Parameters.Add("@wallet", SqlDbType.NVarChar).Value = wallet;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            lpStats.Position = reader.GetInt32("position");
+                            lpStats.PositionTotal = reader.GetInt32("posTotal");
+                            lpStats.Univ2 = reader.GetDecimal("univ2");
+                            lpStats.Univ2Total = reader.GetDecimal("univ2Total");
+                            lpStats.MyPct = reader.GetDecimal("myPct");
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(lpStats));
+        }
+
         [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)

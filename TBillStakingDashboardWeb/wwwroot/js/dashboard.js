@@ -160,6 +160,23 @@ function fetchWalletData() {
             }
         });
     }
+    if (wallet != "") {
+        $.getJSON("api/getMyWalletLpStats/" + wallet, function (data) {
+            //var json = JSON.parse(data);
+            var position = data.Position;
+            var positionTotal = data.PositionTotal;
+            var univ2 = data.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+            var univ2Total = data.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            var myPct = data.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });;
+
+            $("#lpPosition").html(position + ' / ' + positionTotal);
+            $("#univ2").html(univ2 + ' / ' + univ2Total);
+            $("#lpPct").html(myPct + ' %');
+            
+            
+        });
+    }
+
 
 }
 

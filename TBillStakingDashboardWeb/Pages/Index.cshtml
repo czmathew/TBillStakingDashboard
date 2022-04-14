@@ -12,11 +12,11 @@
 </div>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-lg-6 col-sm-6 col-6">
 
         <h4>TBill stats</h4><small>(refreshed every hour)</small>
         <div class="row">
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Total LP Activated</strong>
                     <br />
@@ -24,21 +24,13 @@
                 </p>
 
             </div>
-            <div class="col-lg-3 col-sm-12">
-                <p>
-                    <strong>Total Rewards</strong>
-                    <br />
-                    <label id="rewards" class="form-label">@Model.Rewards USD</label>
-                </p>
-
-            </div>
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Total Activated TBILL</strong><br />
                     <label id="tbillLocked" class="form-label">@Model.TbillLocked TBILL</label>
                 </p>
             </div>
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Total Activated TFUEL</strong><br />
                     <label id="tfuelLocked" class="form-label">@Model.TfuelLocked TFUEL</label>
@@ -48,6 +40,15 @@
 
         </div>
         <div class="row">
+
+            <div class="col-lg-4 col-sm-12">
+                <p>
+                    <strong>Total Rewards</strong>
+                    <br />
+                    <label id="rewards" class="form-label">@Model.Rewards USD</label>
+                </p>
+
+            </div>
             <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Number of wallets in LP</strong><br />
@@ -59,11 +60,11 @@
     </div>
 
 
-    <div class="col-6">
+    <div class="col-lg-6 col-sm-6 col-6">
 
         <h4>Rebase</h4><small>(live data)</small>
         <div class="row">
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Current Oracle:</strong>
                     <br />
@@ -71,7 +72,7 @@
                 </p>
 
             </div>
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>24hr Oracle:</strong>
                     <br />
@@ -79,34 +80,86 @@
                 </p>
 
             </div>
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Rebase Target:</strong><br />
                     <label id="targetRate" class="form-label"></label>
                 </p>
             </div>
-            <div class="col-lg-2 col-sm-12">
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Positive Rebase Price:</strong><br />
                     <label id="noRebaseRangeTop" class="form-label"></label>
                 </p>
             </div>
-            <div class=col-lg-2 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <p>
                     <strong>Negative Rebase Price:</strong><br />
                     <label id="noRebaseRangeBottom" class="form-label"></label>
                 </p>
             </div>
-            @*<div class=col-lg-2 col-sm-12">
-                    <p>
-                        <strong>TFuel Price:</strong><br />
-                        <label id="tfuelPrice" class="form-label"></label>
-                    </p>
-                </div>*@
         </div>
     </div>
-
 </div>
+<div class="row">
+    <h4>LP Stats</h4>
+    <div class="col-lg-6 col-sm-6">
+
+
+        <table id="lpPct" class="table table-sm table-light tableFixHead">
+            <thead>
+                <tr>
+                    <th>Top no. of wallets</th>
+                    <th class="text-end">Hold %</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    @foreach (var record in Model.LpShare)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => record.Item1)
+                            </td>
+                            <td class="text-end">
+                                @Html.DisplayFor(modelItem => record.Item2)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6 col-sm-6">
+        <table id="lpTbillRange" class="table table-sm table-light tableFixHead">
+            <thead>
+                <tr>
+                    <th>Amount of TBill</th>
+                    <th class="text-end">No. of wallets</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    @foreach (var record in Model.LpRange)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => record.Item1)
+                            </td>
+                            <td class="text-end">
+                                @Html.DisplayFor(modelItem => record.Item2)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 
 
 

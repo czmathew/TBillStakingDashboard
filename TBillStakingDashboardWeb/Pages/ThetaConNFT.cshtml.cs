@@ -17,6 +17,7 @@ namespace TBillStakingDashboardWeb.Pages
         [ViewData]
         public string Wallet { get; set; }
         public List<ThetaConNFTSalesDaily> NFTs { get; set; }
+        public List<ThetaConNFTSalesSummary> NFTsSum { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -28,6 +29,7 @@ namespace TBillStakingDashboardWeb.Pages
         public void OnGet()
         {
             NFTs = new List<ThetaConNFTSalesDaily>();
+            NFTsSum = new List<ThetaConNFTSalesSummary>();
 
             string connString = _configuration.GetConnectionString("sql-tbill");
             using (SqlConnection connection = new SqlConnection(connString))
@@ -49,6 +51,30 @@ namespace TBillStakingDashboardWeb.Pages
                             nft.Creator = reader.GetString("Creator");
                             nft.Price = reader.GetString("price");
                             NFTs.Add(nft);
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("usp_getThetaconNFTSalesSummary", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            ThetaConNFTSalesSummary nft = new ThetaConNFTSalesSummary();
+                            nft.Creator = reader.GetString("Creator");
+                            nft.AvgPrice = reader.GetDecimal("avgPrice");
+                            nft.LastPrice = reader.GetDecimal("LastPrice");
+                            NFTsSum.Add(nft);
                         }
                     }
                     finally

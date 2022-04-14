@@ -23,6 +23,8 @@ namespace TBillStaking.Pages
         public string DisplayDevMessage { get; set; }
         [ViewData]
         public string DisplayNewDomainMessage { get; set; }
+        public List<Tuple<string, string>> LpShare { get; set; }
+        public List<Tuple<string, string>> LpRange { get; set; }
         public List<Tuple<string, string>> WalletList { get; set; }
         public List<Tuple<string, string, string>> RebaseList { get; set; }
         public List<NFTDetails> NFTs { get; set; }
@@ -200,6 +202,52 @@ namespace TBillStaking.Pages
                                         reader.GetString("date")
                                         , reader.GetDecimal("supplyToday").ToString()
                                         , reader.GetDecimal("rebasePercentage").ToString().Replace(',', '.')));
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+
+                    using (var command = new SqlCommand("[dbo].[usp_getLpPct]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    })
+                    {
+                        LpShare = new List<Tuple<string, string>>();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                LpShare.Add(new Tuple<string, string>(
+                                        reader.GetString("txt")
+                                        , reader.GetDecimal("holdPct").ToString("0.00")));
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+
+                    using (var command = new SqlCommand("[dbo].[usp_getLpRange]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    })
+                    {
+                        LpRange = new List<Tuple<string, string>>();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                LpRange.Add(new Tuple<string, string>(
+                                        reader.GetString("txt")
+                                        , reader.GetInt32("cnt").ToString()));
                             }
                         }
                         finally
