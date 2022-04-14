@@ -8,7 +8,7 @@ The main objective of this Dashboard is to have access at all times to every TBI
 ## How does it work?
 First of all, none of your data is stored in our server.
 
-Then, every data is pulled from different websites (TBILL and OpenTheta) and aggregated in the Dashboard.
+Then, every data is pulled from different websites (TBILL, OpenTheta and ThetaScan) and aggregated in the Dashboard.
 
 We are using APIs from those two websites so we are dependant on their access. If any of those stop working, we will do our best to get everything back up as fast as possible.
 
