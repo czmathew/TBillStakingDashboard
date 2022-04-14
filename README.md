@@ -34,6 +34,19 @@ Mat and Max!
 
 
 # Changes Notes
+## **April 13th Updates #2:**
+**New Features:**
+- Added a table in 'LP Stats' showing the % of holdings that top wallets have.
+
+
+## **April 13th Updates:**
+**New Features:**
+- Added 1.25x progression bar in 'My Wallet'
+
+**Optimisation and UI Changes**
+- Changed the favicon that shows in the browser tab with the new logo - It's not the TBILL logo, no more confusion.
+- The NFT fetching for your wallet has been made automatic. If one of your NFT is missing in 'My wallet', it will be queued up and fetched within 5 minutes.
+Refresh the wallet after 5 minutes and voilà
 
 ## **April 11th Updates:**
 **New Features:**
