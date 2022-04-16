@@ -34,6 +34,12 @@ Mat and Max!
 
 
 # Changes Notes
+## **April 15th Updates:**
+**New Features:**
+- Added TBILL range and corresponding wallets # in 'LP Stats'
+- Added LP position, your uni-v2 tokens and your LP % in "My Wallet"
+
+
 ## **April 13th Updates #2:**
 **New Features:**
 - Added a table in 'LP Stats' showing the % of holdings that top wallets have.
