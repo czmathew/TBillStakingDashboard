@@ -34,16 +34,19 @@ Mat and Max!
 
 
 # Changes Notes
+## **April 16th Updates:**
+**New Features:**
+- NFT Table in 'NFTs' is now sortable.
+- The NFT Price Chart is now generated and shown for the NFT you decide -> You can either select in the drop down menu or click on the NFT name and the price chart will appear.
+
 ## **April 15th Updates:**
 **New Features:**
 - Added TBILL range and corresponding wallets # in 'LP Stats'
 - Added LP position, your uni-v2 tokens and your LP % in "My Wallet"
 
-
 ## **April 13th Updates #2:**
 **New Features:**
 - Added a table in 'LP Stats' showing the % of holdings that top wallets have.
-
 
 ## **April 13th Updates:**
 **New Features:**
@@ -74,11 +77,9 @@ Refresh the wallet after 5 minutes and voilà
 - Added a chart to Sales History in 'NFT' - You can know see the last price within a chart for every NFT sold.
 - Added the $ value for "Day's Total Reward", "Total TBill received", "Tbill" and "Tfuel" in 'My wallet'
 
-
 ## **April 4th Updates:**
 **New Features:**
 - Added BigDog stickers to My NFTs in 'My wallet' - You can see the number you have in brackets 'Total minted'
-
 
 ## **April 3rd Updates:**
 **New Features:**
