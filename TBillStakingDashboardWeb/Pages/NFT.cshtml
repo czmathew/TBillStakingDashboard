@@ -13,54 +13,56 @@
         "Minted" refers to the number of NFT airdropped to influencers' community or purchased on the primary market.
         Every other data refer to the secondary market.
     </small>
-    <table id="nftStats" class="table table-sm table-light tableFixHead">
-        <thead>
-            <tr>
-                <th width="30"></th>
-                <th>Name</th>
-                <th class="text-end">Sold</th>
-                <th class="text-end">Total Minted</th>
-                <th class="text-end">Available For Sale</th>
-                <th class="text-end">Cheapest avail. now</th>
-                <th class="text-end">USD</th>
-                <th class="text-end">Avg Price For Next 5 avail.</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
+    <div class="table-wrapper-500">
+        <table id="nftStats" class="table table-sm table-light tableFixHead">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th class="text-end">Sold</th>
+                    <th class="text-end">Total Minted</th>
+                    <th class="text-end">Available For Sale</th>
+                    <th class="text-end">Cheapest avail. now</th>
+                    <th class="text-end">USD</th>
+                    <th class="text-end">Avg Price For Next 5 avail.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
 
-                @foreach (var record in Model.NFTs)
+                    @foreach (var record in Model.NFTs)
                 {
-            <tr onclick="changeNFTselect('@Html.DisplayFor(modelItem => record.FullName)')" style="cursor: pointer;">
-                <td width="30">
-                    <img src="@Url.Content(record.ImageURL)" height="30" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => record.Name)
-                </td>
-                <td class="text-end">
-                    @Html.DisplayFor(modelItem => record.Sold)
-                </td>
-                <td class="text-end">
-                    @Html.DisplayFor(modelItem => record.MintedTotal)
-                </td>
-                <td class="text-end">
-                    @Html.DisplayFor(modelItem => record.AvailableForSale)
-                </td>
-                <td class="text-end">
-                    @Html.DisplayFor(modelItem => record.CurrentSalePrice)
-                </td>
-                <td class="text-end">
-                    $@Html.DisplayFor(modelItem => record.CurrentSalePriceUsd)
-                </td>
-                <td class="text-end">
-                    @Html.DisplayFor(modelItem => record.AvgPriceForNext5ForSale)
-                </td>
-            </tr>
+                    <tr onclick="changeNFTselect('@Html.DisplayFor(modelItem => record.FullName)')" style="cursor: pointer;">
+                        <td>
+                            <img src="@Url.Content(record.ImageURL)" height="30" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => record.Name)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.Sold)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.MintedTotal)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.AvailableForSale)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.CurrentSalePrice)
+                        </td>
+                        <td class="text-end">
+                            $@Html.DisplayFor(modelItem => record.CurrentSalePriceUsd)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.AvgPriceForNext5ForSale)
+                        </td>
+                    </tr>
                 }
-            }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
+    </div>
 
     <h5>Sales History</h5>
     <div class="col-5">
@@ -70,7 +72,7 @@
                 @{
                     @foreach (var record in Model.NFTNames)
                     {
-                        <option value="@Html.DisplayFor(modelItem => record.Item1)">@Html.DisplayFor(modelItem => record.Item1)</option>
+                    <option value="@Html.DisplayFor(modelItem => record.Item1)">@Html.DisplayFor(modelItem => record.Item1)</option>
                     }
                 }
             </select>
@@ -113,7 +115,7 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script>
 
-            
+
 
 
 
@@ -138,26 +140,26 @@
 
                     @foreach (var record in Model.NFTSales)
                     {
-                        <tr>
-                            <td>
-                                <img src="@Url.Content(record.ImageURL)" height="30" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Timestamp)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Price)
-                            </td>
-                            <td class="text-end">
-                                $@Html.DisplayFor(modelItem => record.PriceUsd)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Buyer)
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(record.ImageURL)" height="30" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => record.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => record.Timestamp)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.Price)
+                        </td>
+                        <td class="text-end">
+                            $@Html.DisplayFor(modelItem => record.PriceUsd)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => record.Buyer)
+                        </td>
+                    </tr>
                     }
                 }
             </tbody>

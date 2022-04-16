@@ -16,6 +16,20 @@ $(document).ready(function () {
 
         event.preventDefault();
     });
+
+    $('#nftStats').DataTable({
+        "paging": false,
+        "searching": false,
+        "autoWidth": false,
+        columnDefs: [
+            { orderable: false, targets: 0 },
+            { width: "10", targets: 0 }
+        ],
+        order: [[2, 'desc']],
+        "language": {
+            "info": ""
+        }
+    });
 });
 
 function fetchWalletData() {
