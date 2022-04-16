@@ -194,7 +194,8 @@ namespace TBillStaking.Controllers
                     var json = wc.DownloadString(jsonUrl);
                     var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
-                    balance.TBill = decimal.Parse(jsonClass.balance.ToString(), CultureInfo.InvariantCulture);
+                    //balance.TBill = decimal.Parse(jsonClass.balance.ToString(), CultureInfo.InvariantCulture);
+                    balance.TBill = decimal.Parse(jsonClass.balance.ToString(), System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture);
 
                 }
                 catch (Exception e)//404 or anything
@@ -250,6 +251,47 @@ namespace TBillStaking.Controllers
         }
 
         [HttpPost]
+        [HttpPost("getNFTSales")]
+        public IActionResult GetNFTSales([FromForm] string name)
+        {
+            if (name == null)
+            {
+                return Problem("Invalid name");
+            }
+
+            var NFTSales = new List<Tuple<string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getNFTSalesSingleNFT", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    command.Parameters.Add("@NFTName", SqlDbType.NVarChar).Value = name;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            NFTSales.Add(new Tuple<string, string>(reader.GetString("date"),reader.GetString("price")));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(NFTSales));
+        }
+
+            [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)
         {

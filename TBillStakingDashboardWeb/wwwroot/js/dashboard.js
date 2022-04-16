@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     //check if we are on MyWallet page, if so, the wallet data will be fetched after rate
     fetchData(window.location.pathname.includes("MyWallet"));
-    
+
 
     $("form").on("submit", function (event) {
 
@@ -61,10 +61,10 @@ function fetchWalletData() {
                 i++;
             });
             $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(dailyTotal * tbillRate).toFixed(2));
-            
+
             fetchNFTforWallet();
         });
-        
+
     }
 
     if (wallet != "") {
@@ -106,7 +106,7 @@ function fetchWalletData() {
                 i++;
             });
             $("#totalTbill").html(parseFloat(totalRewards).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(totalRewards * tbillRate).toFixed(2));
-            $("#daysInLP").html(i-1);
+            $("#daysInLP").html(i - 1);
 
             showDailyChart(datesDaily);
             showDailySumChart(datesDailySum);
@@ -124,7 +124,7 @@ function fetchWalletData() {
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill125x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
                     + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
-                
+
             }
         });
     }
@@ -167,13 +167,13 @@ function fetchWalletData() {
             var positionTotal = data.PositionTotal;
             var univ2 = data.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
             var univ2Total = data.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var myPct = data.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });;
+            var myPct = data.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
 
             $("#lpPosition").html(position + ' / ' + positionTotal);
             $("#univ2").html(univ2 + ' / ' + univ2Total);
             $("#lpPct").html(myPct + ' %');
-            
-            
+
+
         });
     }
 
@@ -204,7 +204,7 @@ function clearMyWalletData() {
     $("#nft15xlabel").html(0 + ' / ' + 0);
     $("#nft125xlabel").html(0 + ' / ' + 0);
 
-    
+
     $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress15x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress125x').css('width', 0 + '%').attr('aria-valuenow', 0);
@@ -447,7 +447,119 @@ function fetchData(fetchWallet) {
         }
     });
 
-    
+
+
+}
+
+function getNFTSales(sel) {
+    //alert(sel.value);
+    var nftName = sel.value;
+
+    if (nftName != "") {
+        getNFTSalesAPICall(nftName);
+    } 
+}
+
+function changeNFTselect(nftName) {
+    document.getElementById('nftSelect').value = nftName;
+    getNFTSalesAPICall(nftName);
+}
+
+function getNFTSalesAPICall(nftName) {
+    if (nftName != "") {
+        var jsonData = {
+            "name": nftName
+        }
+
+        $.post("api/getNFTSales/", jsonData, function (data, textStatus) {
+            var jsonObj = jQuery.parseJSON(data);
+
+            var datesPrices = [];
+            jsonObj.forEach(async (value) => {
+                //sum = await sumFunction(sum, value);
+                var innerArr = [value["Item1"], value["Item2"]];
+                datesPrices.push(innerArr);
+
+            });
+            refreshNFTSalesChart(datesPrices, nftName);
+        });
+    }
+}
+
+function refreshNFTSalesChart(data, name) {
+
+    var optionsChartNFTSold = {
+        series: [{
+            name: name,
+            data: data
+        }],
+        chart: {
+            type: 'line',
+            stacked: false,
+            height: 300,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            },
+            animations: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        markers: {
+            size: 0,
+        },
+        title: {
+            text: name,
+            align: 'left'
+        },
+        yaxis: {
+            labels: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(0);
+                },
+            },
+            title: {
+                text: 'Price TFuel'
+            },
+            //logarithmic: false,
+            //logBase: 5,
+            //tickAmount: 6,
+            //min: 100
+        },
+        xaxis: {
+            type: 'datetime',
+        },
+        tooltip: {
+            enabled: true,
+            shared: true,
+            y: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(0)
+                }
+            }
+        },
+        theme: {
+            mode: 'dark'
+        },
+        stroke: {
+            width: 3
+        }
+    };
+
+
+
+
+    var chartNFTSold = new ApexCharts(document.querySelector("#chartNFTSold"), optionsChartNFTSold);
+    $("#chartNFTSold").empty();
+    chartNFTSold.render();
+
 
 }
 

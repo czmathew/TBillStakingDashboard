@@ -8,6 +8,7 @@ namespace TBillStaking.Models
     public class NFTDetails
     {
         public string Name { get; set; }
+        public string FullName { get; set; }
         public string ImageURL { get; set; }
         public int Sold { get; set; }
         public int MintedTotal { get; set; }
