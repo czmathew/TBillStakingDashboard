@@ -303,6 +303,7 @@ namespace TBillStaking.Controllers
             string NFTs2x = "0x172d0bd953566538f050aabfeef5e2e8143e09f4";
             string NFTBigDog1111sticker = "0x3a8246be5efc8660a3618aefd9d767ae47df3c77";
             string NFTAlienlikeTBILLSticker = "0x4de555c77fddab5d40310e3cba254a41647c3af7";
+            string NFTMichelleWhitedoveTBILLSticker = "0x77a2d407363c2d68d8cd1d71ec999667c2057c6a";
 
 
             //get all NFTs for wallet
@@ -313,6 +314,7 @@ namespace TBillStaking.Controllers
             var tokenList2x = new List<int> { };
             var tokenListBigDog1111 = new List<int> { };
             var tokenAlienlike = new List<int> { };
+            var tokenMW = new List<int> { };
             var unknownNFT = new List<(string, int)> { };
             List<NFTInWallet> nfts = new List<NFTInWallet>();
 
@@ -345,6 +347,11 @@ namespace TBillStaking.Controllers
                             tokenAlienlike.Add(int.Parse(token));
 
                         }
+                        else if (contract.Equals(NFTMichelleWhitedoveTBILLSticker))
+                        {
+                            tokenMW.Add(int.Parse(token));
+
+                        }
 
                     }
                 }
@@ -368,6 +375,7 @@ namespace TBillStaking.Controllers
 
                     })
                     {
+                        //TODO - fix this query to do left join on edition/tokenId instead of name to get the image
                         var sql = "SELECT [name]" +
                             ",[multiplier]" +
                             ",[tbillAmount]" +
@@ -520,7 +528,52 @@ namespace TBillStaking.Controllers
                                 nft.TbillAmount = 100;
                                 nft.BoostPercentage = 25;
                                 nft.Edition = 0;
-                                nft.Count = tokenListBigDog1111.Count;
+                                nft.Count = tokenAlienlike.Count;
+                                nfts.Add(nft);
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+
+            //Michelle Whitedove TBILL Sticker
+            if (tokenMW.Count > 0)
+            {
+                string connString = _configuration.GetConnectionString("sql-tbill");
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
+                    {
+                        CommandType = CommandType.Text,
+                        Connection = connection
+
+                    })
+                    {
+                        var sql = "SELECT [name]" +
+                            ",replace(image,'ipfs://','')  nftImage" +
+                            " FROM [dbo].[nftMintedDeGreatMerge] n WHERE [contract] = '" + NFTMichelleWhitedoveTBILLSticker + "'";
+                        var parameterList = new List<string>();
+
+                        command.CommandText = sql;
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                NFTInWallet nft = new NFTInWallet();
+                                nft.Name = reader.GetString("name") + " (total: " + tokenMW.Count.ToString() + ")";
+                                nft.ImageURL = "/img/nft/" + reader.GetString("nftImage") + ".jpg";
+                                nft.Multiplier = "1.25x";
+                                nft.TbillAmount = 100;
+                                nft.BoostPercentage = 25;
+                                nft.Edition = 0;
+                                nft.Count = tokenMW.Count;
                                 nfts.Add(nft);
                             }
                         }
