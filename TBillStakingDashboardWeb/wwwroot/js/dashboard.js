@@ -63,7 +63,7 @@ function fetchWalletData() {
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
                 if (i == 1) {
                     $("#tvl").html(tvl);
-                    $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill15x) + parseFloat(tbill2x));
+                    $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill125x) + parseFloat(tbill15x) + parseFloat(tbill2x));
                     $("#activeTfuel").html(tfuel);
                     nft125xlevel = tbill125x;
                     nft15xlevel = tbill15x;
