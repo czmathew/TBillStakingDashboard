@@ -60,10 +60,11 @@ function fetchWalletData() {
                 var tbill125x = parseFloat(val['tbill125x']).toFixed(2);
                 var tbill15x = parseFloat(val['tbill15x']).toFixed(2);
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
+                var tbill3x = parseFloat(val['tbill3x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
                 if (i == 1) {
                     $("#tvl").html(tvl);
-                    $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill125x) + parseFloat(tbill15x) + parseFloat(tbill2x));
+                    $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill125x) + parseFloat(tbill15x) + parseFloat(tbill2x) + parseFloat(tbill3x));
                     $("#activeTfuel").html(tfuel);
                     nft125xlevel = tbill125x;
                     nft15xlevel = tbill15x;
