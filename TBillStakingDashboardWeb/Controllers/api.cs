@@ -291,6 +291,45 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(NFTSales));
         }
 
+        [HttpGet]
+        [HttpGet("getDailyRates")]
+        public IActionResult GetDailyRates([FromForm] string name)
+        {
+            
+            var DailyRates = new List<Tuple<string, string, string, decimal>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getDailyRates", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, string, string, decimal>(reader.GetString("date")
+                                , reader.GetDecimal("tbill_usd").ToString()
+                                , reader.GetDecimal("tfuel_usd").ToString()
+                                , reader.GetDecimal("ratio")));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
+
         [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)
