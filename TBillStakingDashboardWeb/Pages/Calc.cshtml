@@ -1,0 +1,98 @@
+﻿@page
+@model TBillStakingDashboardWeb.Pages.CalcModel
+@{
+    Layout = "_Layout";
+}
+
+@section scripts {
+    <script type="text/javascript" src="js/pageCalculator.js?1" charset="utf-8"></script>
+}
+
+<h1>TBill staking calculator</h1>
+<div class="row">
+    &nbsp;
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-sm-12 col-12">
+        <div class="row">
+            <div class="col-lg-3 col-sm-12">
+
+                <label for="firstInvestment" class="form-label">First investment $</label>
+                <input type="number" class="form-control" placeholder="First investment $" aria-label="First investment $" id="firstInvestment" value="1000">
+
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <label for="firstInvestment" class="form-label">Monthly investment $</label>
+                <input type="number" class="form-control" placeholder="Monthly investment $" aria-label="Monthly investment $" id="monthlyInvestment" value="100">
+
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <label for="firstInvestment" class="form-label">2x multi. amount</label>
+                <input type="number" class="form-control" placeholder="2x multi. amount" aria-label="2x multi. amount" id="2xMulti" value="100000">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-12">
+        <div class="row">
+            <div class="col-lg-3 col-sm-12">
+                <label for="firstInvestment" class="form-label">TFuel price</label>
+                <input type="number" class="form-control" placeholder="TFuel price" aria-label="TFuel price" id="tfuelPrice" value="0.13">
+
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <label for="firstInvestment" class="form-label">TBill price</label>
+                <input type="number" class="form-control" placeholder="TBill price" aria-label="TBill price" id="tbillPrice" value="1.09">
+
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <label for="compound" class="form-label">Compound frequency</label>
+                <select id="compound" class="form-select">
+                    <option value="1">No compound</option>
+                    <option selected value="365">Daily</option>
+                    <option value="52">Weekly</option>
+                    <option value="12">Monthly</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    &nbsp;
+</div>
+
+<div class="input-group-append">
+    <button type="submit" id="calculate" class="btn btn-primary">Calculate</button>
+</div>
+
+
+<div class="row">
+    &nbsp;
+</div>
+
+<div class="row">
+    <h5></h5>
+    <div class="">
+        <table id="calcTable" class="table table-light table-sm tableFixHead">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th class="text-end">Value</th>
+                    <th class="text-end">Net gain</th>
+                    <th class="text-end">Calcualted TFuel</th>
+                    <th class="text-end">Calculated TBill</th>
+                    <th class="text-end">Tbill covered with multiplier</th>
+                    <th class="text-end">APR</th>
+                    <th class="text-end">APY</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
