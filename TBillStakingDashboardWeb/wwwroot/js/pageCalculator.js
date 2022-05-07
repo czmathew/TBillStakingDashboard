@@ -17,6 +17,10 @@ function calculate() {
     var tbillPrice = parseFloat($("#tbillPrice").val());
     var compound = parseFloat($("#compound").val());
 
+    if (tfuelPrice == "" || tfuelPrice == "" | isNaN(tfuelPrice) || isNaN(tfuelPrice)) {
+        return;
+    }
+
     //alert(compound);
 
     var years = 10;

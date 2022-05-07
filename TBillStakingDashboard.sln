@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBillStakingDashboardWeb", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBillStakingDashboardFunctions", "TBillStakingDashboardFunctions\TBillStakingDashboardFunctions.csproj", "{B3F9535B-959B-455A-978F-DE1519C40B30}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBillStakingDashboardFunctionsTest", "TBillStakingDashboardFunctionsTest\TBillStakingDashboardFunctionsTest.csproj", "{5B962EB1-9507-4B53-A633-88EB76594EEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBillStakingDashboard.WebJob", "TBillStakingDashboard.WebJob\TBillStakingDashboard.WebJob.csproj", "{A6A44A2F-DBF6-4718-AC19-8AFDD770D57C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{B3F9535B-959B-455A-978F-DE1519C40B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3F9535B-959B-455A-978F-DE1519C40B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3F9535B-959B-455A-978F-DE1519C40B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B962EB1-9507-4B53-A633-88EB76594EEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B962EB1-9507-4B53-A633-88EB76594EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B962EB1-9507-4B53-A633-88EB76594EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B962EB1-9507-4B53-A633-88EB76594EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6A44A2F-DBF6-4718-AC19-8AFDD770D57C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6A44A2F-DBF6-4718-AC19-8AFDD770D57C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6A44A2F-DBF6-4718-AC19-8AFDD770D57C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6A44A2F-DBF6-4718-AC19-8AFDD770D57C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

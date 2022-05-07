@@ -461,6 +461,12 @@ function fetchData(fetchWallet) {
             //refresh wallet data every 10 minutes
             setInterval(fetchWalletData, 600000);
         }
+
+        if (window.location.pathname.includes("Calc")) {
+            $("#tfuelPrice").val(tfuelRate);
+            $("#tbillPrice").val(parseFloat(targetRate).toFixed(4));
+            calculate();
+        }
     });
 
 

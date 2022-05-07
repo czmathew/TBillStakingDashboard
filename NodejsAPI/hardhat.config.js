@@ -11,7 +11,7 @@ module.exports = {
   networks: {
     hardhat: {},
     theta_mainnet: {
-      url: `https://eth-rpc-api.thetatoken.org/rpc`,
+      url: 'https://eth-rpc-api.thetatoken.org/rpc',
       accounts: [`${PRIVATE_KEY}`],
       chainId: 361,
       gasPrice: 4000000000000

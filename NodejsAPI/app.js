@@ -89,9 +89,11 @@ app.get('/', async (req, res) => {
 
 /*
 call this URL: 
-http://127.0.0.1:3000/?contract=0x53ae8cdc2e60c81f4a1967dc381452a203dee836&tokenId=1537
-http://127.0.0.1:3000/?contract=0x6039312a96373c2bbef331bc5088cba1f1184f0d&tokenId=75
+http://127.0.0.1:3030/?contract=0x53ae8cdc2e60c81f4a1967dc381452a203dee836&tokenId=1537
+http://127.0.0.1:3030/?contract=0x6039312a96373c2bbef331bc5088cba1f1184f0d&tokenId=75
 
+http://127.0.0.1:3030?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&tokenId=103322
+node.exe .\app.js
 
 */
 
