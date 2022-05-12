@@ -34,6 +34,17 @@ Mat and Max!
 
 
 # Changes Notes
+## **May 7th Updates:**
+**New Features:**
+- New Calculator Page Added
+- New chart added to 'Calculator'
+- New Tbill/Tfuel ratio chart added in 'LP Stats'
+- Added the numbers of wallets holding more than 10 TBILL in 'LP Stats'
+
+**Bug Fixes:**
+- Fixed Total activated TBILL for 4x multiplier holders
+
+
 ## **April 16th Updates:**
 **New Features:**
 - NFT Table in 'NFTs' is now sortable.
