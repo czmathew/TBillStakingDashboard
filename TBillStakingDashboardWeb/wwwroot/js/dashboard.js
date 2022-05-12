@@ -437,6 +437,7 @@ function fetchData(fetchWallet) {
         var rebaseRate = data['rebaseRate'];
         var noRebaseRangeTop = data['noRebaseRange']['top'];
         var noRebaseRangeBottom = data['noRebaseRange']['bottom'];
+        var lpTokenRate = data['lpTokenRate'];
 
         if (rebaseRate > noRebaseRangeTop) {
             $("#rebaseRate").addClass("text-success");
@@ -455,6 +456,7 @@ function fetchData(fetchWallet) {
         $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
+        $("#lpTokenRate").html('$ ' + parseFloat(lpTokenRate).toFixed(2));
 
         if (fetchWallet) {
             fetchWalletData();

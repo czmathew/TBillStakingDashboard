@@ -5,7 +5,7 @@
 }
 
 @section scripts {
-    <script type="text/javascript" src="js/pageCalculator.js?4" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageCalculator.js?5" charset="utf-8"></script>
 }
 
 <h1>TBill staking calculator</h1>
@@ -95,4 +95,46 @@
         </table>
 
     </div>
+</div>
+
+<div class="row">
+    &nbsp;
+</div>
+
+<style>
+
+    #chartCalc {
+        max-width: 650px;
+        margin: 35px auto;
+    }
+
+    
+</style>
+
+<script>
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+        )
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+        )
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+        )
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<div class="row">
+    <div class="col-lg-3 col-sm-12">
+
+    </div>
+    <div class="col-lg-6 col-sm-12">
+        <div id="chartCalc" class="bg-dark" style="border:0px;"></div>
+    </div>
+    <div class="col-lg-3 col-sm-12">
+
+    </div>
+
 </div>

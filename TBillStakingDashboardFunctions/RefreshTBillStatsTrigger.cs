@@ -8,7 +8,7 @@ namespace TBillStakingDashboardFunctions
     public static class RefreshTBillStatsTrigger
     {
         [FunctionName("RefreshTBillStatsTrigger")]
-        public static void Run([TimerTrigger("0 0 * * * *")]TimerInfo myTimer, ILogger log)
+        public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"RefreshTBillStatsTrigger executed at: {DateTime.Now}");
             Exec.GetTbillStats.Execute();

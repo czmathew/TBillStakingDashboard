@@ -330,6 +330,81 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(DailyRates));
         }
 
+        [HttpGet]
+        [HttpGet("getBultPrice")]
+        public IActionResult GetBultPrice([FromForm] string name)
+        {
+
+            var DailyRates = new List<Tuple<string, string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("bult.usp_getBultPrice", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, string, string>(reader.GetString("date")
+                                , reader.GetString("bult_tfuel")
+                                , reader.GetDecimal("tfuel_bult").ToString()));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
+
+        [HttpGet]
+        [HttpGet("getDailyLPToken")]
+        public IActionResult GetDailyLPToken([FromForm] string name)
+        {
+
+            var DailyLPToken = new List<Tuple<string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getDailyLPToken", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyLPToken.Add(new Tuple<string, string>(reader.GetString("date")
+                                , reader.GetDecimal("lpTokenRate").ToString()));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyLPToken));
+        }
+
         [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)

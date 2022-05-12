@@ -5,7 +5,7 @@
 }
 
 @section scripts {
-    <script type="text/javascript" src="js/pageIndex.js?1" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageIndex.js?2" charset="utf-8"></script>
 }
 
 
@@ -57,6 +57,12 @@
                 <p>
                     <strong>Number of wallets in LP</strong><br />
                     <label id="tfuelLocked" class="form-label">@Model.lpWalletCount</label>
+                </p>
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                <p>
+                    <strong>LP Token</strong><br />
+                    <label id="lpTokenRate" class="form-label"></label>
                 </p>
             </div>
         </div>
@@ -595,11 +601,15 @@
             max-width: 650px;
             margin: 35px auto;
         }
+        #chartDailyLPToken {
+            max-width: 650px;
+            margin: 35px auto;
+        }
     </style>
     <div class=col-lg-6 col-sm-12">
         <div id="chartDailyRates" class="bg-dark" style="border:0px;"></div>
     </div>
     <div class=col-lg-6 col-sm-12">
-
+        <div id="chartDailyLPToken" class="bg-dark" style="border:0px;"></div>
     </div>
 </div>
