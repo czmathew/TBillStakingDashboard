@@ -15,7 +15,7 @@
     <script src="js/jquery.dataTables.min.js"></script>
     <script src="js/dataTables.bootstrap5.min.js"></script>
 
-    <script type="text/javascript" src="js/dashboard.js?48" charset="utf-8"></script>
+    <script type="text/javascript" src="js/dashboard.js?49" charset="utf-8"></script>
 
     @RenderSection("scripts", required: false)
 
@@ -81,11 +81,11 @@
             </div>
         </nav>
         <form id="walletForm">
-            <div class="row">
-                <div class="col ">
+            <div class="row" style="display: flex;">
+                <div class="col-md-1" style="max-width:80px;">
 
                 </div>
-                <div class="col-md-10 col-sm-12">
+                <div class="col-md-10 col-sm-12" style="flex-grow: 1;">
 
                     @RenderBody()
                     <div class="row">
@@ -93,7 +93,7 @@
                     </div>
 
                 </div>
-                <div class="col">
+                <div class="col-md-1" style="max-width:80px;">
 
                 </div>
 

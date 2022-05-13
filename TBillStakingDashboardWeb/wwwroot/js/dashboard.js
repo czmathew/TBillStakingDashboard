@@ -93,6 +93,9 @@ function fetchWalletData() {
             let rewardsReverse = [];
             $('#dailyRewardsTable > tbody:last-child').empty();
 
+            let dataTVL = [];
+            let dataTbill = [];
+            let dataTfuel = [];
 
             var totalRewards = 0;
             $.each(data['vals'], function (key, val) {
@@ -117,6 +120,15 @@ function fetchWalletData() {
                     rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[10]).toFixed(4));
                     var innerArr = [val[0], rewardsSum];
                     datesDailySum.push(innerArr);
+
+                    
+                    var innerArr = [val[0], parseFloat(val[1]).toFixed(2)];
+                    dataTVL.push(innerArr);
+                    var innerArr = [val[0], parseFloat(parseFloat(val[3]) + parseFloat(val[4]) + parseFloat(val[5]) + parseFloat(val[6]) + parseFloat(val[7]) + parseFloat(val[8])).toFixed(2)];
+                    dataTbill.push(innerArr);
+                    var innerArr = [val[0], parseFloat(val[9]).toFixed(2)];
+                    dataTfuel.push(innerArr);
+
                     totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[10]));
                 }
                 i++;
@@ -126,6 +138,7 @@ function fetchWalletData() {
 
             showDailyChart(datesDaily);
             showDailySumChart(datesDailySum);
+            showTVLChart(dataTVL, dataTbill, dataTfuel);
 
             //reverse the order to new array
             rewards.slice().reverse().forEach(function (x) {
@@ -273,6 +286,83 @@ function fetchNFTforWallet() {
     }, "json");
 }
 
+
+
+function showTVLChart(dataTVL, dataTbill, dataTFuel) {
+
+    var options = {
+        series: [{
+            name: 'TVL',
+            data: dataTVL
+        }, {
+            name: 'TFuel',
+            data: dataTFuel
+        }, {
+            name: 'TBill',
+            data: dataTbill
+        }],
+        chart: {
+            type: 'line',
+            stacked: false,
+            height: 350,
+            //group: 'myWallet',
+            //id: 'tvl',
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        markers: {
+            size: 0,
+        },
+        title: {
+            text: 'Total Value Locked',
+            align: 'left'
+        },
+        yaxis: {
+            labels: {
+                formatter: function (val) {
+                    return (val / 1000).toFixed(0) + ' K';
+                },
+                minWidth: 40
+            },
+            title: {
+                text: 'Value'
+            },
+        },
+        xaxis: {
+            type: 'datetime',
+        },
+        tooltip: {
+            enabled: true,
+            shared: true,
+            y: {
+                formatter: function (val) {
+                    return (val / 1).toFixed(2)
+                }
+            }
+        },
+        stroke: {
+            width: [3,3,3]
+        },
+        theme: {
+            mode: 'dark'
+        },
+        colors: ['#85bb65', '#e75c10', '#1d2c3b']
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chartTVL"), options);
+    $("#chartTVL").empty();
+    chart.render();
+}
+
 function showDailyChart(data) {
 
     var options = {
@@ -295,7 +385,9 @@ function showDailyChart(data) {
         //},
         chart: {
             type: 'bar',
-            height: 350
+            height: 350,
+            //group: 'myWallet',
+            //id: 'daily'
         },
         dataLabels: {
             enabled: false
@@ -322,6 +414,7 @@ function showDailyChart(data) {
                 formatter: function (val) {
                     return (val / 1).toFixed(4);
                 },
+                minWidth: 40
             },
             title: {
                 text: 'TBILL'
@@ -360,6 +453,8 @@ function showDailySumChart(data) {
             type: 'area',
             stacked: false,
             height: 350,
+            //id: 'rewards',
+            //group: 'myWallet',
             zoom: {
                 type: 'x',
                 enabled: true,
@@ -394,6 +489,7 @@ function showDailySumChart(data) {
                 formatter: function (val) {
                     return (val / 1).toFixed(2);
                 },
+                minWidth: 40
             },
             title: {
                 text: 'TBILL'
@@ -481,7 +577,7 @@ function getNFTSales(sel) {
 
     if (nftName != "") {
         getNFTSalesAPICall(nftName);
-    } 
+    }
 }
 
 function changeNFTselect(nftName) {
