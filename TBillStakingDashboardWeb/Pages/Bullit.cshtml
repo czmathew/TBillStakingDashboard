@@ -35,15 +35,44 @@
 
         #chartBultPrice {
             max-width: 650px;
-            margin: 35px auto;
+            margin: 5px auto;
         }
-
     </style>
     <div class=col-lg-6 col-sm-12">
-        <div id="chartBultPrice" class="bg-dark" style="border:0px;"></div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>BULT / TFuel</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.CurrentBULT_TFuel</label>
+                </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>BULT / TFuel</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.CurrentTFuel_BULT</label>
+                </p>
+            </div>
+        </div><div class="row">
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>BULT reserve</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.BULT_reserve</label>
+                </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>TFuel reserve</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.Tfuel_reserve</label>
+                </p>
+            </div>
+        </div>
     </div>
     <div class=col-lg-6 col-sm-12">
-
+        <div id="chartBultPrice" class="bg-dark" style="border:0px;"></div>
     </div>
 
 

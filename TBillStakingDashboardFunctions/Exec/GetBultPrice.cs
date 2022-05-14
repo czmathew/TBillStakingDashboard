@@ -29,14 +29,20 @@ namespace TBillStakingDashboardFunctions.Exec
 
                     string query = @"INSERT INTO [bult].[bult_tfuel]
                                    ([bult_tfuel]
-                                   ,[tfuel_bult])
+                                   ,[tfuel_bult]
+                                   ,bult_reserve
+                                   ,tfuel_reserve)
                              VALUES
                                    (@bult_tfuel
-                                   ,@tfuel_bult)";
+                                   ,@tfuel_bult
+                                   ,@bult_reserve
+                                   ,@tfuel_reserve)";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.Parameters.AddWithValue("@bult_tfuel", decimal.Parse(jsonClass.BULT_TFUEL.ToString(), CultureInfo.InvariantCulture));
                     cmd.Parameters.AddWithValue("@tfuel_bult", decimal.Parse(jsonClass.TFUEL_BULT.ToString(), CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@bult_reserve", decimal.Parse(jsonClass.BULT_RESERVE.ToString(), CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@tfuel_reserve", decimal.Parse(jsonClass.TFUEL_RESERVE.ToString(), CultureInfo.InvariantCulture));
 
                     cmd.ExecuteNonQuery();
 
