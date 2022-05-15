@@ -34,6 +34,15 @@ Mat and Max!
 
 
 # Changes Notes
+## **May 15th Updates:**
+**New Features:**
+- The calculator has been updated and you can now play with every multiplier and every timeframe for compounding!
+
+## **May 13th Updates:**
+**New Features:**
+- Added a chart in 'My wallet' with total TVL, total TBILL and total TFUEL of your wallet
+- Added the price of a full LP token in 'LP Stats'
+
 ## **May 7th Updates:**
 **New Features:**
 - New Calculator Page Added
