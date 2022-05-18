@@ -369,6 +369,45 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
+        [HttpGet("getTbillPrice")]
+        public IActionResult GetTbillPrice([FromForm] string name)
+        {
+
+            var DailyRates = new List<Tuple<string, string, string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("dbo.usp_getTbillPrices", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, string, string, string>(reader.GetString("date")
+                                , reader.GetString("tbill_usd")
+                                , reader.GetString("targetRate")
+                                , reader.GetString("rebaseRate").ToString()));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
+
+        [HttpGet]
         [HttpGet("getDailyLPToken")]
         public IActionResult GetDailyLPToken([FromForm] string name)
         {
