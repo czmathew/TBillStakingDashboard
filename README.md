@@ -37,8 +37,10 @@ Mat and Max!
 ## **May 19th Updates:**
 **New Features:**
 - New hourly chart for Tbill price. 
+
 **UI Fixes:**
 - Charts on "LP Stats" page have been restructured.
+
 
 ## **May 15th Updates:**
 **New Features:**
