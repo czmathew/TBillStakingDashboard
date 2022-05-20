@@ -540,6 +540,15 @@ function fetchData(fetchWallet) {
         } else if (rebaseRate < noRebaseRangeBottom) {
             $("#rebaseRate").addClass("text-danger");
         }
+        //rebaseRate = 0.65;
+        const rebaseDays = 2;
+        const inRange = rebaseRate >= targetRate * 0.95 && rebaseRate <= targetRate * 1.05;
+        const nextAvg = inRange ? rebaseRate : (targetRate - rebaseRate) / rebaseDays + rebaseRate;
+        const ratio = inRange ? 1 : nextAvg / rebaseRate;
+        const priceAfterRebase = parseFloat(rate) * ratio;
+        const nextRebase = (1 - (1 / ratio)) * -100;
+
+        //const nextTBills = 1 / ratio; 
 
         $("#tbillRate").html(parseFloat(rate).toFixed(4));
         $("#tbillRateTop").html(parseFloat(rate).toFixed(4));
@@ -553,6 +562,9 @@ function fetchData(fetchWallet) {
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
         $("#lpTokenRate").html('$ ' + parseFloat(lpTokenRate).toFixed(2));
+
+        $("#nextRebaseRate").html(parseFloat(priceAfterRebase).toFixed(4));
+        $("#nextRebaseTbillChange").html('&nbsp;(TBill change: ' + parseFloat(nextRebase).toFixed(2) + ' %)');
 
         if (fetchWallet) {
             fetchWalletData();
