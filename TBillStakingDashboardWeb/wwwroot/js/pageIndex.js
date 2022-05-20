@@ -179,14 +179,15 @@ function showDailyTbillChart(tbill, target, rebase) {
 
     var options = {
         series: [
-            //{
-            //name: 'Tbill price',
-            //data: tbill
-            //},
+            {
+                name: 'Tbill price',
+                data: tbill
+            },
             {
                 name: '24hr oracle',
                 data: rebase
-            },{
+            },
+            {
                 name: 'Target price',
                 data: target
             }],
@@ -240,7 +241,7 @@ function showDailyTbillChart(tbill, target, rebase) {
             type: 'datetime',
         },
         stroke: {
-            width: [3]
+            width: [3, 3, 3]
         },
         tooltip: {
             enabled: true,
@@ -256,7 +257,9 @@ function showDailyTbillChart(tbill, target, rebase) {
         },
         theme: {
             mode: 'dark'
-        }
+        },
+        colors: ['#4ECDC4', '#FEB019', '#4CAF50']
+        
     };
 
     var chart = new ApexCharts(document.querySelector("#chartTbillPrice"), options);
