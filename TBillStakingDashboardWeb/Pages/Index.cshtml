@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-6">
 
-            <h4>TBill stats</h4><small>(refreshed every hour)</small>
+            <h4>TBill stats</h4><small>(refreshed every 10 minutes)</small>
             <div class="row">
                 <div class="col-lg-4 col-sm-12">
                     <p>
@@ -37,7 +37,8 @@
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Total Activated TFUEL</strong><br />
-                        <label id="tfuelLocked" class="form-label">@Model.TfuelLocked TFUEL</label>
+                        <label id="tfuelLocked" class="form-label" style="margin:0px;">@Model.TfuelLocked TFUEL</label>
+                        <label id="tvLocked" class="form-label">(@Model.TfuelLocked24h% in 24h)</label>
                     </p>
                 </div>
 
@@ -127,16 +128,16 @@
                 </thead>
                 <tbody>
                     @{
-                    @foreach (var record in Model.LpShare)
+                        @foreach (var record in Model.LpShare)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Item1)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Item2)
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => record.Item1)
+                                </td>
+                                <td class="text-end">
+                                    @Html.DisplayFor(modelItem => record.Item2)
+                                </td>
+                            </tr>
                     }
                 }
             </tbody>
@@ -152,16 +153,16 @@
             </thead>
             <tbody>
                 @{
-                    @foreach (var record in Model.LpRange)
+                        @foreach (var record in Model.LpRange)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Item1)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Item2)
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => record.Item1)
+                                </td>
+                                <td class="text-end">
+                                    @Html.DisplayFor(modelItem => record.Item2)
+                                </td>
+                            </tr>
                     }
                 }
             </tbody>
