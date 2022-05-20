@@ -34,7 +34,7 @@ Mat and Max!
 
 
 # Changes Notes
-## **May 19th Updates:**
+## **May 20th Updates:**
 **New Features:**
 - Added 24h change of Total TFUEL Activated in 'LP Stats'
 - Added the approximative TBILL price after rebase in 'LP Stats'
