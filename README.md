@@ -37,7 +37,7 @@ Mat and Max!
 ## **May 21st Updates:**
 **New Features:**
 - Uni-v2 token history chart in 'My Wallet'
-- The USD value Total TBill received is taken from 'Time of Tx USD Value' (Used to be current TBill rate)
+- The USD value 'Total TBill received' is taken from 'Time of Tx USD Value' (Used to be current TBill rate)
 
 **UI Fixes:**
 - 'My Wallet' - The layout has been changed to make a better use of the space with a new chart
