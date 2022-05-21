@@ -39,7 +39,7 @@ Mat and Max!
 - Uni-v2 token history chart in 'My Wallet'
 
 **UI Fixes:**
-- The layout has been changed to make a better use of the space with a new chart
+- 'My Wallet' - The layout has been changed to make a better use of the space with a new chart
 
 
 ## **May 20th Updates:**
