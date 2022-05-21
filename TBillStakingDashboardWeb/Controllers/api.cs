@@ -121,20 +121,20 @@ namespace TBillStaking.Controllers
             List<TBillDailyStats> stats = new List<TBillDailyStats>();
             using (SqlConnection connection = new SqlConnection(connString))
             {
-                using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
+                using (var command = new SqlCommand("usp_getDailyTBillStatsHourly", connection)
                 {
                     CommandType = CommandType.StoredProcedure
                 })
                 {
                     connection.Open();
-                    command.Parameters.Add("@top", SqlDbType.Int).Value = 365;
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = 8760;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
                         while (reader.Read())
                         {
                             TBillDailyStats day = new TBillDailyStats();
-                            day.Date = reader.GetDateTime("date").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                            day.Date = reader.GetString("date");
                             day.TvLocked = Convert.ToInt32(reader.GetDecimal("tvLocked")).ToString();
                             day.TbillLocked = Convert.ToInt32(reader.GetDecimal("tbillLocked")).ToString();
                             day.TfuelLocked = Convert.ToInt32(reader.GetDecimal("tfuelLocked")).ToString();
