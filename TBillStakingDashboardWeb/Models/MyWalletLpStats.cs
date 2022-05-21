@@ -12,6 +12,7 @@ namespace TBillStaking.Models
         public decimal Univ2 { get; set; }
         public decimal Univ2Total { get; set; }
         public decimal MyPct { get; set; }
+        public List<Tuple<string, string>> Univ2Hist { get; set; }
 
     }
 }

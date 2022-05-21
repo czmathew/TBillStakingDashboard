@@ -244,6 +244,30 @@ namespace TBillStaking.Controllers
                         reader.Close();
                     }
                 }
+
+                using (var command = new SqlCommand("usp_getMyWalletLPStatsHistory", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+
+                })
+                {
+                    command.Parameters.Add("@wallet", SqlDbType.NVarChar).Value = wallet;
+                    SqlDataReader reader = command.ExecuteReader();
+                    lpStats.Univ2Hist = new List<Tuple<string, string>> { };
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            lpStats.Univ2Hist.Add(new Tuple<string, string>(reader.GetString("date"), reader.GetString("univ2")));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
             }
 
 
