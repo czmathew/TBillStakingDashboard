@@ -114,8 +114,8 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
-        [HttpGet("getDailyTBillStats")]
-        public IActionResult GetDailyTBillStats(string wallet)
+        [HttpGet("getDailyTBillStats/{days}")]
+        public IActionResult GetDailyTBillStats(int days)
         {
             string connString = _configuration.GetConnectionString("sql-tbill");
             List<TBillDailyStats> stats = new List<TBillDailyStats>();
@@ -127,7 +127,7 @@ namespace TBillStaking.Controllers
                 })
                 {
                     connection.Open();
-                    command.Parameters.Add("@top", SqlDbType.Int).Value = 8760;
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
@@ -316,8 +316,8 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
-        [HttpGet("getDailyRates")]
-        public IActionResult GetDailyRates([FromForm] string name)
+        [HttpGet("getDailyRates/{days}")]
+        public IActionResult GetDailyRates(int days)
         {
             
             var DailyRates = new List<Tuple<string, string, string, decimal>> { };
@@ -331,6 +331,7 @@ namespace TBillStaking.Controllers
                 })
                 {
                     connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
@@ -393,8 +394,8 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
-        [HttpGet("getTbillPrice")]
-        public IActionResult GetTbillPrice([FromForm] string name)
+        [HttpGet("getTbillPrice/{days}")]
+        public IActionResult GetTbillPrice([FromForm] string name, int days)
         {
 
             var DailyRates = new List<Tuple<string, string, string, string>> { };
@@ -408,6 +409,7 @@ namespace TBillStaking.Controllers
                 })
                 {
                     connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
@@ -432,8 +434,48 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
-        [HttpGet("getDailyLPToken")]
-        public IActionResult GetDailyLPToken([FromForm] string name)
+        [HttpGet("getRebaseStats/{days}")]
+        public IActionResult GetRebaseStats(int days)
+        {
+
+            var DailyRebase = new List<Tuple<string, string, string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql-tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("dbo.usp_getRebaseStats", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRebase.Add(new Tuple<string, string, string, string>(reader.GetString("date")
+                                , reader.GetDecimal("supplyToday").ToString(CultureInfo.InvariantCulture)
+                                , reader.GetDecimal("supplyYesterday").ToString(CultureInfo.InvariantCulture)
+                                , reader.GetDecimal("rebasePercentage").ToString(CultureInfo.InvariantCulture)));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRebase));
+        }
+
+        [HttpGet]
+        [HttpGet("getDailyLPToken/{days}")]
+        public IActionResult GetDailyLPToken(int days)
         {
 
             var DailyLPToken = new List<Tuple<string, string>> { };
@@ -447,6 +489,7 @@ namespace TBillStaking.Controllers
                 })
                 {
                     connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
