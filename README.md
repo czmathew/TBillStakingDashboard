@@ -34,6 +34,10 @@ Mat and Max!
 
 
 # Changes Notes
+## **May 22nd Updates:**
+**New Features:**
+- Added different time frames (Yearly/Monthly/Weekly) on all charts in 'LP Stats'
+
 ## **May 21st Updates:**
 **New Features:**
 - Uni-v2 token history chart in 'My Wallet'
