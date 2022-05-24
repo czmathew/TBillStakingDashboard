@@ -11,9 +11,9 @@ namespace TBillStakingDashboardFunctions
         public static void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"RefreshNTFsFunctionTrigger executed at: {DateTime.Now}");
-            Exec.GetTBillNTFSales.Execute();
+            //Exec.GetTBillNTFSales.Execute();
             Exec.GetTBillNTFForSale.Execute();
-            //Exec.GetTbillStats.Execute();
+
             log.LogInformation($"RefreshNTFsFunctionTrigger finised at: {DateTime.Now}");
         }
     }
