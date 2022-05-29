@@ -51,18 +51,20 @@ namespace TBillStakingDashboardFunctions.Exec
                     SqlCommand commandTruncate = new SqlCommand("truncate table nftForSaleNew_rawData", connection);
                     commandTruncate.ExecuteScalar();
 
+                    DataTable tbl = new DataTable();
+                    tbl.Columns.Add(new DataColumn("timestamp", typeof(Int32)));
+                    tbl.Columns.Add(new DataColumn("name", typeof(string)));
+                    tbl.Columns.Add(new DataColumn("imageUrl", typeof(string)));
+                    tbl.Columns.Add(new DataColumn("listedPrice", typeof(decimal)));
+                    tbl.Columns.Add(new DataColumn("tokenId", typeof(Int32)));
+
                     foreach (var nftType in nftMeta)
                     {
 
                         var json = wc.DownloadString("https://api.opentheta.io/edition?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&ID=" + nftType.Item3 + " &filter=sale");
                         var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
-                        DataTable tbl = new DataTable();
-                        tbl.Columns.Add(new DataColumn("timestamp", typeof(Int32)));
-                        tbl.Columns.Add(new DataColumn("name", typeof(string)));
-                        tbl.Columns.Add(new DataColumn("imageUrl", typeof(string)));
-                        tbl.Columns.Add(new DataColumn("listedPrice", typeof(decimal)));
-                        tbl.Columns.Add(new DataColumn("tokenId", typeof(Int32)));
+
 
                         foreach (var item in jsonClass.editions)
                         {
@@ -76,11 +78,9 @@ namespace TBillStakingDashboardFunctions.Exec
                             tbl.Rows.Add(dr);
                         }
 
+                    }
 
-
-                        // make sure to enable triggers
-                        // more on triggers in next post
-                        SqlBulkCopy bulkCopy = new SqlBulkCopy(
+                    SqlBulkCopy bulkCopy = new SqlBulkCopy(
                             connection,
                             SqlBulkCopyOptions.TableLock |
                             SqlBulkCopyOptions.FireTriggers |
@@ -88,24 +88,17 @@ namespace TBillStakingDashboardFunctions.Exec
                             null
                             );
 
-                        // set the destination table name
-                        bulkCopy.DestinationTableName = "nftForSaleNew_rawData";
+                    // set the destination table name
+                    bulkCopy.DestinationTableName = "nftForSaleNew_rawData";
 
-                        bulkCopy.ColumnMappings.Add("timestamp", "timestamp");
-                        bulkCopy.ColumnMappings.Add("name", "name");
-                        bulkCopy.ColumnMappings.Add("imageUrl", "imageUrl");
-                        bulkCopy.ColumnMappings.Add("listedPrice", "listedPrice");
-                        bulkCopy.ColumnMappings.Add("tokenId", "tokenId");
+                    bulkCopy.ColumnMappings.Add("timestamp", "timestamp");
+                    bulkCopy.ColumnMappings.Add("name", "name");
+                    bulkCopy.ColumnMappings.Add("imageUrl", "imageUrl");
+                    bulkCopy.ColumnMappings.Add("listedPrice", "listedPrice");
+                    bulkCopy.ColumnMappings.Add("tokenId", "tokenId");
 
-
-
-
-                        // write the data in the "dataTable"
-                        bulkCopy.WriteToServer(tbl);
-
-
-
-                    }
+                    // write the data in the "dataTable"
+                    bulkCopy.WriteToServer(tbl);
 
                     using (var command = new SqlCommand("usp_refreshNFTsForSaleNew", connection)
                     {
