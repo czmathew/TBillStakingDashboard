@@ -34,6 +34,10 @@ Mat and Max!
 
 
 # Changes Notes
+## **June 8th Updates:**
+**New Features:**
+- Added "Realised IL" and "Current IL" in 'My wallet'
+
 ## **May 22nd Updates:**
 **New Features:**
 - Added different time frames (Yearly/Monthly/Weekly) on all charts in 'LP Stats'
