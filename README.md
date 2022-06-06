@@ -34,7 +34,7 @@ Mat and Max!
 
 
 # Changes Notes
-## **June 8th Updates:**
+## **June 6th Updates:**
 **New Features:**
 - Added "Realised IL" and "Current IL" in 'My wallet'
 
