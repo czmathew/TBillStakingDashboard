@@ -58,10 +58,10 @@ function fetchWalletData() {
            
             var realIl = parseFloat(data['data']['realIl']).toFixed(2);
             var currIl = parseFloat(data['data']['currIl']).toFixed(2);
-            //var extraIl = parseFloat(data['data']['extra']).toFixed(2);
+            var extraIl = parseFloat(data['data']['extra']).toFixed(2);
             $('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
             $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-            //$('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
             
         });
 
