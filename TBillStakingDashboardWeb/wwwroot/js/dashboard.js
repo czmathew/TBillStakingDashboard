@@ -9,7 +9,7 @@ $(document).ready(function () {
     //enable popovers
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-        return new bootstrap.Popover(popoverTriggerEl)
+        return new bootstrap.Popover(popoverTriggerEl, { html: true }) //, { html: true } - enable HTML in content
     })
 
     //check if we are on MyWallet page, if so, the wallet data will be fetched after rate
