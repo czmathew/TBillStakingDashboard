@@ -61,10 +61,11 @@ function fetchWalletData() {
             var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
             var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
             var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
+            var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
             var updateTime = data['data']['updateTime'];
             $('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
             $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
             
             $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
 
