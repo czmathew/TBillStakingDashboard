@@ -19,7 +19,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 var json = wc.DownloadString("https://thetastats-nodejs-dev.azurewebsites.net/bult_tfuel");
                 var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
                 {

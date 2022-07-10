@@ -31,7 +31,7 @@ namespace TBillStakingDashboardWeb.Pages
             NFTs = new List<ThetaConNFTSalesDaily>();
             NFTsSum = new List<ThetaConNFTSalesSummary>();
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 connection.Open();

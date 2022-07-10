@@ -69,6 +69,13 @@ function fetchWalletData() {
             
             $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
 
+            // Projected Amount
+            var projectedAmount = parseFloat(data['data']['tbillsProjected']).toFixed(0);
+            var timeUntilMint = parseFloat(data['data']['daysLeft']).toFixed(0);
+            $('#timeUntilMint').html(timeUntilMint.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' (projected ' + projectedAmount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' TBILL)');
+
+            
+
             // refresh the currIlPopover popover
             const popoverIL = document.querySelector('#currIlPopover');
             new bootstrap.Popover(popoverIL, { html: true });

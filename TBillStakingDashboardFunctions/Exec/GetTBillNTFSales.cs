@@ -20,7 +20,7 @@ namespace TBillStakingDashboardFunctions.Exec
 
             using (WebClient wc = new WebClient())
             {
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
 
                 using (SqlConnection connection = new SqlConnection(connString))
                 {

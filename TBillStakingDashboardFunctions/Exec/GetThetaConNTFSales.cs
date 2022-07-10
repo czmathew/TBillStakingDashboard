@@ -18,7 +18,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 var json = wc.DownloadString("https://open-theta.de/api/nft/sold/recent/100/0x53ae8cdc2e60c81f4a1967dc381452a203dee836");
                 DataTable dt = (DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable)));
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
                 {

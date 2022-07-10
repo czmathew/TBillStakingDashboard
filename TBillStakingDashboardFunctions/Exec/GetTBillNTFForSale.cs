@@ -43,7 +43,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     }
                 }
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
 
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
@@ -118,7 +118,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 //    row["price"] = row["price"].ToString().Remove(row["price"].ToString().Length - 3);
                 //}
 
-                //string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                //string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 //// connect to SQL
                 //using (SqlConnection connection = new SqlConnection(connString))
                 //{

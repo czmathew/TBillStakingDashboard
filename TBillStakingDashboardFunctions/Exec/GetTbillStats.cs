@@ -22,7 +22,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 var jsonSupply = wc.DownloadString("http://www.thetascan.io/api/contract/?contract=0x22cb20636c2d853de2b140c2eaddbfd6c3643a39");
                 var jsonSupplyClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonSupply);
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
                 {

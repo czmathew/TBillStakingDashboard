@@ -40,7 +40,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     }
                 }
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
                 {

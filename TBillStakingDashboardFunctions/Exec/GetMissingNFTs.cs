@@ -14,7 +14,7 @@ namespace TBillStakingDashboardFunctions.Exec
         public static void Execute()
         {
 
-            string connString = Environment.GetEnvironmentVariable("sql-tbill");
+            string connString = Environment.GetEnvironmentVariable("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -86,7 +86,7 @@ namespace TBillStakingDashboardFunctions.Exec
 
         public static void updateQueue(string contract, int tokenId, bool success)
         {
-            string connString = Environment.GetEnvironmentVariable("sql-tbill");
+            string connString = Environment.GetEnvironmentVariable("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 try
@@ -116,7 +116,7 @@ namespace TBillStakingDashboardFunctions.Exec
         {
             using (WebClient wc = new WebClient())
             {
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     try
@@ -128,7 +128,7 @@ namespace TBillStakingDashboardFunctions.Exec
                         string query = "INSERT INTO[dbo].[nftMinted]([name],[date],[image],[multiplier],[tbillAmount],[boostPercentage],[edition])"
                         + "VALUES(@name, @date, @image, @multiplier, @tbillAmount, @boostPercentage, @edition)";
 
-                        //string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                        //string connString = Environment.GetEnvironmentVariable("sql_tbill");
                         // connect to SQL
 
 

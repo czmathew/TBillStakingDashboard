@@ -141,7 +141,7 @@ namespace TBillStaking.Controllers
         [HttpGet("getDailyTBillStats/{days}")]
         public IActionResult GetDailyTBillStats(int days)
         {
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             List<TBillDailyStats> stats = new List<TBillDailyStats>();
             using (SqlConnection connection = new SqlConnection(connString))
             {
@@ -239,7 +239,7 @@ namespace TBillStaking.Controllers
         {
             MyWalletLpStats lpStats = new MyWalletLpStats();
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("usp_getMyWalletLPStats", connection)
@@ -309,7 +309,7 @@ namespace TBillStaking.Controllers
 
             var NFTSales = new List<Tuple<string, string>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("usp_getNFTSalesSingleNFT", connection)
@@ -346,7 +346,7 @@ namespace TBillStaking.Controllers
             
             var DailyRates = new List<Tuple<string, string, string, decimal>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("usp_getDailyRates", connection)
@@ -386,7 +386,7 @@ namespace TBillStaking.Controllers
 
             var DailyRates = new List<Tuple<string, string, string>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("bult.usp_getBultPrice", connection)
@@ -424,7 +424,7 @@ namespace TBillStaking.Controllers
 
             var DailyRates = new List<Tuple<string, string, string, string>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("dbo.usp_getTbillPrices", connection)
@@ -464,7 +464,7 @@ namespace TBillStaking.Controllers
 
             var DailyRebase = new List<Tuple<string, string, string, string>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("dbo.usp_getRebaseStats", connection)
@@ -504,7 +504,7 @@ namespace TBillStaking.Controllers
 
             var DailyLPToken = new List<Tuple<string, string>> { };
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 using (var command = new SqlCommand("usp_getDailyLPToken", connection)
@@ -623,7 +623,7 @@ namespace TBillStaking.Controllers
 
             if (tokenList2x.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -688,7 +688,7 @@ namespace TBillStaking.Controllers
 
             if (tokenList2x.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     connection.Open();
@@ -711,7 +711,7 @@ namespace TBillStaking.Controllers
             //BigDog NFT
             if (tokenListBigDog1111.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -757,7 +757,7 @@ namespace TBillStaking.Controllers
             //Alienlike TBILL Sticker
             if (tokenAlienlike.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -802,7 +802,7 @@ namespace TBillStaking.Controllers
             //Michelle Whitedove TBILL Sticker
             if (tokenMW.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -847,7 +847,7 @@ namespace TBillStaking.Controllers
             //Teddy B TBILL Sticker
             if (tokenTeddyB.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)
@@ -892,7 +892,7 @@ namespace TBillStaking.Controllers
             //C4C TBILL Sticker
             if (tokenC4C.Count > 0)
             {
-                string connString = _configuration.GetConnectionString("sql-tbill");
+                string connString = _configuration.GetConnectionString("sql_tbill");
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     using (var command = new SqlCommand("usp_getDailyTBillStats", connection)

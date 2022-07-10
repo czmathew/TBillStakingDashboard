@@ -25,7 +25,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 total_supply = decimal.Parse(jsonClass.total_supply.ToString());
                 circulation_supply = decimal.Parse(jsonClass.circulation_supply.ToString());
 
-                string connString = Environment.GetEnvironmentVariable("sql-tbill");
+                string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 try { 
                 using (SqlConnection connection = new SqlConnection(connString))

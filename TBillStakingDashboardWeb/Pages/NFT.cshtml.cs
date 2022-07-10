@@ -37,7 +37,7 @@ namespace TBillStakingDashboardWeb.Pages
             NFTs = new List<NFTDetails>();
             NFTSales = new List<NFTSaleDetails>();
 
-            string connString = _configuration.GetConnectionString("sql-tbill");
+            string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
             {
                 connection.Open();
