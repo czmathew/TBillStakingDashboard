@@ -36,7 +36,7 @@ Mat and Max!
 # Changes Notes
 # **July 10th Updates:**
 **New Features:**
-- Added Days until mint and projected mint in 'My wallet'
+- Added "days until mint and projected mint" in 'My wallet' for the minted NFTs.
 
 ## **June 6th Updates:**
 **New Features:**
