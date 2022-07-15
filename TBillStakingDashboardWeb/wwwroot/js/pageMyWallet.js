@@ -115,12 +115,13 @@ function fetchWalletData() {
                         tbill3x: parseFloat(val[7]).toFixed(2),
                         tbill4x: parseFloat(val[8]).toFixed(2),
                         tfuel: parseFloat(val[9]).toFixed(2),
-                        reward: parseFloat(val[10]).toFixed(4),
-                        rewardUSD: parseFloat(val[11]).toFixed(2)
+                        gnote: parseFloat(val[10]).toFixed(2),
+                        reward: parseFloat(val[11]).toFixed(4),
+                        rewardUSD: parseFloat(val[12]).toFixed(2)
                     });
-                    var innerArr = [val[0], parseFloat(val[10]).toFixed(4)];
+                    var innerArr = [val[0], parseFloat(val[11]).toFixed(4)];
                     datesDaily.push(innerArr);
-                    rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[10]).toFixed(4));
+                    rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[11]).toFixed(4));
                     var innerArr = [val[0], rewardsSum];
                     datesDailySum.push(innerArr);
 
@@ -132,8 +133,8 @@ function fetchWalletData() {
                     var innerArr = [val[0], parseFloat(val[9]).toFixed(2)];
                     dataTfuel.push(innerArr);
 
-                    totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[10]));
-                    totalRewardsUsd = parseFloat(totalRewardsUsd) + parseFloat(parseFloat(val[11]));
+                    totalRewards = parseFloat(totalRewards) + parseFloat(parseFloat(val[11]));
+                    totalRewardsUsd = parseFloat(totalRewardsUsd) + parseFloat(parseFloat(val[12]));
                 }
                 i++;
             });
@@ -156,7 +157,7 @@ function fetchWalletData() {
                 }
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill125x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
-                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
+                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].gnote + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
 
             }
         });
@@ -215,6 +216,18 @@ function fetchWalletData() {
             });
 
             showUniv2Chart(univ2Hist);
+
+        });
+    }
+
+    //get gNOTE balance
+    if (wallet != "") {
+        $.getJSON("https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0xA3d79C4088aE87EF59254120Fe646560828084c3&wallet=" + wallet, function (data) {
+            //var json = JSON.parse(data);
+            var balance = data.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+
+            $("#gNoteBalance").html(balance);
+
 
         });
     }

@@ -1,0 +1,79 @@
+﻿@page
+@model TBillStakingDashboardWeb.Pages.GnoteTbillModel
+@{
+    Layout = "_Layout";
+}
+
+
+@section scripts {
+    <script type="text/javascript" src="js/pageGnoteTbill.js?2" charset="utf-8"></script>
+}
+
+<script>
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+        )
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+        )
+    window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+        )
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+
+<div class="row">
+    <h4>gNOTE price</h4>
+    <style>
+
+        #chartBultPrice {
+            max-width: 650px;
+            margin: 5px auto;
+        }
+    </style>
+    <div class=col-lg-6 col-sm-12">
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>gNOTE / TBill</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.CurrentGnote_Tbill</label>
+                </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>TBill / gNOTE</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.CurrentTbill_Gnote</label>
+                </p>
+            </div>
+        </div><div class="row">
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>gNOTE reserve</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.Gnote_reserve</label>
+                </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-6">
+                <p>
+                    <strong>TBill reserve</strong>
+                    <br />
+                    <label id="dayTotal" class="form-label">@Model.Tbill_reserve</label>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class=col-lg-6 col-sm-12">
+        <div id="chartGnoteTbillPrice" class="bg-dark" style="border:0px;"></div>
+    </div>
+
+
+</div>

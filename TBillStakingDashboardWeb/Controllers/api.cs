@@ -418,6 +418,43 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
+        [HttpGet("getGnoteTbillPrice")]
+        public IActionResult GetGnoteTbillPrice([FromForm] string name)
+        {
+
+            var DailyRates = new List<Tuple<string, string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("dbo.usp_getGnoteTbillPrice", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, string, string>(reader.GetString("date")
+                                , reader.GetString("gnote_tbill")
+                                , reader.GetString("tbill_gnote").ToString()));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
+        [HttpGet]
         [HttpGet("getTbillPrice/{days}")]
         public IActionResult GetTbillPrice([FromForm] string name, int days)
         {
