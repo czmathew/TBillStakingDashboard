@@ -222,12 +222,11 @@ function fetchWalletData() {
 
     //get gNOTE balance
     if (wallet != "") {
-        $.getJSON("https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0xA3d79C4088aE87EF59254120Fe646560828084c3&wallet=" + wallet, function (data) {
+        $.getJSON("api/balanceGnote/" + wallet, function (data) {
             //var json = JSON.parse(data);
-            var balance = data.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-
-            $("#gNoteBalance").html(balance);
-
+            var balance = data.balance;
+            var bal = (parseFloat(balance)/1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
+            $("#gNoteBalance").html(bal);
 
         });
     }
@@ -247,6 +246,7 @@ function clearMyWalletData() {
     $("#thetaBlock").hide();
     $("#tbillBalance").html('');
     $("#thetaStakeBlock").hide();
+    $("#gNoteBalance").html('');
 
     $("#dayTotal").html('');
     $("#totalTbill").html('');
