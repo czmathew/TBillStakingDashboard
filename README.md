@@ -34,6 +34,10 @@ Mat and Max!
 
 
 # Changes Notes
+# **July 10th Updates:**
+**New Features:**
+- Added "days until mint and projected mint" in 'My wallet' for the minted NFTs.
+
 ## **June 6th Updates:**
 **New Features:**
 - Added "Realised IL" and "Current IL" in 'My wallet'
