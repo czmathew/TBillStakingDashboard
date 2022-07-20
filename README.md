@@ -34,6 +34,16 @@ Mat and Max!
 
 
 # Changes Notes
+# **July 20th Updates:**
+**New Features:**
+- Added TVL for gNOTE added to LP Stats
+- Added TVL for gNOTE added to My Wallet
+- NFT "progress bars" split into TFuel/gNOTE
+- Added USD value for gNOTE added to header
+- gNOTE value for rewards tables in My Wallet
+- new gNOTE / TBill page with pair info from swap contract
+
+
 # **July 10th Updates:**
 **New Features:**
 - Added "days until mint and projected mint" in 'My wallet' for the minted NFTs.
