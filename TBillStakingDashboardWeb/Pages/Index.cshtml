@@ -34,11 +34,22 @@
                         <label id="tbillLocked" class="form-label">@Model.TbillLocked TBILL</label>
                     </p>
                 </div>
+
+
+            </div>
+            <div class="row">
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Total Activated TFUEL</strong><br />
                         <label id="tfuelLocked" class="form-label" style="margin:0px;">@Model.TfuelLocked TFUEL</label>
                         <label id="tvLocked" class="form-label">(@Model.TfuelLocked24h% in 24h)</label>
+                    </p>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <p>
+                        <strong>Total Activated gNOTE</strong><br />
+                        <label id="gnoteLocked" class="form-label" style="margin:0px;">@Model.GnoteLocked gNOTE</label><br />
+                        <label id="tvLocked" class="form-label">(@Model.GnoteLocked24h% in 24h)</label>
                     </p>
                 </div>
 
@@ -296,7 +307,7 @@
             datesWallets.push(innerArr);
         });
 
-        
+
 
     </script>
 
@@ -359,13 +370,13 @@
             }
         };
 
-        
+
 
 
         var chartWallets = new ApexCharts(document.querySelector("#chartWallets"), optionsWallets);
         chartWallets.render();
 
-        
+
 
 
     </script>

@@ -33,7 +33,9 @@ namespace TBillStaking.Pages
         public string TvLocked { get; set; }
         public string TbillLocked { get; set; }
         public string TfuelLocked { get; set; }
+        public string GnoteLocked { get; set; }
         public string TfuelLocked24h { get; set; }
+        public string GnoteLocked24h { get; set; }
         public string Rewards { get; set; }
 
         public string lpWalletCount { get; set; }
@@ -109,11 +111,14 @@ namespace TBillStaking.Pages
                             while (reader.Read())
                             {
                                 var tfuel24h = reader.GetDecimal("tfuelLocked24h");
+                                var gnote24h = reader.GetDecimal("gnoteLocked24h");
                                 //tvLocked = reader.GetDecimal("tvLocked").ToString();
                                 TvLocked = String.Format("{0:n}", reader.GetDecimal("tvLocked"));
                                 TbillLocked = String.Format("{0:n}", reader.GetDecimal("tbillLocked"));
                                 TfuelLocked = String.Format("{0:n}", reader.GetDecimal("tfuelLocked"));
+                                GnoteLocked = String.Format("{0:n}", reader.GetDecimal("gnoteLocked"));
                                 TfuelLocked24h = (tfuel24h > 0 ? "+" : "") + String.Format("{0:n}", tfuel24h);
+                                GnoteLocked24h = (gnote24h > 0 ? "+" : "") + String.Format("{0:n}", gnote24h);
                                 Rewards = String.Format("{0:n}", reader.GetDecimal("rewards"));
 
                             }

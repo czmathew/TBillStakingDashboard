@@ -8,7 +8,7 @@ namespace TBillStakingDashboardFunctions
     public static class GetGnoteTbillPriceTrigger
     {
         [FunctionName("GetGnoteTbillPriceTrigger")]
-        public static void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
+        public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, ILogger log)
         {
             Exec.GetGnoteTbillPrice.Execute();
             

@@ -30,8 +30,8 @@ namespace TBillStakingDashboardFunctions.Exec
 
                     connection.Open();
 
-                    string query = "INSERT INTO [dbo].[tbillStats]([tvLocked],[tbillLocked],[tfuelLocked],[rewards],[endTime],[tbillSupply])";
-                    query += " VALUES (@tvLocked, @tbillLocked, @tfuelLocked, @rewards, @endTime, @tbillSupply)";
+                    string query = "INSERT INTO [dbo].[tbillStats]([tvLocked],[tbillLocked],[tfuelLocked],[rewards],[endTime],[tbillSupply],[gnoteLocked])";
+                    query += " VALUES (@tvLocked, @tbillLocked, @tfuelLocked, @rewards, @endTime, @tbillSupply, @gnoteLocked)";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.Parameters.AddWithValue("@tvLocked", decimal.Parse(jsonClass.data.tv.ToString()));
@@ -40,6 +40,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     cmd.Parameters.AddWithValue("@rewards", decimal.Parse(jsonClass.data.reward.ToString()));
                     cmd.Parameters.AddWithValue("@endTime", int.Parse(jsonClass.data.end_time.ToString()));
                     cmd.Parameters.AddWithValue("@tbillSupply", decimal.Parse(jsonSupplyClass.supply.ToString()));
+                    cmd.Parameters.AddWithValue("@gnoteLocked", decimal.Parse(jsonClass.data.gnote.ToString()));
 
                     cmd.ExecuteNonQuery();
 

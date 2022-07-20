@@ -49,11 +49,14 @@ function fetchData(fetchWallet) {
     $.getJSON("api/rates", function (data) {
         var rate = "";
         var rateTFuel = "";
+        var rateGnote = "";
         $.each(data['rates'], function (key, val) {
             if (val['pair'] == 'tbill_usd') {
                 rate = val['rate'];
             } else if (val['pair'] == 'tfuel_usd') {
                 rateTFuel = val['rate'];
+            } else if (val['pair'] == 'gnote_usd') {
+                rateGnote = val['rate'];
             }
         });
         var targetRate = data['targetRate'];
@@ -88,6 +91,7 @@ function fetchData(fetchWallet) {
         $("#noRebaseRangeBottom").html(parseFloat(noRebaseRangeBottom).toFixed(4));
         $("#tfuelPrice").html(parseFloat(rateTFuel).toFixed(4));
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
+        $("#gnotePriceTop").html(parseFloat(rateGnote).toFixed(4));
         $("#lpTokenRate").html('$ ' + parseFloat(lpTokenRate).toFixed(2));
 
         $("#nextRebaseRate").html(parseFloat(priceAfterRebase).toFixed(4));

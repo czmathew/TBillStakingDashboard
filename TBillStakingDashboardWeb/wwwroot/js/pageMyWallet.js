@@ -27,22 +27,46 @@ function fetchWalletData() {
                 var reward = parseFloat(val['reward']).toFixed(4);
                 var time = getTimeFromTimestamp(val['end_time']);
                 var tbill1x = parseFloat(val['tbill1x']).toFixed(2);
+                var tbill1x_gnote = parseFloat(val['tbill1x_gnote']).toFixed(2);
+                var tbill1x_tfuel = parseFloat(val['tbill1x_tfuel']).toFixed(2);
                 var tbill125x = parseFloat(val['tbill125x']).toFixed(2);
+                var tbill125x_gnote = parseFloat(val['tbill125x_gnote']).toFixed(2);
+                var tbill125x_tfuel = parseFloat(val['tbill125x_tfuel']).toFixed(2);
                 var tbill15x = parseFloat(val['tbill15x']).toFixed(2);
+                var tbill15x_gnote = parseFloat(val['tbill15x_gnote']).toFixed(2);
+                var tbill15x_tfuel = parseFloat(val['tbill15x_tfuel']).toFixed(2);
                 var tbill2x = parseFloat(val['tbill2x']).toFixed(2);
+                var tbill2x_gnote = parseFloat(val['tbill2x_gnote']).toFixed(2);
+                var tbill2x_tfuel = parseFloat(val['tbill2x_tfuel']).toFixed(2);
                 var tbill3x = parseFloat(val['tbill3x']).toFixed(2);
                 var tbill4x = parseFloat(val['tbill4x']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
+                var gnote = parseFloat(val['gnote']).toFixed(4);
                 if (i == 1) {
                     $("#tvl").html(tvl);
                     $("#activTbill").html(parseFloat(tbill1x) + parseFloat(tbill125x) + parseFloat(tbill15x) + parseFloat(tbill2x) + parseFloat(tbill3x) + parseFloat(tbill4x));
                     $("#activeTfuel").html(tfuel);
-                    nft125xlevel = tbill125x;
-                    nft15xlevel = tbill15x;
-                    nft2xlevel = tbill2x;
+                    $("#activeGnote").html(gnote);
+                    nft125xlevel = tbill125x_tfuel;
+                    nft15xlevel = tbill15x_tfuel;
+                    nft2xlevel = tbill2x_tfuel;
+
+                    nft125xlevelGnote = tbill125x_gnote;
+                    nft15xlevelGnote = tbill15x_gnote;
+                    nft2xlevelGnote = tbill2x_gnote;
                 }
 
-                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td><td class="text-end">' + tbill1x + '</td><td class="text-end">' + tbill125x + '</td><td class="text-end">' + tbill15x + '</td><td class="text-end">' + tbill2x + '</td><td class="text-end">' + tfuel + '</td><td class="text-end">$' + tvl + '</td><td class="text-end">$' + mtvl + '</td><td class="text-end">' + reward + '</td><td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td>'
+                    + '<td class="text-end" title="' + tbill1x_tfuel + ' TFuel / ' + tbill1x_gnote + ' gNOTE">' + tbill1x + '</td>'
+                    + '<td class="text-end" title="' + tbill125x_tfuel + ' TFuel / ' + tbill125x_gnote + ' gNOTE">' + tbill125x + '</td>'
+                    + '<td class="text-end" title="' + tbill15x_tfuel + ' TFuel / ' + tbill15x_gnote + ' gNOTE">' + tbill15x + '</td>'
+                    + '<td class="text-end" title="' + tbill2x_tfuel + ' TFuel / ' + tbill2x_gnote + ' gNOTE">' + tbill2x + '</td>'
+                    + '<td class="text-end">' + tfuel + '</td>'
+                    + '<td class="text-end">' + gnote + '</td>'
+                    + '<td class="text-end">$' + tvl + '</td>'
+                    + '<td class="text-end">$' + mtvl + '</td>'
+                    + '<td class="text-end">' + reward + '</td>'
+                    +'<td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
@@ -157,7 +181,7 @@ function fetchWalletData() {
                 }
                 //console.log(rewardsReverse[y]);
                 $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill125x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
-                    + rewardsReverse[y].tfuel + '</td><td class="text-end">$' + rewardsReverse[y].gnote + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
+                    + rewardsReverse[y].tfuel + '</td><td class="text-end">' + rewardsReverse[y].gnote + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
 
             }
         });
@@ -238,6 +262,9 @@ function clearMyWalletData() {
     nft125xlevel = 0;
     nft15xlevel = 0;
     nft2xlevel = 0;
+    nft2xlevelGnote = 0;
+    nft2xlevelGnote = 0;
+    nft2xlevelGnote = 0;
     $("#thetaBalance").html('');
     $("#tfuelBalance").html('');
     $("#thetaStake").html('');
@@ -253,16 +280,24 @@ function clearMyWalletData() {
     $("#tvl").html('');
     $("#activTbill").html('');
     $("#activeTfuel").html('');
+    $("#gnoteTfuel").html('');
     $("#daysInLP").html('');
 
     $("#nft2xlabel").html(0 + ' / ' + 0);
     $("#nft15xlabel").html(0 + ' / ' + 0);
     $("#nft125xlabel").html(0 + ' / ' + 0);
 
+    $("#nft2xlabelGnote").html(0 + ' / ' + 0);
+    $("#nft15xlabelGnote").html(0 + ' / ' + 0);
+    $("#nft125xlabelGnote").html(0 + ' / ' + 0);
+
 
     $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress15x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress125x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress2xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress15xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress125xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
 }
 
 function fetchNFTforWallet() {
@@ -300,6 +335,10 @@ function fetchNFTforWallet() {
         $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);
         $("#nft15xlabel").html(nft15xlevel + ' / ' + nft15xsum);
         $("#nft125xlabel").html(nft125xlevel + ' / ' + nft125xsum);
+
+        $("#nft2xlabelGnote").html(nft2xlevelGnote + ' / ' + nft2xsum);
+        $("#nft15xlabelGnote").html(nft15xlevelGnote + ' / ' + nft15xsum);
+        $("#nft125xlabelGnote").html(nft125xlevelGnote + ' / ' + nft125xsum);
 
         var prct2x = parseFloat(parseFloat(nft2xlevel) / nft2xsum * 100).toFixed(1);
         var prct15x = parseFloat(parseFloat(nft15xlevel) / nft15xsum * 100).toFixed(1);

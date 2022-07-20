@@ -22,6 +22,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 decimal tbill_usd = 0;
                 decimal tfuel_usd = 0;
                 decimal usdc_usd = 0;
+                decimal gnote_usd = 0;
 
                 foreach (JObject item in jsonClass.rates)
                 {
@@ -38,6 +39,10 @@ namespace TBillStakingDashboardFunctions.Exec
                     {
                         usdc_usd = decimal.Parse(item.GetValue("rate").ToString());
                     }
+                    else if (pair.Equals("gnote_usd"))
+                    {
+                        gnote_usd = decimal.Parse(item.GetValue("rate").ToString());
+                    }
                 }
 
                 string connString = Environment.GetEnvironmentVariable("sql_tbill");
@@ -46,11 +51,12 @@ namespace TBillStakingDashboardFunctions.Exec
                 {
                     connection.Open();
 
-                    string query = " INSERT INTO [dbo].[tbillRates] ([tbill_usd],[tfuel_usd],[usdc_usd],[targetRate],[rebaseRate],[instantRate],[rebaseTop],[rebaseBottom],[lpTokenRate]) "
+                    string query = " INSERT INTO [dbo].[tbillRates] ([tbill_usd],[tfuel_usd],[usdc_usd],[gnote_usd],[targetRate],[rebaseRate],[instantRate],[rebaseTop],[rebaseBottom],[lpTokenRate]) "
                                 + " VALUES "
                                 + " (@tbill_usd "
                                 + " , @tfuel_usd "
                                 + " , @usdc_usd "
+                                + " , @gnote_usd "
                                 + " , @targetRate "
                                 + " , @rebaseRate "
                                 + " , @instantRate "
@@ -62,6 +68,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     cmd.Parameters.AddWithValue("@tbill_usd", tbill_usd);
                     cmd.Parameters.AddWithValue("@tfuel_usd", tfuel_usd);
                     cmd.Parameters.AddWithValue("@usdc_usd", usdc_usd);
+                    cmd.Parameters.AddWithValue("@gnote_usd", gnote_usd);
                     cmd.Parameters.AddWithValue("@targetRate", decimal.Parse(jsonClass.targetRate.ToString()));
                     cmd.Parameters.AddWithValue("@rebaseRate", decimal.Parse(jsonClass.rebaseRate.ToString()));
                     cmd.Parameters.AddWithValue("@instantRate", decimal.Parse(jsonClass.instantRate.ToString()));

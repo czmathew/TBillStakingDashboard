@@ -18,6 +18,7 @@ namespace TBillStakingDashboardWeb.Pages
         public string CurrentTbill_Gnote { get; set; }
         public string Gnote_reserve { get; set; }
         public string Tbill_reserve { get; set; }
+        [ViewData]
         public string Wallet { get; set; }
 
         private readonly IConfiguration _configuration;
