@@ -39,7 +39,7 @@ Mat and Max!
 - Added TVL for gNOTE added to LP Stats
 - Added TVL for gNOTE added to My Wallet
 - NFT "progress bars" split into TFuel/gNOTE
-- Added USD value for gNOTE added to header
+- Added USD value for gNOTE to header
 - gNOTE value for rewards tables in My Wallet
 - new gNOTE / TBill page with pair info from swap contract
 
