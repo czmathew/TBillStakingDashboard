@@ -34,6 +34,15 @@ Mat and Max!
 
 
 # Changes Notes
+# **July 21st Updates:**
+**New Features:**
+- Added "Show NFTs value" button to My Wallet page
+  - There are three different ways how the values are calculated
+    - Last NFT sale
+    - Average from last 5 NFT sales
+    - Current lowest value on the market
+
+
 # **July 20th Updates:**
 **New Features:**
 - Added TVL for gNOTE added to LP Stats
