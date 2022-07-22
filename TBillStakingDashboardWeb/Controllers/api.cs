@@ -423,7 +423,7 @@ namespace TBillStaking.Controllers
         public IActionResult GetDailyRates(int days)
         {
             
-            var DailyRates = new List<Tuple<string, string, string, decimal>> { };
+            var DailyRates = new List<Tuple<string, string, string, decimal, string>> { };
 
             string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
@@ -440,10 +440,49 @@ namespace TBillStaking.Controllers
                     {
                         while (reader.Read())
                         {
-                            DailyRates.Add(new Tuple<string, string, string, decimal>(reader.GetString("date")
+                            DailyRates.Add(new Tuple<string, string, string, decimal, string>(reader.GetString("date")
                                 , reader.GetDecimal("tbill_usd").ToString()
                                 , reader.GetDecimal("tfuel_usd").ToString()
-                                , reader.GetDecimal("ratio")));
+                                , reader.GetDecimal("ratio")
+                                , reader.GetDecimal("gnote_usd").ToString()));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
+
+        [HttpGet]
+        [HttpGet("getDailyRatesGnote/{days}")]
+        public IActionResult GetDailyRatesGnote(int days)
+        {
+
+            var DailyRates = new List<Tuple<string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getDailyRatesGnote", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24 * 6; // the stored procedure returns 10 minute data
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, string>(reader.GetString("date")
+                                , reader.GetDecimal("gnote_usd").ToString()));
                         }
                     }
                     finally
