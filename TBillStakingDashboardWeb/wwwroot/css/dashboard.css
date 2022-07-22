@@ -27,3 +27,12 @@ body {
     top: 0;
     /*z-index: 1;*/
 }
+
+.mynfth5 {
+    margin: 0;
+    display: inline-block;
+}
+
+.tableBorderLeft {
+    border-left: 1px solid;
+}

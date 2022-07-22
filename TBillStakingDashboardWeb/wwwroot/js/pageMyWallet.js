@@ -1,6 +1,71 @@
-﻿$(document).ready(function () {
-    
+﻿let NFTValueInfo = [];
+let MyNFTs = [];
+
+$(document).ready(function () {
+    var nftValueModal = document.getElementById('nftValueModal');
+    nftValueModal.addEventListener('shown.bs.modal', function () {
+        refreshNFTValueInfo();
+    });
 });
+
+function refreshNFTValueInfo() {
+    $('#myNFTsValueTable > tbody:last-child').empty();
+    var countSum = 0;
+    var LastSaleSum = 0;
+    var LastSaleUsdSum = 0;
+    var Last5salesAvgSum = 0;
+    var Last5salesAvgUsdSum = 0;
+    var CurrentSalePriceSum = 0;
+    var CurrentSalePriceUsdSum = 0;
+
+
+    $.getJSON("api/getNFTValueInfo", function (data) {
+        let i = 1;
+        
+
+        $.each(data, function (key, val) {
+            //if (i == 1) {
+            //    alert(val.Name);
+            //}
+            NFTValueInfo.push(val);
+            i++;
+        });
+        
+        $.each(MyNFTs, function (key, val) {
+            var count = val.count;
+            var NFTInfo = NFTValueInfo.find(x => x.Name === val.name);
+            if (typeof NFTInfo !== "undefined") {
+                countSum += count;
+                LastSaleSum += count * parseFloat(NFTInfo.LastSale) ;
+                LastSaleUsdSum += count * parseFloat(NFTInfo.LastSaleUsd);
+                Last5salesAvgSum += count * parseFloat(NFTInfo.Last5salesAvg);
+                Last5salesAvgUsdSum += count * parseFloat(NFTInfo.Last5salesAvgUsd);
+                CurrentSalePriceSum += count * parseFloat(NFTInfo.CurrentSalePrice);
+                CurrentSalePriceUsdSum += count * parseFloat(NFTInfo.CurrentSalePriceUsd);
+            }
+            $('#myNFTsValueTable > tbody:last-child').append('<tr><td>' + val.name + '</td>'
+                + '<td class= "text-end" > ' + count + '</td> '
+                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.LastSale).toFixed(2) + '</td> '
+                + '<td class= "text-end" > ' + parseFloat(NFTInfo.LastSaleUsd).toFixed(2) + '</td> '
+                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.Last5salesAvg).toFixed(2) + '</td> '
+                + '<td class= "text-end" > ' + parseFloat(NFTInfo.Last5salesAvgUsd).toFixed(2) + '</td> '
+                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.CurrentSalePrice).toFixed(2) + '</td> '
+                + '<td class= "text-end" > ' + parseFloat(NFTInfo.CurrentSalePriceUsd).toFixed(2) + '</td> '
+                +'</tr > ');
+
+        });
+
+        $('#myNFTsValueTable > tbody:last-child').append('<tr><td>TOTAL</td>'
+            + '<td class= "text-end"> <strong> ' + countSum + '</strong></td> '
+            + '<td class= "text-end tableBorderLeft"> <strong> ' + parseFloat(LastSaleSum).toFixed(2) + '</strong></td> '
+            + '<td class= "text-end"> <strong> ' + parseFloat(LastSaleUsdSum).toFixed(2) + '</strong></td> '
+            + '<td class= "text-end tableBorderLeft"> <strong> ' + parseFloat(Last5salesAvgSum).toFixed(2) + '</strong></td> '
+            + '<td class= "text-end"> <strong> ' + parseFloat(Last5salesAvgUsdSum).toFixed(2) + '</strong></td> '
+            + '<td class= "text-end tableBorderLeft"> <strong> ' + parseFloat(CurrentSalePriceSum).toFixed(2) + '</strong></td> '
+            + '<td class= "text-end"> <strong> ' + parseFloat(CurrentSalePriceUsdSum).toFixed(2) + '</strong></td> '
+            + '</tr > ');
+    });
+}
 
 function fetchWalletData() {
 
@@ -298,6 +363,8 @@ function clearMyWalletData() {
     $('#progress2xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress15xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress125xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
+
+    MyNFTs = [];
 }
 
 function fetchNFTforWallet() {
@@ -330,6 +397,14 @@ function fetchNFTforWallet() {
             }
             $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
 
+            // count each NFT, if it's already in the array, then add 1 to count
+            if (Edition != 0) {
+                if (MyNFTs.findIndex(x => x.name === val['Name']) < 0) {
+                    MyNFTs.push({ name: val['Name'], count: 1 });
+                } else {
+                    MyNFTs.find(x => x.name === val['Name']).count = MyNFTs.find(x => x.name === val['Name']).count + 1;
+                }
+            }
         });
 
         $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);

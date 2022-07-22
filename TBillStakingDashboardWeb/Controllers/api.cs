@@ -322,6 +322,61 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(lpStats));
         }
 
+        [HttpGet]
+        [HttpGet("getNFTValueInfo")]
+        public IActionResult GetNFTValueInfo()
+        {
+            
+            var NFTValueInfo = new List<NFTValueInfo> { };
+
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getNFTValueInfo", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    //command.Parameters.Add("@NFTName", SqlDbType.NVarChar).Value = name;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            //Dictionary<string, decimal> values = new Dictionary<string, decimal>();
+                            //values.Add("CurrentSalePrice", reader.GetDecimal("CurrentSalePrice"));
+                            //values.Add("CurrentSalePriceUsd", reader.GetDecimal("CurrentSalePriceUsd"));
+                            //values.Add("Last5salesAvg", reader.GetDecimal("last5salesAvg"));
+                            //values.Add("Last5salesAvgUsd", reader.GetDecimal("last5salesAvgUsd"));
+                            //values.Add("LastSale", reader.GetDecimal("lastSale"));
+                            //values.Add("LastSaleUsd", reader.GetDecimal("lastSaleUsd"));
+
+                            NFTValueInfo.Add(new NFTValueInfo
+                            {
+                                Name = reader.GetString("name"),
+                                //Values = values
+                                CurrentSalePrice = reader.GetDecimal("CurrentSalePrice"),
+                                CurrentSalePriceUsd = reader.GetDecimal("CurrentSalePriceUsd"),
+                                Last5salesAvg = reader.GetDecimal("last5salesAvg"),
+                                Last5salesAvgUsd = reader.GetDecimal("last5salesAvgUsd"),
+                                LastSale = reader.GetDecimal("lastSale"),
+                                LastSaleUsd = reader.GetDecimal("lastSaleUsd")
+                            });
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(NFTValueInfo));
+        }
+
         [HttpPost]
         [HttpPost("getNFTSales")]
         public IActionResult GetNFTSales([FromForm] string name)
