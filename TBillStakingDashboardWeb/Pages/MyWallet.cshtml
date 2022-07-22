@@ -6,7 +6,7 @@
 
 
 @section scripts {
-    <script type="text/javascript" src="js/pageMyWallet.js?19" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageMyWallet.js?21" charset="utf-8"></script>
 }
 
     <style>
@@ -192,7 +192,7 @@
                         <label id="univ2" class="form-label"></label>
                     </p>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-6" id="realIlBlock">
+                @*<div class="col-lg-3 col-sm-6 col-6" id="realIlBlock">
                     <p>
                         <strong>Realized IL</strong>
                         <br />
@@ -211,6 +211,13 @@
                         <strong>Extra IL</strong> <i class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Ineligible for extra IL if 30% or more withdrawn"></i>
                         <br />
                         <label id="extraIl" class="form-label"></label>
+                    </p>
+                </div>*@
+                <div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">
+                    <p>
+                        <strong>IL to be Airdropped</strong>
+                        <br />
+                        <label id="ILToBeDropped" class="form-label"></label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6" id="extraIlBlock">

@@ -42,16 +42,17 @@ function refreshNFTValueInfo() {
                 Last5salesAvgUsdSum += count * parseFloat(NFTInfo.Last5salesAvgUsd);
                 CurrentSalePriceSum += count * parseFloat(NFTInfo.CurrentSalePrice);
                 CurrentSalePriceUsdSum += count * parseFloat(NFTInfo.CurrentSalePriceUsd);
+            
+                $('#myNFTsValueTable > tbody:last-child').append('<tr><td>' + val.name + '</td>'
+                    + '<td class= "text-end" > ' + count + '</td> '
+                    + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.LastSale).toFixed(2) + '</td> '
+                    + '<td class= "text-end" > ' + parseFloat(NFTInfo.LastSaleUsd).toFixed(2) + '</td> '
+                    + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.Last5salesAvg).toFixed(2) + '</td> '
+                    + '<td class= "text-end" > ' + parseFloat(NFTInfo.Last5salesAvgUsd).toFixed(2) + '</td> '
+                    + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.CurrentSalePrice).toFixed(2) + '</td> '
+                    + '<td class= "text-end" > ' + parseFloat(NFTInfo.CurrentSalePriceUsd).toFixed(2) + '</td> '
+                    + '</tr > ');
             }
-            $('#myNFTsValueTable > tbody:last-child').append('<tr><td>' + val.name + '</td>'
-                + '<td class= "text-end" > ' + count + '</td> '
-                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.LastSale).toFixed(2) + '</td> '
-                + '<td class= "text-end" > ' + parseFloat(NFTInfo.LastSaleUsd).toFixed(2) + '</td> '
-                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.Last5salesAvg).toFixed(2) + '</td> '
-                + '<td class= "text-end" > ' + parseFloat(NFTInfo.Last5salesAvgUsd).toFixed(2) + '</td> '
-                + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.CurrentSalePrice).toFixed(2) + '</td> '
-                + '<td class= "text-end" > ' + parseFloat(NFTInfo.CurrentSalePriceUsd).toFixed(2) + '</td> '
-                +'</tr > ');
 
         });
 
@@ -145,18 +146,26 @@ function fetchWalletData() {
     if (wallet != "") {
         $.getJSON("api/my-overview/" + wallet, function (data) {
            
-            var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
-            var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
-            var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
-            var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
-            var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
-            var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+            //var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
+            //var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
+            //var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
+            //var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
+            //var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
+            //var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+
             var updateTime = data['data']['updateTime'];
-            $('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            
-            $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
+            //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            //$('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            //$('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+
+            var batch = data['data']['batch'];
+            var snapIl = parseFloat(data['data']['snapIl']).toFixed(2);
+            var snapIlUsd = parseFloat(data['data']['snapIlUsd']).toFixed(2);
+            var airdroppeedTime = batch ? (new Date(new Date('2022-07-22T17:00:00.000Z').getTime() + (batch - 1) * 10 * 60 * 1000)).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : 'n/a';
+
+            $('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
+
+            //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
 
             // Projected Amount
             var projectedAmount = parseFloat(data['data']['tbillsProjected']).toFixed(0);
@@ -166,8 +175,8 @@ function fetchWalletData() {
             
 
             // refresh the currIlPopover popover
-            const popoverIL = document.querySelector('#currIlPopover');
-            new bootstrap.Popover(popoverIL, { html: true });
+            //const popoverIL = document.querySelector('#currIlPopover');
+            //new bootstrap.Popover(popoverIL, { html: true });
             
             
         });
