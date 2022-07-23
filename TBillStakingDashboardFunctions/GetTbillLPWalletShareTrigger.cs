@@ -11,6 +11,7 @@ namespace TBillStakingDashboardFunctions
         {
             log.LogInformation($"RefreshTBillStatsTrigger executed at: {DateTime.Now}");
             Exec.GetTBillLPStats.Execute();
+            Exec.GetTBillGnoteLPStats.Execute();
             log.LogInformation($"RefreshTBillStatsTrigger finised at: {DateTime.Now}");
         }
     }
