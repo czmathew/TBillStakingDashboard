@@ -34,6 +34,12 @@ Mat and Max!
 
 
 # Changes Notes
+# **July 22nd Updates:**
+**New Features:**
+- Added "IL to be Airdropped" to My Wallet
+- Added gNOTE / USD price chart to "gNOTE / TBill" page
+
+
 # **July 21st Updates:**
 **New Features:**
 - Added "Show NFTs value" button to My Wallet page
