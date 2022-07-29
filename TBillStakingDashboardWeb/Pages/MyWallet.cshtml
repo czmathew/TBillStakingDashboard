@@ -86,21 +86,21 @@
                     <p>
                         <strong>Total Activated TBILL</strong>
                         <br />
-                        <label id="activTbill" class="form-label"></label><img height="20" src="~/img/tbill.svg" />
+                        <img height="20" src="~/img/tbill.svg" />&nbsp;<label id="activTbill" class="form-label"></label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6">
                     <p>
                         <strong>Total Activated TFUEL</strong>
                         <br />
-                        <label id="activeTfuel" class="form-label"></label><img height="20" src="~/img/tfuel.svg" />
+                        <img height="20" src="~/img/tfuel.svg" />&nbsp;<label id="activeTfuel" class="form-label"></label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6">
                     <p>
                         <strong>Total Activated gNOTE</strong>
                         <br />
-                        <label id="activeGnote" class="form-label"></label><img height="20" src="~/img/gnote.png" />
+                        <img height="20" src="~/img/gnote.png" />&nbsp;<label id="activeGnote" class="form-label"></label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6">
@@ -128,18 +128,27 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6" id="lpPositionBlock">
                     <p>
-                        <strong>LP Position</strong>
+                        <img height="20" src="/img/tfuel.svg" />&nbsp;<strong>LP Position</strong>
                         <br />
-                        <label id="lpPosition" class="form-label"></label>
+                        <label id="lpPosition" class="form-label labelMargin0"></label><br />
+                        <label id="lpPct" class="form-label"></label>
                     </p>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-6" id="lpPctBlock">
+                 <div class="col-lg-3 col-sm-6 col-6" id="lpPositionBlock">
+                    <p>
+                        <img height="20" src="~/img/gnote.png" />&nbsp;<strong>LP Position</strong>
+                        <br />
+                        <label id="lpPositionGnote" class="form-label labelMargin0"></label><br />
+                        <label id="lpPctGnote" class="form-label"></label>
+                    </p>
+                </div>
+                @*<div class="col-lg-3 col-sm-6 col-6" id="lpPctBlock">
                     <p>
                         <strong>LP %</strong>
                         <br />
                         <label id="lpPct" class="form-label"></label>
                     </p>
-                </div>
+                </div>*@
                 @*</div>
             <div class="row">*@
                 <div class="col-lg-3 col-sm-6 col-6">
@@ -174,14 +183,14 @@
                     <p>
                         <strong>Theta</strong>
                         <br />
-                        <label id="thetaBalance" class="form-label"></label><img height="20" src="~/img/theta.png" />
+                        <img height="20" src="~/img/theta.png" />&nbsp;<label id="thetaBalance" class="form-label"></label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6" id="thetaStakeBlock">
                     <p>
                         <strong>Theta Staked</strong>
                         <br />
-                        <label id="thetaStake" class="form-label"></label><img height="20" src="~/img/theta.png" />
+                        <img height="20" src="~/img/theta.png" />&nbsp;<label id="thetaStake" class="form-label"></label>
                     </p>
                 </div>
 
@@ -213,13 +222,13 @@
                         <label id="extraIl" class="form-label"></label>
                     </p>
                 </div>*@
-                <div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">
+                @*<div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">
                     <p>
                         <strong>IL to be Airdropped</strong>
                         <br />
                         <label id="ILToBeDropped" class="form-label"></label>
                     </p>
-                </div>
+                </div>*@
                 <div class="col-lg-3 col-sm-6 col-6" id="extraIlBlock">
                     <p>
                         <strong>Days until mint</strong>
