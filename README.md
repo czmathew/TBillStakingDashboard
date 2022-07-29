@@ -34,6 +34,13 @@ Mat and Max!
 
 
 # Changes Notes
+# **July 29th Updates:**
+**New Features:**
+- Added Number of wallets in LP for gNOTE LP + updated chart
+- Added LP Stats for gNOTE
+- Added LP position (and LP percentage) for gNOTE in "My Wallet"
+
+
 # **July 22nd Updates:**
 **New Features:**
 - Added "IL to be Airdropped" to My Wallet
