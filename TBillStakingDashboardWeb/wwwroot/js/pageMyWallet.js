@@ -136,7 +136,7 @@ function fetchWalletData() {
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
-            $("#dayTotal").html(parseFloat(dailyTotal).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(dailyTotal * tbillRate).toFixed(2));
+            $("#dayTotal").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + parseFloat(dailyTotal).toFixed(4) + '<br/>' + '$' + parseFloat(dailyTotal * tbillRate).toFixed(2));
 
             fetchNFTforWallet();
         });
@@ -163,7 +163,7 @@ function fetchWalletData() {
             var snapIlUsd = parseFloat(data['data']['snapIlUsd']).toFixed(2);
             var airdroppeedTime = batch ? (new Date(new Date('2022-07-22T17:00:00.000Z').getTime() + (batch - 1) * 10 * 60 * 1000)).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : 'n/a';
 
-            $('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
+            //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
 
             //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
 
@@ -236,7 +236,7 @@ function fetchWalletData() {
                 }
                 i++;
             });
-            $("#totalTbill").html(parseFloat(totalRewards).toFixed(4) + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + parseFloat(totalRewardsUsd).toFixed(2));
+            $("#totalTbill").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + parseFloat(totalRewards).toFixed(4) + '<br/>' + '$' + parseFloat(totalRewardsUsd).toFixed(2));
             $("#daysInLP").html(i - 1);
 
             showDailyChart(datesDaily);
@@ -276,8 +276,8 @@ function fetchWalletData() {
             //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
             //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
 
-            $("#tbillBalance").html(balanceTBill + '<img height="20" src="/img/tbill.svg" /><br/>' + '$' + balanceTBillUSD);
-            $("#tfuelBalance").html(balanceTFuel + '<img height="20" src="/img/tfuel.svg" /><br/>' + '$' + balanceTFuelUSD);
+            $("#tbillBalance").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + balanceTBill + '<br/>' + '$' + balanceTBillUSD);
+            $("#tfuelBalance").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + balanceTFuel + '<br/>' + '$' + balanceTFuelUSD);
             if (parseFloat(json.Theta) > 0) {
                 $("#thetaBlock").show();
                 $("#thetaBalance").html(balanceTheta);
@@ -288,32 +288,59 @@ function fetchWalletData() {
             }
             if (parseFloat(json.TFuelStake) > 0) {
                 $("#tfuelStakeBlock").show();
-                $("#tfuelStake").html(stakeTFuel + '<img height="20" src="/img/tfuel.svg" /><br/>' + '$' + stakeTFuelUSD);
+                $("#tfuelStake").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + stakeTFuel + '<br/>' + '$' + stakeTFuelUSD);
             }
         });
     }
     if (wallet != "") {
         $.getJSON("api/getMyWalletLpStats/" + wallet, function (data) {
-            //var json = JSON.parse(data);
-            var position = data.Position;
-            var positionTotal = data.PositionTotal;
-            var univ2 = data.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-            var univ2Total = data.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var myPct = data.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
-
-            $("#lpPosition").html(position + ' / ' + positionTotal);
-            $("#univ2").html(univ2 + ' / ' + univ2Total);
-            $("#lpPct").html(myPct + ' %');
-
             var univ2Hist = [];
-            $.each(data.Univ2Hist, function (key, val) {
-                //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
-                var innerArr = [val["Item1"], val["Item2"]];
-                univ2Hist.push(innerArr);
+
+            $.each(data, function (key, val) {
+                if (val.lpName == 'tfuel') {
+                    var position = val.Position;
+                    var positionTotal = val.PositionTotal;
+                    var univ2 = val.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+                    var univ2Total = val.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var myPct = val.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
+
+                    $("#lpPosition").html(position + ' / ' + positionTotal);
+                    $("#univ2").html(univ2 + ' / ' + univ2Total);
+                    $("#lpPct").html(myPct + ' %');
+
+                    
+                    $.each(val.Univ2Hist, function (key, val) {
+                        //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
+                        var innerArr = [val["Item1"], val["Item2"]];
+                        univ2Hist.push(innerArr);
+
+                    });
+                }
+
+                if (val.lpName == 'gnote') {
+                    var position = val.Position;
+                    var positionTotal = val.PositionTotal;
+                    //var univ2 = val.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+                    var univ2Total = val.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var myPct = val.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
+
+                    $("#lpPositionGnote").html(position + ' / ' + positionTotal);
+                    //$("#univ2").html(univ2 + ' / ' + univ2Total);
+                    $("#lpPctGnote").html(myPct + ' %');
+
+
+                    $.each(val.Univ2Hist, function (key, val) {
+                        //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
+                        var innerArr = [val["Item1"], val["Item2"]];
+                        univ2Hist.push(innerArr);
+
+                    });
+                }
 
             });
 
             showUniv2Chart(univ2Hist);
+            
 
         });
     }

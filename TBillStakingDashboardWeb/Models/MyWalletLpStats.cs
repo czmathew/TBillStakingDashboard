@@ -7,6 +7,7 @@ namespace TBillStaking.Models
 {
     public class MyWalletLpStats
     {
+        public string lpName { get; set; }
         public int Position { get; set; }
         public int PositionTotal { get; set; }
         public decimal Univ2 { get; set; }
