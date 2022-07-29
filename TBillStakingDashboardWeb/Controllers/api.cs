@@ -261,7 +261,10 @@ namespace TBillStaking.Controllers
         [HttpGet("getMyWalletLpStats/{wallet}")]
         public IActionResult GetMyWalletLpStats(string wallet)
         {
-            MyWalletLpStats lpStats = new MyWalletLpStats();
+            List<MyWalletLpStats> lpStats = new List<MyWalletLpStats>();
+
+            MyWalletLpStats lpStatsTfuel = new MyWalletLpStats();
+            MyWalletLpStats lpStatsGnote = new MyWalletLpStats();
 
             string connString = _configuration.GetConnectionString("sql_tbill");
             using (SqlConnection connection = new SqlConnection(connString))
@@ -279,11 +282,20 @@ namespace TBillStaking.Controllers
                     {
                         while (reader.Read())
                         {
-                            lpStats.Position = reader.GetInt32("position");
-                            lpStats.PositionTotal = reader.GetInt32("posTotal");
-                            lpStats.Univ2 = reader.GetDecimal("univ2");
-                            lpStats.Univ2Total = reader.GetDecimal("univ2Total");
-                            lpStats.MyPct = reader.GetDecimal("myPct");
+
+                            lpStatsTfuel.lpName = "tfuel";
+                            lpStatsTfuel.Position = reader.GetInt32("position");
+                            lpStatsTfuel.PositionTotal = reader.GetInt32("posTotal");
+                            lpStatsTfuel.Univ2 = reader.GetDecimal("univ2");
+                            lpStatsTfuel.Univ2Total = reader.GetDecimal("univ2Total");
+                            lpStatsTfuel.MyPct = reader.GetDecimal("myPct");
+
+                            lpStatsGnote.lpName = "gnote";
+                            lpStatsGnote.Position = reader.GetInt32("positionGnote");
+                            lpStatsGnote.PositionTotal = reader.GetInt32("posTotalGnote");
+                            lpStatsGnote.Univ2 = reader.GetDecimal("univ2Gnote");
+                            lpStatsGnote.Univ2Total = reader.GetDecimal("univ2TotalGnote");
+                            lpStatsGnote.MyPct = reader.GetDecimal("myPctGnote");
                         }
                     }
                     finally
@@ -301,13 +313,38 @@ namespace TBillStaking.Controllers
                 {
                     command.Parameters.Add("@wallet", SqlDbType.NVarChar).Value = wallet;
                     SqlDataReader reader = command.ExecuteReader();
-                    lpStats.Univ2Hist = new List<Tuple<string, string>> { };
+                    List<Tuple<string, string>> Univ2Hist = new List<Tuple<string, string>> { };
                     try
                     {
                         while (reader.Read())
                         {
-                            lpStats.Univ2Hist.Add(new Tuple<string, string>(reader.GetString("date"), reader.GetString("univ2")));
+                            Univ2Hist.Add(new Tuple<string, string>(reader.GetString("date"), reader.GetString("univ2")));
                         }
+                        lpStatsTfuel.Univ2Hist = Univ2Hist;
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("usp_getMyWalletLPStatsHistoryGnote", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+
+                })
+                {
+                    command.Parameters.Add("@wallet", SqlDbType.NVarChar).Value = wallet;
+                    SqlDataReader reader = command.ExecuteReader();
+                    List<Tuple<string, string>> Univ2Hist = new List<Tuple<string, string>> { };
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Univ2Hist.Add(new Tuple<string, string>(reader.GetString("date"), reader.GetString("univ2")));
+                        }
+                        lpStatsGnote.Univ2Hist = Univ2Hist;
                     }
                     finally
                     {
@@ -317,6 +354,9 @@ namespace TBillStaking.Controllers
                 }
 
             }
+
+            lpStats.Add(lpStatsTfuel);
+            lpStats.Add(lpStatsGnote);
 
 
             return Ok(JsonSerializer.Serialize(lpStats));

@@ -294,26 +294,32 @@ function fetchWalletData() {
     }
     if (wallet != "") {
         $.getJSON("api/getMyWalletLpStats/" + wallet, function (data) {
-            //var json = JSON.parse(data);
-            var position = data.Position;
-            var positionTotal = data.PositionTotal;
-            var univ2 = data.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-            var univ2Total = data.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var myPct = data.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
-
-            $("#lpPosition").html(position + ' / ' + positionTotal);
-            $("#univ2").html(univ2 + ' / ' + univ2Total);
-            $("#lpPct").html(myPct + ' %');
-
             var univ2Hist = [];
-            $.each(data.Univ2Hist, function (key, val) {
-                //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
-                var innerArr = [val["Item1"], val["Item2"]];
-                univ2Hist.push(innerArr);
 
+            $.each(data, function (key, val) {
+                if (val.lpName = 'tfuel') {
+                    var position = val.Position;
+                    var positionTotal = val.PositionTotal;
+                    var univ2 = val.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+                    var univ2Total = val.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var myPct = val.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
+
+                    $("#lpPosition").html(position + ' / ' + positionTotal);
+                    $("#univ2").html(univ2 + ' / ' + univ2Total);
+                    $("#lpPct").html(myPct + ' %');
+
+                    
+                    $.each(val.Univ2Hist, function (key, val) {
+                        //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
+                        var innerArr = [val["Item1"], val["Item2"]];
+                        univ2Hist.push(innerArr);
+
+                    });
+                }
             });
 
             showUniv2Chart(univ2Hist);
+            
 
         });
     }
