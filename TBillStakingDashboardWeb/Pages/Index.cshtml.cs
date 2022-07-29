@@ -24,8 +24,10 @@ namespace TBillStaking.Pages
         [ViewData]
         public string DisplayNewDomainMessage { get; set; }
         public List<Tuple<string, string>> LpShare { get; set; }
+        public List<Tuple<string, string>> LpShareGnote { get; set; }
         public List<Tuple<string, string>> LpRange { get; set; }
-        public List<Tuple<string, string>> WalletList { get; set; }
+        public List<Tuple<string, string>> LpRangeGnote { get; set; }
+        public List<Tuple<string, string, string>> WalletList { get; set; }
         public List<Tuple<string, string, string>> RebaseList { get; set; }
         public List<NFTDetails> NFTs { get; set; }
         public List<NFTSaleDetails> NFTSales { get; set; }
@@ -39,6 +41,7 @@ namespace TBillStaking.Pages
         public string Rewards { get; set; }
 
         public string lpWalletCount { get; set; }
+        public string lpWalletCountGnote { get; set; }
 
         private readonly IConfiguration _configuration;
         private readonly ILoggerManager _logger;
@@ -164,10 +167,11 @@ namespace TBillStaking.Pages
                     })
                     {
                         command.Parameters.Add("@top", SqlDbType.Int).Value = 100;
-                        WalletList = new List<Tuple<string, string>>();
+                        WalletList = new List<Tuple<string, string, string>>();
                         SqlDataReader reader = command.ExecuteReader();
                         int rowCnt = 1;
                         int walletCalc = 0;
+                        int walletCalcGnote = 0;
                         try
                         {
                             while (reader.Read())
@@ -175,15 +179,18 @@ namespace TBillStaking.Pages
                                 if (rowCnt == 1)
                                 {
                                     walletCalc = reader.GetInt32("walletCount");
+                                    walletCalcGnote = reader.GetInt32("walletCountGnote");
                                     //lpWalletCount = reader.GetInt32("walletCount").ToString();
                                 }
                                 else if (rowCnt == 2)
                                 {
-                                    lpWalletCount = walletCalc.ToString() + " (24h change: " + (walletCalc - reader.GetInt32("walletCount")).ToString() + ")";
+                                    lpWalletCount = " " + walletCalc.ToString() + " (24h: " + (walletCalc - reader.GetInt32("walletCount")).ToString() + ")";
+                                    lpWalletCountGnote = " " + walletCalcGnote.ToString() + " (24h: " + (walletCalcGnote - reader.GetInt32("walletCountGnote")).ToString() + ")";
                                 }
 
-                                WalletList.Add(new Tuple<string, string>(reader.GetDateTime("timestamp").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
-                                                                            , reader.GetInt32("walletCount").ToString()));
+                                WalletList.Add(new Tuple<string, string, string>(reader.GetDateTime("timestamp").Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                                                                            , reader.GetInt32("walletCount").ToString()
+                                                                            , reader.GetInt32("walletCountGnote").ToString()));
                                 rowCnt++;
                             }
                         }
@@ -242,6 +249,29 @@ namespace TBillStaking.Pages
                         }
                     }
 
+                    using (var command = new SqlCommand("[dbo].[usp_getLpPctGnote]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    })
+                    {
+                        LpShareGnote = new List<Tuple<string, string>>();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                LpShareGnote.Add(new Tuple<string, string>(
+                                        reader.GetString("txt")
+                                        , reader.GetDecimal("holdPct").ToString("0.00")));
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+
                     using (var command = new SqlCommand("[dbo].[usp_getLpRange]", connection)
                     {
                         CommandType = CommandType.StoredProcedure
@@ -254,6 +284,29 @@ namespace TBillStaking.Pages
                             while (reader.Read())
                             {
                                 LpRange.Add(new Tuple<string, string>(
+                                        reader.GetString("txt")
+                                        , reader.GetInt32("cnt").ToString()));
+                            }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+
+                    using (var command = new SqlCommand("[dbo].[usp_getLpRangeGnote]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    })
+                    {
+                        LpRangeGnote = new List<Tuple<string, string>>();
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                LpRangeGnote.Add(new Tuple<string, string>(
                                         reader.GetString("txt")
                                         , reader.GetInt32("cnt").ToString()));
                             }

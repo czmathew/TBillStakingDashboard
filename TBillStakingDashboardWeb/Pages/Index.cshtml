@@ -5,7 +5,7 @@
 }
 
 @section scripts {
-    <script type="text/javascript" src="js/pageIndex.js?7" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageIndex.js?8" charset="utf-8"></script>
 }
 
 
@@ -31,7 +31,7 @@
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Total Activated TBILL</strong><br />
-                        <label id="tbillLocked" class="form-label">@Model.TbillLocked TBILL</label>
+                        <label id="tbillLocked" class="form-label">@Model.TbillLocked </label>&nbsp;<img height="20" src="~/img/tbill.svg" />
                     </p>
                 </div>
 
@@ -41,14 +41,14 @@
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Total Activated TFUEL</strong><br />
-                        <label id="tfuelLocked" class="form-label" style="margin:0px;">@Model.TfuelLocked TFUEL</label>
+                        <label id="tfuelLocked" class="form-label" style="margin:0px;">@Model.TfuelLocked </label>&nbsp;<img height="20" src="~/img/tfuel.svg" /><br />
                         <label id="tvLocked" class="form-label">(@Model.TfuelLocked24h% in 24h)</label>
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Total Activated gNOTE</strong><br />
-                        <label id="gnoteLocked" class="form-label" style="margin:0px;">@Model.GnoteLocked gNOTE</label><br />
+                        <label id="gnoteLocked" class="form-label" style="margin:0px;">@Model.GnoteLocked </label>&nbsp;<img height="20" src="~/img/gnote.png" /><br />
                         <label id="tvLocked" class="form-label">(@Model.GnoteLocked24h% in 24h)</label>
                     </p>
                 </div>
@@ -68,7 +68,8 @@
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>Number of wallets in LP</strong><br />
-                        <label id="tfuelLocked" class="form-label">@Model.lpWalletCount</label>
+                        <img height="20" src="~/img/tfuel.svg" />&nbsp;<label id="tfuelLocked" class="form-label labelMargin0">@Model.lpWalletCount</label><br />
+                        <img height="20" src="~/img/gnote.png" />&nbsp;<label id="walletCountGnote" class="form-label">@Model.lpWalletCountGnote</label>
                     </p>
                 </div>
                 <div class="col-lg-4 col-sm-12">
@@ -132,59 +133,123 @@
         </div>
     </div>
     <div class="row">
-        <h4>LP Stats</h4>
-        <div class="col-lg-6 col-sm-6">
+        <div class="col-lg-6 col-sm-12">
+            <div class="row">
+                <h4>LP Stats Tfuel</h4>
+                <div class="col-lg-6 col-sm-6">
 
 
-            <table id="lpPct" class="table table-sm table-light tableFixHead">
-                <thead>
-                    <tr>
-                        <th>Top no. of wallets</th>
-                        <th class="text-end">Hold %</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                    @foreach (var record in Model.LpShare)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Item1)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Item2)
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="col-lg-6 col-sm-6">
-        <table id="lpTbillRange" class="table table-sm table-light tableFixHead">
-            <thead>
-                <tr>
-                    <th>Amount of TBill</th>
-                    <th class="text-end">No. of wallets</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    @foreach (var record in Model.LpRange)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => record.Item1)
-                            </td>
-                            <td class="text-end">
-                                @Html.DisplayFor(modelItem => record.Item2)
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
+                    <table id="lpPct" class="table table-sm table-light tableFixHead">
+                        <thead>
+                            <tr>
+                                <th>Top no. of wallets</th>
+                                <th class="text-end">Hold %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                @foreach (var record in Model.LpShare)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => record.Item1)
+                                        </td>
+                                        <td class="text-end">
+                                            @Html.DisplayFor(modelItem => record.Item2)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <table id="lpTbillRange" class="table table-sm table-light tableFixHead">
+                        <thead>
+                            <tr>
+                                <th>Amount of TBill</th>
+                                <th class="text-end">No. of wallets</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                @foreach (var record in Model.LpRange)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => record.Item1)
+                                        </td>
+                                        <td class="text-end">
+                                            @Html.DisplayFor(modelItem => record.Item2)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>  
+     </div>
+     <div class="col-lg-6 col-sm-12">
+         
+            <div class="row">
+                <h4>LP Stats gNOTE</h4>
+                <div class="col-lg-6 col-sm-6">
+
+
+                    <table id="lpPct" class="table table-sm table-light tableFixHead">
+                        <thead>
+                            <tr>
+                                <th>Top no. of wallets</th>
+                                <th class="text-end">Hold %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                @foreach (var record in Model.LpShareGnote)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => record.Item1)
+                                        </td>
+                                        <td class="text-end">
+                                            @Html.DisplayFor(modelItem => record.Item2)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <table id="lpTbillRange" class="table table-sm table-light tableFixHead">
+                        <thead>
+                            <tr>
+                                <th>Amount of TBill</th>
+                                <th class="text-end">No. of wallets</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                @foreach (var record in Model.LpRangeGnote)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => record.Item1)
+                                        </td>
+                                        <td class="text-end">
+                                            @Html.DisplayFor(modelItem => record.Item2)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+     </div>
+        
 </div>
 
 <style>
@@ -297,14 +362,17 @@
 
     <script>
 
-
+        
         var datesWallets = [];
+        var datesWalletsGnote = [];
 
         var sourcearray = @Html.Raw(Json.Serialize(Model.WalletList));
         sourcearray.forEach(async (value) => {
             //sum = await sumFunction(sum, value);
             var innerArr = [value["item1"], value["item2"]];
             datesWallets.push(innerArr);
+            var innerArr = [value["item1"], value["item3"]];
+            datesWalletsGnote.push(innerArr);
         });
 
 
@@ -317,11 +385,14 @@
 
         var optionsWallets = {
             series: [{
-                name: 'WalletCount',
+                name: 'TBill LP',
                 data: datesWallets
+            },{
+                name: 'gNOTE LP',
+                data: datesWalletsGnote
             }],
             chart: {
-                type: 'area',
+                type: 'line',
                 stacked: false,
                 height: 350,
                 zoom: {
@@ -355,6 +426,9 @@
             },
             xaxis: {
                 type: 'datetime',
+            },
+            stroke: {
+                width: [3,3,3]
             },
             tooltip: {
                 enabled: true,
