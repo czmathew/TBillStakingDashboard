@@ -51,7 +51,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 {
                     connection.Open();
 
-                    string query = " INSERT INTO [dbo].[tbillRates] ([tbill_usd],[tfuel_usd],[usdc_usd],[gnote_usd],[targetRate],[rebaseRate],[instantRate],[rebaseTop],[rebaseBottom],[lpTokenRate]) "
+                    string query = " INSERT INTO [dbo].[tbillRates] ([tbill_usd],[tfuel_usd],[usdc_usd],[gnote_usd],[targetRate],[rebaseRate],[instantRate],[rebaseTop],[rebaseBottom],[lpTokenRate],[gnoteLpTokenRate]) "
                                 + " VALUES "
                                 + " (@tbill_usd "
                                 + " , @tfuel_usd "
@@ -62,7 +62,8 @@ namespace TBillStakingDashboardFunctions.Exec
                                 + " , @instantRate "
                                 + " , @rebaseTop "
                                 + " , @rebaseBottom "
-                                + " , @lpTokenRate)";
+                                + " , @lpTokenRate "
+                                + " , @gnoteLpTokenRate)";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.Parameters.AddWithValue("@tbill_usd", tbill_usd);
@@ -75,6 +76,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     cmd.Parameters.AddWithValue("@rebaseTop", decimal.Parse(jsonClass.noRebaseRange.top.ToString()));
                     cmd.Parameters.AddWithValue("@rebaseBottom", decimal.Parse(jsonClass.noRebaseRange.bottom.ToString()));
                     cmd.Parameters.AddWithValue("@lpTokenRate", decimal.Parse(jsonClass.lpTokenRate.ToString()));
+                    cmd.Parameters.AddWithValue("@gnoteLpTokenRate", decimal.Parse(jsonClass.gnoteLpTokenRate.ToString()));
 
                     cmd.ExecuteNonQuery();
 

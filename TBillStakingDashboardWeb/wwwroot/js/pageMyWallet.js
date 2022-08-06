@@ -146,17 +146,17 @@ function fetchWalletData() {
     if (wallet != "") {
         $.getJSON("api/my-overview/" + wallet, function (data) {
            
-            //var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
-            //var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
-            //var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
-            //var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
-            //var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
-            //var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+            var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
+            var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
+            var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
+            var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
+            var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
+            var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
 
             var updateTime = data['data']['updateTime'];
-            //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            //$('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
-            //$('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            $('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
 
             var batch = data['data']['batch'];
             var snapIl = parseFloat(data['data']['snapIl']).toFixed(2);
@@ -165,7 +165,7 @@ function fetchWalletData() {
 
             //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
 
-            //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
+            $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
 
             // Projected Amount
             var projectedAmount = parseFloat(data['data']['tbillsProjected']).toFixed(0);
@@ -175,8 +175,8 @@ function fetchWalletData() {
             
 
             // refresh the currIlPopover popover
-            //const popoverIL = document.querySelector('#currIlPopover');
-            //new bootstrap.Popover(popoverIL, { html: true });
+            const popoverIL = document.querySelector('#currIlPopover');
+            new bootstrap.Popover(popoverIL, { html: true });
             
             
         });
@@ -295,6 +295,7 @@ function fetchWalletData() {
     if (wallet != "") {
         $.getJSON("api/getMyWalletLpStats/" + wallet, function (data) {
             var univ2Hist = [];
+            var univ2HistGnote = [];
 
             $.each(data, function (key, val) {
                 if (val.lpName == 'tfuel') {
@@ -306,6 +307,7 @@ function fetchWalletData() {
 
                     $("#lpPosition").html(position + ' / ' + positionTotal);
                     $("#univ2").html(univ2 + ' / ' + univ2Total);
+                    
                     $("#lpPct").html(myPct + ' %');
 
                     
@@ -320,11 +322,12 @@ function fetchWalletData() {
                 if (val.lpName == 'gnote') {
                     var position = val.Position;
                     var positionTotal = val.PositionTotal;
-                    //var univ2 = val.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-                    var univ2Total = val.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var univ2 = val.Univ2.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
+                    var univ2Total = val.Univ2Total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 3 });
                     var myPct = val.MyPct.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });;
 
                     $("#lpPositionGnote").html(position + ' / ' + positionTotal);
+                    $("#univ2Gnote").html(univ2 + ' / ' + univ2Total);
                     //$("#univ2").html(univ2 + ' / ' + univ2Total);
                     $("#lpPctGnote").html(myPct + ' %');
 
@@ -332,14 +335,14 @@ function fetchWalletData() {
                     $.each(val.Univ2Hist, function (key, val) {
                         //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
                         var innerArr = [val["Item1"], val["Item2"]];
-                        univ2Hist.push(innerArr);
+                        univ2HistGnote.push(innerArr);
 
                     });
                 }
 
             });
 
-            showUniv2Chart(univ2Hist);
+            showUniv2Chart(univ2Hist, univ2HistGnote);
             
 
         });
@@ -691,20 +694,26 @@ function showDailySumChart(data) {
     chart.render();
 }
 
-function showUniv2Chart(data) {
+function showUniv2Chart(data, dataGnote) {
 
     var options = {
         series: [{
-            name: 'Uni-v2',
+            name: 'Uni-v2 TFuel',
             type: 'column',
             data: data
-        }],
+        }
+            //, {
+            //name: 'Uni-v2 gNOTE',
+            //type: 'line',
+            //data: dataGnote
+            //}
+        ],
         chart: {
             height: 350,
             type: 'line',
         },
         stroke: {
-            width: [0]
+            width: [2,2]
         },
         title: {
             text: 'Uni-v2'
@@ -714,7 +723,7 @@ function showUniv2Chart(data) {
         },
         yaxis: [{
             title: {
-                text: 'uni-v2',
+                text: 'uni-v2 TFuel',
             }, labels: {
                 formatter: function (val) {
                     /*    return (val / 1).toFixed(2);*/
@@ -723,10 +732,30 @@ function showUniv2Chart(data) {
             },
             min: 0,
 
-        }],
+        }
+            //, {
+            //    opposite: true,
+            //    title: {
+            //        text: 'Uni-v2 gNOTE'
+            //    }, labels: {
+            //        formatter: function (val) {
+            //            return (val).toFixed(5);
+            //        }
+            //    },
+            //    //min: TbillSupplyMin * 0.98,
+            //    //max: TbillSupplyMax * 1.02
+            //}
+        ],
         
         theme: {
             mode: 'dark'
+        },
+        tooltip: {
+            enabled: true,
+            shared: true,
+            x: {
+                format: 'dd/MM/yy'
+            }
         }
         //,
         //colors: [ '#4ECDC4']

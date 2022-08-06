@@ -16,7 +16,7 @@ namespace TBillStakingDashboardFunctions.Exec
         {
             using (WebClient wc = new WebClient())
             {
-                var json = wc.DownloadString("https://thetastats-nodejs-dev.azurewebsites.net/gnote_tbill");
+                var json = wc.DownloadString("https://thetastats-nodejs-prd.azurewebsites.net/gnote_tbill");
                 var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
                 string connString = Environment.GetEnvironmentVariable("sql_tbill");

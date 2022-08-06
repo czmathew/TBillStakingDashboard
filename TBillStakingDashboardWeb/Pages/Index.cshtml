@@ -5,7 +5,7 @@
 }
 
 @section scripts {
-    <script type="text/javascript" src="js/pageIndex.js?8" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageIndex.js?9" charset="utf-8"></script>
 }
 
 
@@ -75,7 +75,8 @@
                 <div class="col-lg-4 col-sm-12">
                     <p>
                         <strong>LP Token</strong><br />
-                        <label id="lpTokenRate" class="form-label"></label>
+                        <img height="20" src="~/img/tfuel.svg" />&nbsp;<label id="lpTokenRate" class="form-label labelMargin0"></label><br />
+                        <img height="20" src="~/img/gnote.png" />&nbsp;<label id="gnoteLpTokenRate" class="form-label"></label>
                     </p>
                 </div>
             </div>
@@ -135,7 +136,10 @@
     <div class="row">
         <div class="col-lg-6 col-sm-12">
             <div class="row">
-                <h4>LP Stats Tfuel</h4>
+                <div>
+                    <h4 class="headerInline">LP Stats Tfuel</h4> &nbsp; <label id="nextRebaseRate" class="form-label">@Model.lpTfuelPct %</label>
+                     <i id="currIlPopover" class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="@Model.lpTfuelPopoverText "></i>
+                </div>
                 <div class="col-lg-6 col-sm-6">
 
 
@@ -193,7 +197,10 @@
      <div class="col-lg-6 col-sm-12">
          
             <div class="row">
-                <h4>LP Stats gNOTE</h4>
+                <div>
+                    <h4 class="headerInline">LP Stats gNOTE</h4> &nbsp; <label id="nextRebaseRate" class="form-label">@Model.lpGnotePct %</label>
+                     <i id="currIlPopover" class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="@Model.lpGnotePopoverText "></i>
+                </div>
                 <div class="col-lg-6 col-sm-6">
 
 
@@ -432,7 +439,7 @@
             },
             tooltip: {
                 enabled: true,
-                shared: false,
+                shared: true,
                 y: {
                     formatter: function(val) {
                         return (val / 1).toFixed(0)

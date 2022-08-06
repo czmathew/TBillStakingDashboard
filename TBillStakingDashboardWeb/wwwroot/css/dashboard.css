@@ -33,6 +33,11 @@ body {
     display: inline-block;
 }
 
+.headerInline {
+    margin: 0;
+    display: inline-block;
+}
+
 .tableBorderLeft {
     border-left: 1px solid;
 }

@@ -64,6 +64,7 @@ function fetchData(fetchWallet) {
         var noRebaseRangeTop = data['noRebaseRange']['top'];
         var noRebaseRangeBottom = data['noRebaseRange']['bottom'];
         var lpTokenRate = data['lpTokenRate'];
+        var gnoteLpTokenRate = data['gnoteLpTokenRate'];
 
         if (rebaseRate > noRebaseRangeTop) {
             $("#rebaseRate").addClass("text-success");
@@ -93,6 +94,7 @@ function fetchData(fetchWallet) {
         $("#tfuelPriceTop").html(parseFloat(rateTFuel).toFixed(4));
         $("#gnotePriceTop").html(parseFloat(rateGnote).toFixed(4));
         $("#lpTokenRate").html('$ ' + parseFloat(lpTokenRate).toFixed(2));
+        $("#gnoteLpTokenRate").html('$ ' + parseFloat(gnoteLpTokenRate).toFixed(2));
 
         $("#nextRebaseRate").html(parseFloat(priceAfterRebase).toFixed(4));
         $("#nextRebaseTbillChange").html('&nbsp;(TBill change: ' + parseFloat(nextRebase).toFixed(2) + ' %)');

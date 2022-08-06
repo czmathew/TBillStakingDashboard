@@ -62,7 +62,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     }
                     catch (Exception ex)
                     {
-
+                        throw;
                     }
 
 

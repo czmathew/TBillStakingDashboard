@@ -39,6 +39,12 @@ namespace TBillStaking.Pages
         public string TfuelLocked24h { get; set; }
         public string GnoteLocked24h { get; set; }
         public string Rewards { get; set; }
+        public string lpTfuelPct { get; set; } = "";
+        public string lpGnotePct { get; set; } = "";
+        public string lpTfuelPopoverText { get; set; } = "";
+        public string lpGnotePopoverText { get; set; } = "";
+
+
 
         public string lpWalletCount { get; set; }
         public string lpWalletCountGnote { get; set; }
@@ -55,6 +61,13 @@ namespace TBillStaking.Pages
         {
             try
             {
+                LpShare = new List<Tuple<string, string>>();
+                LpShareGnote = new List<Tuple<string, string>>();
+                LpRange = new List<Tuple<string, string>>();
+                LpRangeGnote = new List<Tuple<string, string>>();
+                RebaseList = new List<Tuple<string, string, string>>();
+               
+
                 DisplayDevMessage = "false";
                 if (_configuration["DisplayDevMessage"] != null)
                 {
@@ -206,7 +219,7 @@ namespace TBillStaking.Pages
                         CommandType = CommandType.StoredProcedure
                     })
                     {
-                        RebaseList = new List<Tuple<string, string, string>>();
+                        
                         SqlDataReader reader = command.ExecuteReader();
                         try
                         {
@@ -231,7 +244,7 @@ namespace TBillStaking.Pages
                         CommandType = CommandType.StoredProcedure
                     })
                     {
-                        LpShare = new List<Tuple<string, string>>();
+                        
                         SqlDataReader reader = command.ExecuteReader();
                         try
                         {
@@ -254,7 +267,7 @@ namespace TBillStaking.Pages
                         CommandType = CommandType.StoredProcedure
                     })
                     {
-                        LpShareGnote = new List<Tuple<string, string>>();
+                        
                         SqlDataReader reader = command.ExecuteReader();
                         try
                         {
@@ -277,7 +290,7 @@ namespace TBillStaking.Pages
                         CommandType = CommandType.StoredProcedure
                     })
                     {
-                        LpRange = new List<Tuple<string, string>>();
+                        
                         SqlDataReader reader = command.ExecuteReader();
                         try
                         {
@@ -300,7 +313,7 @@ namespace TBillStaking.Pages
                         CommandType = CommandType.StoredProcedure
                     })
                     {
-                        LpRangeGnote = new List<Tuple<string, string>>();
+                        
                         SqlDataReader reader = command.ExecuteReader();
                         try
                         {
@@ -310,6 +323,42 @@ namespace TBillStaking.Pages
                                         reader.GetString("txt")
                                         , reader.GetInt32("cnt").ToString()));
                             }
+                        }
+                        finally
+                        {
+                            // Always call Close when done reading.
+                            reader.Close();
+                        }
+                    }
+
+                    using (var command = new SqlCommand("[dbo].[usp_getLpInfo]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    })
+                    {
+                        decimal lpTfuelUSD = 0;
+                        decimal lpGnoteUSD = 0;
+                        decimal lpUSD = 0;
+
+                        SqlDataReader reader = command.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.GetString("lp").Equals("tfuel"))
+                                {
+                                    lpTfuelUSD = reader.GetDecimal("tbillUSD");
+                                    lpUSD += reader.GetDecimal("tbillUSD");
+                                    lpTfuelPopoverText = (reader.GetDecimal("tbillReserve")).ToString("n2") + " TBill";
+                                } else if (reader.GetString("lp").Equals("gnote"))
+                                {
+                                    lpGnoteUSD = reader.GetDecimal("tbillUSD");
+                                    lpUSD += reader.GetDecimal("tbillUSD");
+                                    lpGnotePopoverText = (reader.GetDecimal("tbillReserve")).ToString("n2") + " TBill";
+                                }
+                            }
+                            lpTfuelPct = (lpTfuelUSD / lpUSD * 100).ToString("0.00"); ;
+                            lpGnotePct = (lpGnoteUSD / lpUSD * 100).ToString("0.00"); ;
                         }
                         finally
                         {

@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace TBillStakingDashboardFunctions
 {
-    public static class GetTbillLPWalletShare
+    public static class GetTbillLPWalletShareTrigger
     {
-        [FunctionName("GetTbillLPWalletShare")]
+        [FunctionName("GetTbillLPWalletShareTrigger")]
         public static void Run([TimerTrigger("0 20 2 * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"RefreshTBillStatsTrigger executed at: {DateTime.Now}");

@@ -10,39 +10,39 @@ using System.Text;
 
 namespace TBillStakingDashboardFunctions.Exec
 {
-    static class GetBultPrice
+    static class GetTfuelTbillPrice
     {
         public static void Execute()
         {
             using (WebClient wc = new WebClient())
             {
-                var json = wc.DownloadString("https://thetastats-nodejs-prd.azurewebsites.net/bult_tfuel");
+                var json = wc.DownloadString("https://thetastats-nodejs-prd.azurewebsites.net/tbill_tfuel");
                 var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
                 string connString = Environment.GetEnvironmentVariable("sql_tbill");
                 // connect to SQL
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
-                   
+
 
                     connection.Open();
 
-                    string query = @"INSERT INTO [bult].[bult_tfuel]
-                                   ([bult_tfuel]
-                                   ,[tfuel_bult]
-                                   ,bult_reserve
-                                   ,tfuel_reserve)
+                    string query = @"INSERT INTO [dbo].[tfuel_tbill]
+                                   ([tfuel_tbill]
+                                   ,[tbill_tfuel]
+                                   ,tfuel_reserve
+                                   ,tbill_reserve)
                              VALUES
-                                   (@bult_tfuel
-                                   ,@tfuel_bult
-                                   ,@bult_reserve
-                                   ,@tfuel_reserve)";
+                                   (@tfuel_tbill
+                                   ,@tbill_tfuel
+                                   ,@tfuel_reserve
+                                   ,@tbill_reserve)";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@bult_tfuel", decimal.Parse(jsonClass.BULT_TFUEL.ToString(), CultureInfo.InvariantCulture));
-                    cmd.Parameters.AddWithValue("@tfuel_bult", decimal.Parse(jsonClass.TFUEL_BULT.ToString(), CultureInfo.InvariantCulture));
-                    cmd.Parameters.AddWithValue("@bult_reserve", decimal.Parse(jsonClass.BULT_RESERVE.ToString(), CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@tfuel_tbill", decimal.Parse(jsonClass.TFUEL_TBILL.ToString(), CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@tbill_tfuel", decimal.Parse(jsonClass.TBILL_TFUEL.ToString(), CultureInfo.InvariantCulture));
                     cmd.Parameters.AddWithValue("@tfuel_reserve", decimal.Parse(jsonClass.TFUEL_RESERVE.ToString(), CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@tbill_reserve", decimal.Parse(jsonClass.TBILL_RESERVE.ToString(), CultureInfo.InvariantCulture));
 
                     cmd.ExecuteNonQuery();
 
