@@ -34,6 +34,13 @@ Mat and Max!
 
 
 # Changes Notes
+# **August 5th Updates:**
+**New Features**
+- Added TBill LP percetage for each LP (TFuel / gNOTE)
+- Added price of gNOTE LP token
+- Added amount of gNTOE LP token in My Wallet
+
+
 # **July 29th Updates:**
 **New Features:**
 - Added Number of wallets in LP for gNOTE LP + updated chart
