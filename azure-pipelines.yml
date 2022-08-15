@@ -30,7 +30,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)\wwwroot'
+    SourceFolder: '$(System.DefaultWorkingDirectory)\TBillStakingDashboardWeb\wwwroot'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)\wwwroot'
 
