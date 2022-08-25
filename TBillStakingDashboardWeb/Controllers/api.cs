@@ -457,6 +457,44 @@ namespace TBillStaking.Controllers
 
             return Ok(JsonSerializer.Serialize(NFTSales));
         }
+        
+        [HttpGet]
+        [HttpGet("LptokenTfuelRatio/{days}")]
+        public IActionResult GetLptokenTfuelRatio(int days)
+        {
+            
+            var DailyRates = new List<Tuple<string, decimal>> { };
+
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getLptokenTfuelRatio", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24;
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            DailyRates.Add(new Tuple<string, decimal>(reader.GetString("date")
+                               , reader.GetDecimal("ratio")));
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            return Ok(JsonSerializer.Serialize(DailyRates));
+        }
 
         [HttpGet]
         [HttpGet("getDailyRates/{days}")]

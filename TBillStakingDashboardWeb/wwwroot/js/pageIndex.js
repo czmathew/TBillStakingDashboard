@@ -11,6 +11,8 @@
         refreshRebaseChart(this.value);
 
         refreshDailyRates(this.value);
+
+        refreshLptokenTfuelRatio(this.value);
     });
 });
 
@@ -26,6 +28,7 @@ function refreshCharts() {
 
     refreshTVLandRewards(31);
     refreshRebaseChart(31);
+    refreshLptokenTfuelRatio(31);
 
 
 
@@ -44,6 +47,20 @@ function refreshDailyLPToken(days) {
 
     });
 
+}
+
+function refreshLptokenTfuelRatio(days) {
+    $.getJSON("api/LptokenTfuelRatio/" + days, function (data) {
+        var ratioDaily = [];
+        $.each(data, function (key, val) {
+            //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
+            var innerArr = [val["Item1"], val["Item2"]];
+            ratioDaily.push(innerArr);
+        });
+
+        showDailyLptokenTfuelRatioChart(ratioDaily);
+
+    });
 }
 
 function refreshDailyRates(days) {
@@ -488,6 +505,62 @@ function showDailyRateChart(data) {
 
     var chart = new ApexCharts(document.querySelector("#chartDailyRates"), options);
     $("#chartDailyRates").empty();
+    chart.render();
+}
+
+function showDailyLptokenTfuelRatioChart(data) {
+
+    var options = {
+        series: [{
+            name: 'LP Token / TFuel ratio',
+            data: data
+        }],
+        chart: {
+            type: 'line',
+            height: 350
+        },
+        dataLabels: {
+            enabled: false
+        },
+        markers: {
+            size: 0,
+        },
+        title: {
+            text: 'LP Token / TFuel ratio',
+            align: 'left'
+        },
+        yaxis: {
+            labels: {
+                formatter: function (val) {
+                    return val;
+                },
+            },
+        },
+        xaxis: {
+            type: 'datetime',
+        },
+        stroke: {
+            width: [3]
+        },
+        tooltip: {
+            enabled: true,
+            shared: false,
+            y: {
+                formatter: function (val) {
+                    return (val).toFixed(4)
+                }
+            },
+            x: {
+                format: 'dd/MM/yy HH:mm'
+            }
+        },
+        theme: {
+            mode: 'dark'
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chartLptTokenTfuelRatio"), options);
+    $("#chartLptTokenTfuelRatio").empty();
     chart.render();
 }
 
