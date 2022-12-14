@@ -6,7 +6,7 @@
 
 
 @section scripts {
-    <script type="text/javascript" src="js/pageMyWallet.js?24" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageMyWallet.js?25" charset="utf-8"></script>
 }
 
     <style>
@@ -219,9 +219,16 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-6" id="extraIlBlock">
                     <p>
-                        <strong>Extra IL</strong> <i class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Ineligible for extra IL if 10% or more withdrawn"></i>
+                        <strong>Extra IL</strong> <i class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Eligible for extra IL if 90%+ of your HWM remains in LP"></i>
                         <br />
                         <label id="extraIl" class="form-label"></label>
+                    </p>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-6" id="currHwmBlock">
+                    <p>
+                        <strong>Current HWM</strong> <i class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="High Water Mark - Your percentage of TVL that remains in the LP."></i>
+                        <br />
+                        <label id="currHwm" class="form-label"></label>
                     </p>
                 </div>
                 @*<div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">

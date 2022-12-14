@@ -152,11 +152,13 @@ function fetchWalletData() {
             var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
             var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
             var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+            var currHwm = parseFloat(data['data']['hwm']).toFixed(2);
 
             var updateTime = data['data']['updateTime'];
             $('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
             $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
             $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+            $('#currHwm').html(currHwm.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })+ ' %');
 
             var batch = data['data']['batch'];
             var snapIl = parseFloat(data['data']['snapIl']).toFixed(2);
