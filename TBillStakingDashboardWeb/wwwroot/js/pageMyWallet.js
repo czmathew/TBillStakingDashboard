@@ -167,7 +167,7 @@ function fetchWalletData() {
 
             //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
 
-            $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' +updateTime);
+            $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' + updateTime + '<br/>Eligible for IL if 90%+ of your HWM remains in LP');
 
             // Projected Amount
             var projectedAmount = parseFloat(data['data']['tbillsProjected']).toFixed(0);
