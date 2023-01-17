@@ -114,6 +114,30 @@ namespace TBillStaking.Controllers
             }
         }
 
+
+        [HttpGet]
+        [HttpGet("my-overview-zeroday/{wallet}")]
+        public async Task GetMyOverviewZeroday(string wallet)
+        {
+            string jsonUrl = apiBase + "my-overview?snapshot=2&wallet=" + wallet;
+            HttpContext.Response.ContentType = "application/json";
+            using (var client = new System.Net.WebClient())
+            {
+                try
+                {
+                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
+                    //write to response stream aka Response.Body
+                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                await HttpContext.Response.Body.FlushAsync();
+                HttpContext.Response.Body.Close();
+            }
+        }
+
         [HttpGet]
         [HttpGet("dailyRewards/{wallet}")]
         public async Task GetDailyRewards(string wallet)

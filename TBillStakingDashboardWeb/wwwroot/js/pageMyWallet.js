@@ -145,15 +145,31 @@ function fetchWalletData() {
 
     if (wallet != "") {
         $.getJSON("api/my-overview/" + wallet, function (data) {
-           
-            //var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
-            var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
-            //var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
-            var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
-            var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
-            var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
-            var currHwm = parseFloat(data['data']['hwm']).toFixed(2);
 
+            if (data['data']['currIlTFuel'] === undefined) {
+                $.getJSON("api/my-overview-zeroday/" + wallet, function (data) {
+
+                    var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
+                    var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
+                    var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
+                    var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+                    var currHwm = parseFloat(data['data']['hwm']).toFixed(2);
+                    refreshILInfo(data['data']['updateTime'], currIl, currIlTfuel, extraIl, extraIlTfuel, currHwm);
+                });
+            } else {
+                //var realIl = parseFloat(data['data']['realIlUsd']).toFixed(2);
+                var currIl = parseFloat(data['data']['currIlUsd']).toFixed(2);
+                //var realIlTfuel = parseFloat(data['data']['realIlTFuel']).toFixed(2);
+                var currIlTfuel = parseFloat(data['data']['currIlTFuel']).toFixed(2);
+                var extraIl = parseFloat(data['data']['extraUsd']).toFixed(2);
+                var extraIlTfuel = parseFloat(data['data']['extraTFuel']).toFixed(2);
+                var currHwm = parseFloat(data['data']['hwm']).toFixed(2);
+                refreshILInfo(data['data']['updateTime'], currIl, currIlTfuel, extraIl, extraIlTfuel, currHwm);
+
+            }
+
+            
+            /* moved to refreshILInfo()
             var updateTime = data['data']['updateTime'];
             //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
             $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
@@ -168,18 +184,18 @@ function fetchWalletData() {
             //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
 
             $('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' + updateTime + '<br/>Eligible for IL if 90%+ of your HWM remains in LP');
+            
+            // refresh the currIlPopover popover
+            const popoverIL = document.querySelector('#currIlPopover');
+            new bootstrap.Popover(popoverIL, { html: true });
+            */
+
 
             // Projected Amount
             var projectedAmount = parseFloat(data['data']['tbillsProjected']).toFixed(0);
             var timeUntilMint = parseFloat(data['data']['daysLeft']).toFixed(0);
             $('#timeUntilMint').html(timeUntilMint.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' (projected ' + projectedAmount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' TBILL)');
 
-            
-
-            // refresh the currIlPopover popover
-            const popoverIL = document.querySelector('#currIlPopover');
-            new bootstrap.Popover(popoverIL, { html: true });
-            
             
         });
 
@@ -362,6 +378,29 @@ function fetchWalletData() {
     }
 
 
+}
+
+function refreshILInfo(updateTime, currIl, currIlTfuel, extraIl, extraIlTfuel, currHwm) {
+    
+    //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+    $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+    $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
+    $('#currHwm').html(currHwm.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %');
+
+    //var batch = data['data']['batch'];
+    //var snapIl = parseFloat(data['data']['snapIl']).toFixed(2);
+    //var snapIlUsd = parseFloat(data['data']['snapIlUsd']).toFixed(2);
+    //var airdroppeedTime = batch ? (new Date(new Date('2022-07-22T17:00:00.000Z').getTime() + (batch - 1) * 10 * 60 * 1000)).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : 'n/a';
+
+    //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
+
+    //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' + updateTime + '<br/>Eligible for IL if 90%+ of your HWM remains in LP');
+    $('#currIlPopover').attr('data-bs-content', 'Jan 16th Snapshot. Eligible for IL if 90%+ of your HWM remains in LP');
+
+    
+    // refresh the currIlPopover popover
+    const popoverIL = document.querySelector('#currIlPopover');
+    new bootstrap.Popover(popoverIL, { html: true });
 }
 
 function clearMyWalletData() {
