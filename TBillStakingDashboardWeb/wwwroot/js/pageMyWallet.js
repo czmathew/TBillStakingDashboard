@@ -395,7 +395,7 @@ function refreshILInfo(updateTime, currIl, currIlTfuel, extraIl, extraIlTfuel, c
     //$('#ILToBeDropped').html('$' + snapIlUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' (' + snapIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL)<br>@ ' + airdroppeedTime);
 
     //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' + updateTime + '<br/>Eligible for IL if 90%+ of your HWM remains in LP');
-    $('#currIlPopover').attr('data-bs-content', 'Jan 16th Snapshot. Eligible for IL if 90%+ of your HWM remains in LP');
+    $('#currIlPopover').attr('data-bs-content', 'Data from Jan 16th Snapshot. Eligible for IL if 90%+ of your HWM remains in LP');
 
     
     // refresh the currIlPopover popover
