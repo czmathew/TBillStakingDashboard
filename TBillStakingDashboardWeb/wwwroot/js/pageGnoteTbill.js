@@ -1,10 +1,25 @@
 ﻿$(document).ready(function () {
-    refreshChartsGnote()
+    refreshChartsGnote(31);
+
+    $('input[type=radio][name=optionsPeriod]').change(function () {
+        refreshChartsGnote(this.value);
+    });
+
+    $.getJSON("api/totalSupplyGnote", function (data) {
+        console.log(data.balance);
+        let balance = data.balance;
+        balance = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        $('#gnoteSupply').html(balance);
+
+    });
 });
 
-function refreshChartsGnote() {
 
-    $.getJSON("api/getGnoteTbillPrice/", function (data) {
+
+
+function refreshChartsGnote(days) {
+
+    $.getJSON("api/getGnoteTbillPrice/" + days, function (data) {
         var dailyPrice = [];
         $.each(data, function (key, val) {
             //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
@@ -16,7 +31,7 @@ function refreshChartsGnote() {
         
     });
 
-    $.getJSON("api/getDailyRatesGnote/360", function (data) {
+    $.getJSON("api/getDailyRatesGnote/" + days, function (data) {
         var dailyGnoteUSDPrice = [];
         $.each(data, function (key, val) {
             //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
@@ -30,7 +45,6 @@ function refreshChartsGnote() {
 
     });
 
-   
 }
 
 function showDailyGnoteUSDPrice(data) {
