@@ -16,7 +16,7 @@ function refreshChartsGnote() {
         
     });
 
-    $.getJSON("api/getDailyRatesGnote/180", function (data) {
+    $.getJSON("api/getDailyRatesGnote/360", function (data) {
         var dailyGnoteUSDPrice = [];
         $.each(data, function (key, val) {
             //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
@@ -55,7 +55,12 @@ function showDailyGnoteUSDPrice(data) {
         //},
         chart: {
             type: 'line',
-            height: 350
+            height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            }
         },
         dataLabels: {
             enabled: false
@@ -70,7 +75,7 @@ function showDailyGnoteUSDPrice(data) {
         yaxis: {
             labels: {
                 formatter: function (val) {
-                    return val;
+                    return (val).toFixed(3);
                 },
             },
             //title: {
@@ -127,7 +132,12 @@ function showDailyGnoteTbillPrice(data) {
         //},
         chart: {
             type: 'line',
-            height: 350
+            height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            }
         },
         dataLabels: {
             enabled: false
@@ -142,7 +152,7 @@ function showDailyGnoteTbillPrice(data) {
         yaxis: {
             labels: {
                 formatter: function (val) {
-                    return val;
+                    return (val).toFixed(3);
                 },
             },
             //title: {
