@@ -39,7 +39,7 @@ Mat and Max!
 - Revamped the Wallet Balance under 'My Wallet' to showcase $ value for Theta/Tfuel/Tdrop/TBILL/gNote. A total balance is also added.
 - Added gNote supply to the gNote page.
 - Added timeframe choice for the charts in gNote
-**Fixes*
+**Fixes**
 - Fixed the scaling on the Y axis for the charts.
 
 # **August 5th Updates:**
