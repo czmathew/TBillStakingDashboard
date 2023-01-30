@@ -184,6 +184,52 @@ namespace TBillStaking.Controllers
             }
         }
 
+        [HttpGet]
+        [HttpGet("balanceTdrop/{wallet}")]
+        public async Task GetBalanceTdrop(string wallet)
+        {
+            string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03&wallet=" + wallet;
+            HttpContext.Response.ContentType = "application/json";
+            using (var client = new System.Net.WebClient())
+            {
+                try
+                {
+                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
+                    //write to response stream aka Response.Body
+                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                await HttpContext.Response.Body.FlushAsync();
+                HttpContext.Response.Body.Close();
+            }
+        }
+
+        [HttpGet]
+        [HttpGet("getPriceAll")]
+        public async Task GetPriceAll()
+        {
+            string jsonUrl = "https://explorer.thetatoken.org:8443/api/price/all";
+            HttpContext.Response.ContentType = "application/json";
+            using (var client = new System.Net.WebClient())
+            {
+                try
+                {
+                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
+                    //write to response stream aka Response.Body
+                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                await HttpContext.Response.Body.FlushAsync();
+                HttpContext.Response.Body.Close();
+            }
+        }
+
 
 
         [HttpGet]

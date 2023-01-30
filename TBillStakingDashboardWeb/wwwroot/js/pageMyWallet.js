@@ -1,5 +1,6 @@
 ﻿let NFTValueInfo = [];
 let MyNFTs = [];
+totalBalanceUSD = 0;
 
 $(document).ready(function () {
     var nftValueModal = document.getElementById('nftValueModal');
@@ -21,7 +22,7 @@ function refreshNFTValueInfo() {
 
     $.getJSON("api/getNFTValueInfo", function (data) {
         let i = 1;
-        
+
 
         $.each(data, function (key, val) {
             //if (i == 1) {
@@ -30,19 +31,19 @@ function refreshNFTValueInfo() {
             NFTValueInfo.push(val);
             i++;
         });
-        
+
         $.each(MyNFTs, function (key, val) {
             var count = val.count;
             var NFTInfo = NFTValueInfo.find(x => x.Name === val.name);
             if (typeof NFTInfo !== "undefined") {
                 countSum += count;
-                LastSaleSum += count * parseFloat(NFTInfo.LastSale) ;
+                LastSaleSum += count * parseFloat(NFTInfo.LastSale);
                 LastSaleUsdSum += count * parseFloat(NFTInfo.LastSaleUsd);
                 Last5salesAvgSum += count * parseFloat(NFTInfo.Last5salesAvg);
                 Last5salesAvgUsdSum += count * parseFloat(NFTInfo.Last5salesAvgUsd);
                 CurrentSalePriceSum += count * parseFloat(NFTInfo.CurrentSalePrice);
                 CurrentSalePriceUsdSum += count * parseFloat(NFTInfo.CurrentSalePriceUsd);
-            
+
                 $('#myNFTsValueTable > tbody:last-child').append('<tr><td>' + val.name + '</td>'
                     + '<td class= "text-end" > ' + count + '</td> '
                     + '<td class= "text-end tableBorderLeft" > ' + parseFloat(NFTInfo.LastSale).toFixed(2) + '</td> '
@@ -132,7 +133,7 @@ function fetchWalletData() {
                     + '<td class="text-end">$' + tvl + '</td>'
                     + '<td class="text-end">$' + mtvl + '</td>'
                     + '<td class="text-end">' + reward + '</td>'
-                    +'<td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
+                    + '<td class="text-end">$' + parseFloat(reward * tbillRate).toFixed(4) + '</td></tr>');
                 dailyTotal = parseFloat(dailyTotal) + parseFloat(reward);
                 i++;
             });
@@ -168,7 +169,7 @@ function fetchWalletData() {
 
             }
 
-            
+
             /* moved to refreshILInfo()
             var updateTime = data['data']['updateTime'];
             //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
@@ -196,7 +197,7 @@ function fetchWalletData() {
             var timeUntilMint = parseFloat(data['data']['daysLeft']).toFixed(0);
             $('#timeUntilMint').html(timeUntilMint.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' (projected ' + projectedAmount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' TBILL)');
 
-            
+
         });
 
     }
@@ -279,36 +280,7 @@ function fetchWalletData() {
         });
     }
     if (wallet != "") {
-        $.getJSON("api/getBalance/" + wallet, function (data) {
-            var json = JSON.parse(data);
-            var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-            var balanceTFuelUSD = (parseFloat(json.TFuel) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var balanceTBillUSD = (parseFloat(json.TBill) * tbillRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            var stakeTFuelUSD = (parseFloat(json.TFuelStake) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-            //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
-            //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
-
-            $("#tbillBalance").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + balanceTBill + '<br/>' + '$' + balanceTBillUSD);
-            $("#tfuelBalance").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + balanceTFuel + '<br/>' + '$' + balanceTFuelUSD);
-            if (parseFloat(json.Theta) > 0) {
-                $("#thetaBlock").show();
-                $("#thetaBalance").html(balanceTheta);
-            }
-            if (parseFloat(json.ThetaStake) > 0) {
-                $("#thetaStakeBlock").show();
-                $("#thetaStake").html(stakeTheta);
-            }
-            if (parseFloat(json.TFuelStake) > 0) {
-                $("#tfuelStakeBlock").show();
-                $("#tfuelStake").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + stakeTFuel + '<br/>' + '$' + stakeTFuelUSD);
-            }
-        });
     }
     if (wallet != "") {
         $.getJSON("api/getMyWalletLpStats/" + wallet, function (data) {
@@ -325,10 +297,10 @@ function fetchWalletData() {
 
                     $("#lpPosition").html(position + ' / ' + positionTotal);
                     $("#univ2").html(univ2 + ' / ' + univ2Total);
-                    
+
                     $("#lpPct").html(myPct + ' %');
 
-                    
+
                     $.each(val.Univ2Hist, function (key, val) {
                         //var innerArr = [val[0], parseFloat(val[1]).toFixed(4)];
                         var innerArr = [val["Item1"], val["Item2"]];
@@ -361,7 +333,78 @@ function fetchWalletData() {
             });
 
             showUniv2Chart(univ2Hist, univ2HistGnote);
-            
+
+
+        });
+    }
+
+    if (wallet != "") {
+        priceTdrop = 0;
+        priceTheta = 0;
+        $.getJSON("api/getPriceAll", function (data) {
+            $.each(data['body'], function (key, val) {
+                console.log(val['_id']);
+                if (val['_id'] === 'TDROP') {
+                    priceTdrop = val['price'];
+                }
+
+                if (val['_id'] === 'THETA') {
+                    priceTheta = val['price'];
+                }
+
+            });
+
+            //get TDrop  balance
+            $.getJSON("api/balanceTdrop/" + wallet, function (data) {
+                var balance = data.balance;
+                var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balUSD = ((parseFloat(balance) / 1000000000000000000) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                if (parseFloat(data.balance) > 0) {
+                    $("#tdropBlock").show();
+                    $("#tdropBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + bal + '<br/>$' + balUSD);
+                }
+                updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
+            });
+
+            $.getJSON("api/getBalance/" + wallet, function (data) {
+                var json = JSON.parse(data);
+                var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                var balanceTFuelUSD = (parseFloat(json.TFuel) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTBillUSD = (parseFloat(json.TBill) * tbillRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTFuelUSD = (parseFloat(json.TFuelStake) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeThetaUSD = (parseFloat(json.ThetaStake) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceThetaUSD = (parseFloat(json.Theta) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                updateTotalBalance(parseFloat(json.TFuel) * tfuelRate);
+                updateTotalBalance(parseFloat(json.TBill) * tbillRate);
+                updateTotalBalance(parseFloat(json.TFuelStake) * tfuelRate);
+                updateTotalBalance(parseFloat(json.ThetaStake) * priceTheta);
+                updateTotalBalance(parseFloat(json.Theta) * priceTheta);
+                //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+                //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+
+                $("#tbillBalance").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + balanceTBill + '<br/>' + '$' + balanceTBillUSD);
+                $("#tfuelBalance").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + balanceTFuel + '<br/>' + '$' + balanceTFuelUSD);
+                if (parseFloat(json.Theta) > 0) {
+                    $("#thetaBlock").show();
+                    $("#thetaBalance").html('<img height="20" src="img/theta.png" />&nbsp;' + balanceTheta + '<br/>$' + balanceThetaUSD);
+                }
+                if (parseFloat(json.ThetaStake) > 0) {
+                    $("#thetaStakeBlock").show();
+                    $("#thetaStake").html('<img height="20" src="img/theta.png" />&nbsp;' + stakeTheta + '<br/>$' + stakeThetaUSD);
+                }
+                if (parseFloat(json.TFuelStake) > 0) {
+                    $("#tfuelStakeBlock").show();
+                    $("#tfuelStake").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + stakeTFuel + '<br/>' + '$' + stakeTFuelUSD);
+                }
+                
+            });
 
         });
     }
@@ -373,17 +416,21 @@ function fetchWalletData() {
             var balance = data.balance;
             var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
             var balanceGnoteUSD = (parseFloat(balance) / 1000000000000000000 * gnoteRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+            updateTotalBalance(parseFloat(balance) / 1000000000000000000 * gnoteRate);
             $("#gNoteBalance").html('<img height="20" src="/img/gnote.png" />&nbsp;' + bal + '<br/>' + '$' + balanceGnoteUSD);
-            
+            updateTotalBalance(parseFloat(balance) / 1000000000000000000 * gnoteRate);
         });
     }
 
+}
 
+function updateTotalBalance(val) {
+    totalBalanceUSD += val;
+    $("#totalBalance").html('$' + totalBalanceUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 }
 
 function refreshILInfo(updateTime, currIl, currIlTfuel, extraIl, extraIlTfuel, currHwm) {
-    
+
     //$('#realIl').html('$' + realIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + realIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
     $('#currIl').html('$' + currIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + currIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
     $('#extraIl').html('$' + extraIl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '<br>' + extraIlTfuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TFUEL');
@@ -399,13 +446,14 @@ function refreshILInfo(updateTime, currIl, currIlTfuel, extraIl, extraIlTfuel, c
     //$('#currIlPopover').attr('data-bs-content', 'Last refresh (UTC):<br>' + updateTime + '<br/>Eligible for IL if 90%+ of your HWM remains in LP');
     $('#currIlPopover').attr('data-bs-content', 'Data from Jan 16th Snapshot. Eligible for IL if 90%+ of your HWM remains in LP');
 
-    
+
     // refresh the currIlPopover popover
     const popoverIL = document.querySelector('#currIlPopover');
     new bootstrap.Popover(popoverIL, { html: true });
 }
 
 function clearMyWalletData() {
+    totalBalanceUSD = 0;
     nft125xlevel = 0;
     nft15xlevel = 0;
     nft2xlevel = 0;
@@ -418,9 +466,12 @@ function clearMyWalletData() {
     $("#tfuelStakeBlock").hide();
     $("#tfuelStake").html('');
     $("#thetaBlock").hide();
+    $("#tdropBlock").hide();
     $("#tbillBalance").html('');
     $("#thetaStakeBlock").hide();
+    $("#tdropStakeBlock").hide();
     $("#gNoteBalance").html('');
+    $("#totalBalance").html('');
 
     $("#dayTotal").html('');
     $("#totalTbill").html('');
@@ -756,7 +807,7 @@ function showUniv2Chart(data, dataGnote) {
             type: 'line',
         },
         stroke: {
-            width: [2,2]
+            width: [2, 2]
         },
         title: {
             text: 'Uni-v2'
@@ -789,7 +840,7 @@ function showUniv2Chart(data, dataGnote) {
             //    //max: TbillSupplyMax * 1.02
             //}
         ],
-        
+
         theme: {
             mode: 'dark'
         },
