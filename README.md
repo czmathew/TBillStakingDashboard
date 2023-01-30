@@ -26,7 +26,7 @@ You can contact us either on Telegram or Discord.
 
 **Matej**: https://t.me/czmathew or czmathew#5832 on Discord
 
-**Maxime**: https://t.me/TechSherpa or Maxime🦙#7056 on Discord
+**Maxime**: https://t.me/TechSherpa or Maxime🦙#0001 on Discord
 
 
 Thank you,
