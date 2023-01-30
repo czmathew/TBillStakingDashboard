@@ -371,9 +371,11 @@ function fetchWalletData() {
         $.getJSON("api/balanceGnote/" + wallet, function (data) {
             //var json = JSON.parse(data);
             var balance = data.balance;
-            var bal = (parseFloat(balance)/1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
-            $("#gNoteBalance").html(bal);
+            var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
+            var balanceGnoteUSD = (parseFloat(balance) / 1000000000000000000 * gnoteRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+            $("#gNoteBalance").html('<img height="20" src="/img/gnote.png" />&nbsp;' + bal + '<br/>' + '$' + balanceGnoteUSD);
+            
         });
     }
 

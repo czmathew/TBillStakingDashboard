@@ -1,5 +1,6 @@
 var tbillRate = 0;
 var tfuelRate = 0;
+var gnoteRate = 0;
 var nft125xlevel = 0;
 var nft15xlevel = 0;
 var nft2xlevel = 0;
@@ -86,6 +87,7 @@ function fetchData(fetchWallet) {
         $("#tbillTfuelRatio").html('Ratio:' + parseFloat(parseFloat(rate) / parseFloat(rateTFuel)).toFixed(4));
         tbillRate = parseFloat(rate).toFixed(4);
         tfuelRate = parseFloat(rateTFuel).toFixed(4);
+        gnoteRate = parseFloat(rateGnote).toFixed(4);
         $("#targetRate").html(parseFloat(targetRate).toFixed(4));
         $("#rebaseRate").html(parseFloat(rebaseRate).toFixed(4));
         $("#noRebaseRangeTop").html(parseFloat(noRebaseRangeTop).toFixed(4));
