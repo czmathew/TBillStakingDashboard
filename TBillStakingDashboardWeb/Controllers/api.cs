@@ -185,6 +185,31 @@ namespace TBillStaking.Controllers
         }
 
 
+
+        [HttpGet]
+        [HttpGet("totalSupplyGnote/")]
+        public async Task getTotalSupplyGnote(string wallet)
+        {
+            string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/totalSupplyForTNT20?contract=0xA3d79C4088aE87EF59254120Fe646560828084c3";
+            HttpContext.Response.ContentType = "application/json";
+            using (var client = new System.Net.WebClient())
+            {
+                try
+                {
+                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
+                    //write to response stream aka Response.Body
+                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                await HttpContext.Response.Body.FlushAsync();
+                HttpContext.Response.Body.Close();
+            }
+        }
+
+
         [HttpGet]
         [HttpGet("getDailyTBillStats/{days}")]
         public IActionResult GetDailyTBillStats(int days)
@@ -577,7 +602,7 @@ namespace TBillStaking.Controllers
                 })
                 {
                     connection.Open();
-                    command.Parameters.Add("@top", SqlDbType.Int).Value = days * 24 * 6; // the stored procedure returns 10 minute data
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
@@ -638,8 +663,8 @@ namespace TBillStaking.Controllers
         }
 
         [HttpGet]
-        [HttpGet("getGnoteTbillPrice")]
-        public IActionResult GetGnoteTbillPrice([FromForm] string name)
+        [HttpGet("getGnoteTbillPrice/{days}")]
+        public IActionResult GetGnoteTbillPrice([FromForm] string name, int days)
         {
 
             var DailyRates = new List<Tuple<string, string, string>> { };
@@ -650,9 +675,11 @@ namespace TBillStaking.Controllers
                 using (var command = new SqlCommand("dbo.usp_getGnoteTbillPrice", connection)
                 {
                     CommandType = CommandType.StoredProcedure
+
                 })
                 {
                     connection.Open();
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = days;
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
