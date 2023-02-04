@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TBillStaking.Models;
@@ -186,25 +188,55 @@ namespace TBillStaking.Controllers
 
         [HttpGet]
         [HttpGet("balanceTdrop/{wallet}")]
-        public async Task GetBalanceTdrop(string wallet)
+        public IActionResult GetBalanceTdrop(string wallet)
         {
+            string balance = "";
+            string staked = "";
             string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03&wallet=" + wallet;
+            string urlStaked = "https://thetastats-nodejs-dev.azurewebsites.net/tdropStaked?wallet=" + wallet;
             HttpContext.Response.ContentType = "application/json";
-            using (var client = new System.Net.WebClient())
+            using (var client = new HttpClient())
             {
                 try
                 {
-                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
-                    //write to response stream aka Response.Body
-                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                    var request = new HttpRequestMessage(HttpMethod.Get, jsonUrl);
+                    var response = client.Send(request);
+                    
+                    using var reader = new StreamReader(response.Content.ReadAsStream());
+                    var responseBody = reader.ReadToEnd();
+                    var balJson = JObject.Parse(responseBody);
+                    balance = balJson.GetValue("balance").ToString();
                 }
                 catch (Exception e)//404 or anything
                 {
                     HttpContext.Response.StatusCode = 400;//BadRequest
                 }
-                await HttpContext.Response.Body.FlushAsync();
-                HttpContext.Response.Body.Close();
+                
             }
+            
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, urlStaked);
+                    var response = client.Send(request);
+
+                    using var reader = new StreamReader(response.Content.ReadAsStream());
+                    var responseBody = reader.ReadToEnd();
+                    staked = responseBody;
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                
+            }
+            var resp = new
+            {
+                balance = balance,
+                staked = staked
+            };
+            return Ok(resp);
         }
 
         [HttpGet]

@@ -343,7 +343,6 @@ function fetchWalletData() {
         priceTheta = 0;
         $.getJSON("api/getPriceAll", function (data) {
             $.each(data['body'], function (key, val) {
-                console.log(val['_id']);
                 if (val['_id'] === 'TDROP') {
                     priceTdrop = val['price'];
                 }
@@ -359,12 +358,22 @@ function fetchWalletData() {
                 var balance = data.balance;
                 var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 var balUSD = ((parseFloat(balance) / 1000000000000000000) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+                
                 if (parseFloat(data.balance) > 0) {
                     $("#tdropBlock").show();
                     $("#tdropBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + bal + '<br/>$' + balUSD);
+                    updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
                 }
-                updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
+                if (parseFloat(data.staked) > 0) {
+                    
+                    var staked = (parseFloat(data.staked)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var stakedUSD = ((parseFloat(data.staked)) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    $("#tdropStakeBlock").show();
+                    $("#tdropStakeBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + staked + '<br/>$' + stakedUSD);
+                    updateTotalBalance((parseFloat(data.staked)) * priceTdrop);
+                }
+                
             });
 
             $.getJSON("api/getBalance/" + wallet, function (data) {
