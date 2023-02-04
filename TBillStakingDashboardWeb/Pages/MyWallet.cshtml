@@ -6,7 +6,7 @@
 
 
 @section scripts {
-    <script type="text/javascript" src="js/pageMyWallet.js?32" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageMyWallet.js?33" charset="utf-8"></script>
 }
 
 <style>
@@ -463,7 +463,11 @@
     &nbsp;
 </div>
 <div class="row">
-    <h5>History</h5>
+   
+    <header class="walletHistory">
+        <h5>History</h5>
+        <div id="rewardsDownload" style="cursor:pointer;"><img src="~/img/csv-download.png" style="height:50px;"/> Download rewards CSV</div>
+    </header>
     <div class="table-wrapper-500">
         <table id="dailyRewardsTable" class="table table-light table-sm tableFixHead">
             <thead>

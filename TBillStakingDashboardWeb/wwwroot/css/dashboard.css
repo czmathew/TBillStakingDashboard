@@ -49,3 +49,12 @@ body {
 .hiddenColumn {
     display: none;
 }
+
+header.walletHistory {
+    display: flex;
+    align-items: center;
+    padding: 0px 12px;
+}
+header.walletHistory > div{
+    padding: 0px 12px;
+}

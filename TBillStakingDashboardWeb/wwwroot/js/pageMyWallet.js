@@ -7,6 +7,11 @@ $(document).ready(function () {
     nftValueModal.addEventListener('shown.bs.modal', function () {
         refreshNFTValueInfo();
     });
+    $("#rewardsDownload").click(function (e) {
+        
+        let url = 'https://api.gpool.io/tbill/rewards-csv?wallet=' + $("#walletAddress").val();
+        window.open(url, '_blank');
+    });
 });
 
 function refreshNFTValueInfo() {
