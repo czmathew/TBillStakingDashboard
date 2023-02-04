@@ -45,3 +45,7 @@ body {
 .labelMargin0 {
     margin-bottom: 0px;
 }
+
+.hiddenColumn {
+    display: none;
+}

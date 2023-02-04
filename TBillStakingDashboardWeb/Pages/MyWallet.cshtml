@@ -6,7 +6,7 @@
 
 
 @section scripts {
-    <script type="text/javascript" src="js/pageMyWallet.js?31" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageMyWallet.js?32" charset="utf-8"></script>
 }
 
 <style>
@@ -335,6 +335,22 @@
             </h5>
         </div>
         <div class="row">
+            <div class="col-4" id="nft4xBlock" style="display:none">
+                <strong>4X NFT</strong>
+                <br />
+                <label id="nft4xlabel" class="form-label"></label>
+                <div class="progress">
+                    <div id="progress4x" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-4" id="nft3xBlock" style="display:none">
+                <strong>3X NFT</strong>
+                <br />
+                <label id="nft3xlabel" class="form-label"></label>
+                <div class="progress">
+                    <div id="progress3x" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
             <div class="col-4">
 
                 <strong>2X NFT</strong>
@@ -369,6 +385,22 @@
             </h5>
         </div>
         <div class="row">
+            <div class="col-4" id="nft4xGnoteBlock" style="display:none">
+                <strong>4X NFT</strong>
+                <br />
+                <label id="nft4xlabelGnote" class="form-label"></label>
+                <div class="progress">
+                    <div id="progress4xGnote" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-4" id="nft3xGnoteBlock" style="display:none">
+                <strong>3X NFT</strong>
+                <br />
+                <label id="nft3xlabelGnote" class="form-label"></label>
+                <div class="progress">
+                    <div id="progress3xGnote" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
             <div class="col-4">
                 <strong>2X NFT</strong>
                 <br />
@@ -410,6 +442,8 @@
                     <th class="text-end">TBill 1,25x</th>
                     <th class="text-end">TBill 1,5x</th>
                     <th class="text-end">TBill 2x</th>
+                    <th class="text-end hiddenColumn">TBill 3x</th>
+                    <th class="text-end hiddenColumn">TBill 4x</th>
                     <th class="text-end">TFuel 1x</th>
                     <th class="text-end">gNOTE 1x</th>
                     <th class="text-end">TVL</th>
@@ -430,7 +464,7 @@
 </div>
 <div class="row">
     <h5>History</h5>
-    <div class="table-wrapper">
+    <div class="table-wrapper-500">
         <table id="dailyRewardsTable" class="table table-light table-sm tableFixHead">
             <thead>
                 <tr>
@@ -439,6 +473,8 @@
                     <th class="text-end">TBill 1,25x</th>
                     <th class="text-end">TBill 1,5x</th>
                     <th class="text-end">TBill 2x</th>
+                    <th class="text-end hiddenColumn">TBill 3x</th>
+                    <th class="text-end hiddenColumn">TBill 4x</th>
                     <th class="text-end">TFuel 1x</th>
                     <th class="text-end">gNOTE 1x</th>
                     <th class="text-end">TVL</th>
