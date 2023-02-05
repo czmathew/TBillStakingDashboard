@@ -1305,6 +1305,7 @@ namespace TBillStaking.Controllers
         public IActionResult GetBotStats()
         {
             string TvLocked = "";
+            string TvLocked24h = "";
             string TbillLocked = "";
             string TfuelLocked = "";
             string GnoteLocked = "";
@@ -1337,6 +1338,7 @@ namespace TBillStaking.Controllers
                             var tfuel24h = reader.GetDecimal("tfuelLocked24h");
                             var gnote24h = reader.GetDecimal("gnoteLocked24h");
                             var tbill24h = reader.GetDecimal("tbillLocked24h");
+                            var tv24h = reader.GetDecimal("tvLocked24h");
                             TvLocked = String.Format("{0:n}", reader.GetDecimal("tvLocked"));
                             TbillLocked = String.Format("{0:n}", reader.GetDecimal("tbillLocked"));
                             TfuelLocked = String.Format("{0:n}", reader.GetDecimal("tfuelLocked"));
@@ -1344,6 +1346,7 @@ namespace TBillStaking.Controllers
                             TfuelLocked24h = (tfuel24h > 0 ? "+" : "") + String.Format("{0:n}", tfuel24h);
                             GnoteLocked24h = (gnote24h > 0 ? "+" : "") + String.Format("{0:n}", gnote24h);
                             TbillLocked24h = (tbill24h > 0 ? "+" : "") + String.Format("{0:n}", tbill24h);
+                            TvLocked24h = (tv24h > 0 ? "+" : "") + String.Format("{0:n}", tv24h);
 
                         }
                     }
@@ -1394,6 +1397,7 @@ namespace TBillStaking.Controllers
                 TbillLocked = TbillLocked,
                 TfuelLocked = TfuelLocked,
                 GnoteLocked = GnoteLocked,
+                TvLocked24h = TvLocked24h,
                 GnoteLocked24hPct = GnoteLocked24h,
                 TfuelLocked24hPct = TfuelLocked24h,
                 TbillLocked24hPct = TbillLocked24h,
