@@ -1397,7 +1397,7 @@ namespace TBillStaking.Controllers
                 TbillLocked = TbillLocked,
                 TfuelLocked = TfuelLocked,
                 GnoteLocked = GnoteLocked,
-                TvLocked24h = TvLocked24h,
+                TvLocked24hPct = TvLocked24h,
                 GnoteLocked24hPct = GnoteLocked24h,
                 TfuelLocked24hPct = TfuelLocked24h,
                 TbillLocked24hPct = TbillLocked24h,
