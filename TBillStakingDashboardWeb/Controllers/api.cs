@@ -1299,5 +1299,110 @@ namespace TBillStaking.Controllers
 
             return Ok(JsonSerializer.Serialize(nfts));
         }
+
+        [HttpGet]
+        [HttpGet("botStats")]
+        public IActionResult GetBotStats()
+        {
+            string TvLocked = "";
+            string TbillLocked = "";
+            string TfuelLocked = "";
+            string GnoteLocked = "";
+            string GnoteLocked24h = "";
+            string TfuelLocked24h = "";
+            string TbillLocked24h = "";
+
+            int walletCalc = 0;
+            int walletCalcGnote = 0;
+            int walletCalc24h = 0;
+            int walletCalcGnote24h = 0;
+
+
+            HttpContext.Response.ContentType = "application/json";
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            List<TBillDailyStats> stats = new List<TBillDailyStats>();
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getLatestTbillStats", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            var tfuel24h = reader.GetDecimal("tfuelLocked24h");
+                            var gnote24h = reader.GetDecimal("gnoteLocked24h");
+                            var tbill24h = reader.GetDecimal("tbillLocked24h");
+                            TvLocked = String.Format("{0:n}", reader.GetDecimal("tvLocked"));
+                            TbillLocked = String.Format("{0:n}", reader.GetDecimal("tbillLocked"));
+                            TfuelLocked = String.Format("{0:n}", reader.GetDecimal("tfuelLocked"));
+                            GnoteLocked = String.Format("{0:n}", reader.GetDecimal("gnoteLocked"));
+                            TfuelLocked24h = (tfuel24h > 0 ? "+" : "") + String.Format("{0:n}", tfuel24h);
+                            GnoteLocked24h = (gnote24h > 0 ? "+" : "") + String.Format("{0:n}", gnote24h);
+                            TbillLocked24h = (tbill24h > 0 ? "+" : "") + String.Format("{0:n}", tbill24h);
+
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("[dbo].[ups_getLPWalletCount]", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = 2;
+                    SqlDataReader reader = command.ExecuteReader();
+                    int rowCnt = 1;
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            if (rowCnt == 1)
+                            {
+                                walletCalc = reader.GetInt32("walletCount");
+                                walletCalcGnote = reader.GetInt32("walletCountGnote");
+                                //lpWalletCount = reader.GetInt32("walletCount").ToString();
+                            }
+                            else if (rowCnt == 2)
+                            {
+                                walletCalc24h = (walletCalc - reader.GetInt32("walletCount"));
+                                walletCalcGnote24h = (walletCalcGnote - reader.GetInt32("walletCountGnote"));
+                            }
+                            rowCnt++;
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+            var resp = new
+            {
+                TvLocked = TvLocked,
+                TbillLocked = TbillLocked,
+                TfuelLocked = TfuelLocked,
+                GnoteLocked = GnoteLocked,
+                GnoteLocked24hPct = GnoteLocked24h,
+                TfuelLocked24hPct = TfuelLocked24h,
+                TbillLocked24hPct = TbillLocked24h,
+                walletCalc = walletCalc,
+                walletCalcGnote = walletCalcGnote,
+                walletCalc24h = walletCalc24h,
+                walletCalcGnote24h = walletCalcGnote24h
+            };
+            return Ok(resp);
+        }
     }
 }
