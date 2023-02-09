@@ -34,6 +34,13 @@ Mat and Max!
 
 
 # Changes Notes
+# **February 4th Updates:**
+**New Features**
+- Staked TDROP is now correct and available in 'My Wallet'
+- Added the 3x and 4x multipliers in 'My Wallet', will only be shown if you have one.
+- Added a CSV download for your rewards.
+- Extended the history table. It now goes back to 730 days (2 years of history)
+
 # **January 30th Updates:**
 **New Features**
 - Revamped the Wallet Balance under 'My Wallet' to showcase $ value for Theta/Tfuel/Tdrop/TBILL/gNote. A total balance is also added.

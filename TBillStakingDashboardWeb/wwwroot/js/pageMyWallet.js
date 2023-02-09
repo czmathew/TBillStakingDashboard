@@ -7,6 +7,11 @@ $(document).ready(function () {
     nftValueModal.addEventListener('shown.bs.modal', function () {
         refreshNFTValueInfo();
     });
+    $("#rewardsDownload").click(function (e) {
+        
+        let url = 'https://api.gpool.io/tbill/rewards-csv?wallet=' + $("#walletAddress").val();
+        window.open(url, '_blank');
+    });
 });
 
 function refreshNFTValueInfo() {
@@ -81,6 +86,8 @@ function fetchWalletData() {
 
     var dailyTotal = 0;
     if (wallet != "") {
+        let has3x = false;
+        let has4x = false;
         $.getJSON("api/rewards/" + wallet, function (data) {
             let i = 1;
             $('#rewardsTable > tbody:last-child').empty();
@@ -89,6 +96,13 @@ function fetchWalletData() {
                 //if (i > 10) {
                 //    return false;
                 //}
+
+                if (parseFloat(val['tbill4x']) !== 0 && has4x !== true) {
+                    has4x = true;
+                }
+                if (parseFloat(val['tbill3x']) !== 0 && has3x !== true) {
+                    has3x = true;
+                }
                 var tvl = parseFloat(val['tv']).toFixed(2);
                 var mtvl = parseFloat(val['mtv']).toFixed(2);
                 var reward = parseFloat(val['reward']).toFixed(4);
@@ -106,7 +120,11 @@ function fetchWalletData() {
                 var tbill2x_gnote = parseFloat(val['tbill2x_gnote']).toFixed(2);
                 var tbill2x_tfuel = parseFloat(val['tbill2x_tfuel']).toFixed(2);
                 var tbill3x = parseFloat(val['tbill3x']).toFixed(2);
+                var tbill3x_gnote = parseFloat(val['tbill3x_gnote']).toFixed(2);
+                var tbill3x_tfuel = parseFloat(val['tbill3x_tfuel']).toFixed(2);
                 var tbill4x = parseFloat(val['tbill4x']).toFixed(2);
+                var tbill4x_gnote = parseFloat(val['tbill4x_gnote']).toFixed(2);
+                var tbill4x_tfuel = parseFloat(val['tbill4x_tfuel']).toFixed(2);
                 var tfuel = parseFloat(val['tfuel']).toFixed(2);
                 var gnote = parseFloat(val['gnote']).toFixed(4);
                 if (i == 1) {
@@ -117,10 +135,14 @@ function fetchWalletData() {
                     nft125xlevel = tbill125x_tfuel;
                     nft15xlevel = tbill15x_tfuel;
                     nft2xlevel = tbill2x_tfuel;
+                    nft3xlevel = tbill3x_tfuel;
+                    nft4xlevel = tbill4x_tfuel;
 
                     nft125xlevelGnote = tbill125x_gnote;
                     nft15xlevelGnote = tbill15x_gnote;
                     nft2xlevelGnote = tbill2x_gnote;
+                    nft3xlevelGnote = tbill3x_gnote;
+                    nft4xlevelGnote = tbill4x_gnote;
                 }
 
                 $('#rewardsTable > tbody:last-child').append('<tr><td>' + time + '</td>'
@@ -128,6 +150,8 @@ function fetchWalletData() {
                     + '<td class="text-end" title="' + tbill125x_tfuel + ' TFuel / ' + tbill125x_gnote + ' gNOTE">' + tbill125x + '</td>'
                     + '<td class="text-end" title="' + tbill15x_tfuel + ' TFuel / ' + tbill15x_gnote + ' gNOTE">' + tbill15x + '</td>'
                     + '<td class="text-end" title="' + tbill2x_tfuel + ' TFuel / ' + tbill2x_gnote + ' gNOTE">' + tbill2x + '</td>'
+                    + '<td class="text-end hiddenColumn" title="' + tbill3x_tfuel + ' TFuel / ' + tbill3x_gnote + ' gNOTE">' + tbill3x + '</td>'
+                    + '<td class="text-end hiddenColumn" title="' + tbill4x_tfuel + ' TFuel / ' + tbill4x_gnote + ' gNOTE">' + tbill4x + '</td>'
                     + '<td class="text-end">' + tfuel + '</td>'
                     + '<td class="text-end">' + gnote + '</td>'
                     + '<td class="text-end">$' + tvl + '</td>'
@@ -138,6 +162,15 @@ function fetchWalletData() {
                 i++;
             });
             $("#dayTotal").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + parseFloat(dailyTotal).toFixed(4) + '<br/>' + '$' + parseFloat(dailyTotal * tbillRate).toFixed(2));
+
+            if (has3x === true) {
+                $('#rewardsTable td:nth-child(6)').removeClass("hiddenColumn");
+                $('#rewardsTable th:nth-child(6)').removeClass("hiddenColumn");
+            }
+            if (has4x === true) {
+                $('#rewardsTable td:nth-child(7)').removeClass("hiddenColumn");
+                $('#rewardsTable th:nth-child(7)').removeClass("hiddenColumn");
+            }
 
             fetchNFTforWallet();
         });
@@ -207,6 +240,8 @@ function fetchWalletData() {
         var datesDailySum = [];
         var rewardsSum = 0;
         $.getJSON("api/dailyRewards/" + wallet, function (data) {
+            let has3x = false;
+            let has4x = false;
             let i = 1;
             let rewards = [];
             let rewardsReverse = [];
@@ -236,6 +271,13 @@ function fetchWalletData() {
                         reward: parseFloat(val[11]).toFixed(4),
                         rewardUSD: parseFloat(val[12]).toFixed(2)
                     });
+
+                    if (parseFloat(val[8]) !== 0 && has4x !== true) {
+                        has4x = true;
+                    }
+                    if (parseFloat(val[7]) !== 0 && has3x !== true) {
+                        has3x = true;
+                    }
                     var innerArr = [val[0], parseFloat(val[11]).toFixed(4)];
                     datesDaily.push(innerArr);
                     rewardsSum = parseFloat(rewardsSum) + parseFloat(parseFloat(val[11]).toFixed(4));
@@ -268,14 +310,36 @@ function fetchWalletData() {
             });
 
             for (let y = 0; y < rewardsReverse.length; y++) {
-                //only first 10
-                if (y > 100) {
+                //two years
+                if (y > 730) {
                     break;
                 }
                 //console.log(rewardsReverse[y]);
-                $('#dailyRewardsTable > tbody:last-child').append('<tr><td>' + rewardsReverse[y].date + '</td><td class="text-end">' + rewardsReverse[y].tbill1x + '</td><td class="text-end">' + rewardsReverse[y].tbill125x + '</td><td class="text-end">' + rewardsReverse[y].tbill15x + '</td><td class="text-end">' + rewardsReverse[y].tbill2x + '</td><td class="text-end">'
-                    + rewardsReverse[y].tfuel + '</td><td class="text-end">' + rewardsReverse[y].gnote + '</td><td class="text-end">$' + rewardsReverse[y].tvl + '</td><td class="text-end">$' + rewardsReverse[y].mtvl + '</td><td class="text-end">' + rewardsReverse[y].reward + '</td><td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td></tr>');
+                $('#dailyRewardsTable > tbody:last-child').append('<tr>'
+                    + '<td>' + rewardsReverse[y].date + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].tbill1x + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].tbill125x + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].tbill15x + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].tbill2x + '</td>'
+                    + '<td class="text-end hiddenColumn">' + rewardsReverse[y].tbill3x + '</td>'
+                    + '<td class="text-end hiddenColumn">' + rewardsReverse[y].tbill4x + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].tfuel + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].gnote + '</td>'
+                    + '<td class="text-end">$' + rewardsReverse[y].tvl + '</td>'
+                    + '<td class="text-end">$' + rewardsReverse[y].mtvl + '</td>'
+                    + '<td class="text-end">' + rewardsReverse[y].reward + '</td>'
+                    + '<td class="text-end">$' + rewardsReverse[y].rewardUSD + '</td>'
+                    + '</tr>');
 
+            }
+
+            if (has3x === true) {
+                $('#dailyRewardsTable td:nth-child(6)').removeClass("hiddenColumn");
+                $('#dailyRewardsTable th:nth-child(6)').removeClass("hiddenColumn");
+            }
+            if (has4x === true) {
+                $('#dailyRewardsTable td:nth-child(7)').removeClass("hiddenColumn");
+                $('#dailyRewardsTable th:nth-child(7)').removeClass("hiddenColumn");
             }
         });
     }
@@ -343,7 +407,6 @@ function fetchWalletData() {
         priceTheta = 0;
         $.getJSON("api/getPriceAll", function (data) {
             $.each(data['body'], function (key, val) {
-                console.log(val['_id']);
                 if (val['_id'] === 'TDROP') {
                     priceTdrop = val['price'];
                 }
@@ -359,12 +422,22 @@ function fetchWalletData() {
                 var balance = data.balance;
                 var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 var balUSD = ((parseFloat(balance) / 1000000000000000000) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+                
                 if (parseFloat(data.balance) > 0) {
                     $("#tdropBlock").show();
                     $("#tdropBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + bal + '<br/>$' + balUSD);
+                    updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
                 }
-                updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
+                if (parseFloat(data.staked) > 0) {
+                    
+                    var staked = (parseFloat(data.staked)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var stakedUSD = ((parseFloat(data.staked)) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    $("#tdropStakeBlock").show();
+                    $("#tdropStakeBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + staked + '<br/>$' + stakedUSD);
+                    updateTotalBalance((parseFloat(data.staked)) * priceTdrop);
+                }
+                
             });
 
             $.getJSON("api/getBalance/" + wallet, function (data) {
@@ -456,9 +529,13 @@ function clearMyWalletData() {
     nft125xlevel = 0;
     nft15xlevel = 0;
     nft2xlevel = 0;
+    nft3xlevel = 0;
+    nft4xlevel = 0;
+    nft125xlevelGnote = 0;
+    nft15xlevelGnote = 0;
     nft2xlevelGnote = 0;
-    nft2xlevelGnote = 0;
-    nft2xlevelGnote = 0;
+    nft3xlevelGnote = 0;
+    nft4xlevelGnote = 0;
     $("#thetaBalance").html('');
     $("#tfuelBalance").html('');
     $("#thetaStake").html('');
@@ -480,18 +557,26 @@ function clearMyWalletData() {
     $("#gnoteTfuel").html('');
     $("#daysInLP").html('');
 
+    $("#nft4xlabel").html(0 + ' / ' + 0);
+    $("#nft3xlabel").html(0 + ' / ' + 0);
     $("#nft2xlabel").html(0 + ' / ' + 0);
     $("#nft15xlabel").html(0 + ' / ' + 0);
     $("#nft125xlabel").html(0 + ' / ' + 0);
 
+    $("#nft4xlabelGnote").html(0 + ' / ' + 0);
+    $("#nft3xlabelGnote").html(0 + ' / ' + 0);
     $("#nft2xlabelGnote").html(0 + ' / ' + 0);
     $("#nft15xlabelGnote").html(0 + ' / ' + 0);
     $("#nft125xlabelGnote").html(0 + ' / ' + 0);
 
 
+    $('#progress4x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress3x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress2x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress15x').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress125x').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress4xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
+    $('#progress3xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress2xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress15xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
     $('#progress125xGnote').css('width', 0 + '%').attr('aria-valuenow', 0);
@@ -508,6 +593,8 @@ function fetchNFTforWallet() {
     var nft125xsum = 0;
     var nft15xsum = 0;
     var nft2xsum = 0;
+    var nft3xsum = 0;
+    var nft4xsum = 0;
 
     $('#myNFTsTable > tbody:last-child').empty();
 
@@ -526,6 +613,10 @@ function fetchNFTforWallet() {
                 nft15xsum += parseFloat(TbillAmount);
             } else if (Multiplier == "1.25x" && !Name.includes("Sticker")) {
                 nft125xsum += parseFloat(TbillAmount);
+            } else if (Multiplier == "3x") {
+                nft3xsum += parseFloat(TbillAmount);
+            } else if (Multiplier == "4x") {
+                nft4xsum += parseFloat(TbillAmount);
             }
             $('#myNFTsTable > tbody:last-child').append('<tr><td><img height="30" src="' + ImageURL + '" /></td><td>' + Name + '</td><td class="text-end">' + Multiplier + '</td><td class="text-end">' + TbillAmount + '</td><td class="text-end">' + BoostPercentage + '</td><td class="text-end">' + Edition + '</td></tr>');
 
@@ -539,18 +630,35 @@ function fetchNFTforWallet() {
             }
         });
 
+        if (nft4xsum !== 0) {
+            $("#nft4xBlock").css({ display: "block" });
+            $("#nft4xGnoteBlock").css({ display: "block" });
+        }
+        if (nft3xsum !== 0) {
+            $("#nft3xBlock").css({ display: "block" });
+            $("#nft3xGnoteBlock").css({ display: "block" });
+        }
+
+        $("#nft4xlabel").html(nft4xlevel + ' / ' + nft4xsum);
+        $("#nft3xlabel").html(nft3xlevel + ' / ' + nft3xsum);
         $("#nft2xlabel").html(nft2xlevel + ' / ' + nft2xsum);
         $("#nft15xlabel").html(nft15xlevel + ' / ' + nft15xsum);
         $("#nft125xlabel").html(nft125xlevel + ' / ' + nft125xsum);
 
+        $("#nft4xlabelGnote").html(nft4xlevelGnote + ' / ' + nft4xsum);
+        $("#nft3xlabelGnote").html(nft3xlevelGnote + ' / ' + nft3xsum);
         $("#nft2xlabelGnote").html(nft2xlevelGnote + ' / ' + nft2xsum);
         $("#nft15xlabelGnote").html(nft15xlevelGnote + ' / ' + nft15xsum);
         $("#nft125xlabelGnote").html(nft125xlevelGnote + ' / ' + nft125xsum);
 
+        var prct4x = parseFloat(parseFloat(nft4xlevel) / nft4xsum * 100).toFixed(1);
+        var prct3x = parseFloat(parseFloat(nft3xlevel) / nft3xsum * 100).toFixed(1);
         var prct2x = parseFloat(parseFloat(nft2xlevel) / nft2xsum * 100).toFixed(1);
         var prct15x = parseFloat(parseFloat(nft15xlevel) / nft15xsum * 100).toFixed(1);
         var prct125x = parseFloat(parseFloat(nft125xlevel) / nft125xsum * 100).toFixed(1);
 
+        $('#progress4x').css('width', prct4x + '%').attr('aria-valuenow', prct4x);
+        $('#progress3x').css('width', prct3x + '%').attr('aria-valuenow', prct3x);
         $('#progress2x').css('width', prct2x + '%').attr('aria-valuenow', prct2x);
         $('#progress15x').css('width', prct15x + '%').attr('aria-valuenow', prct15x);
         $('#progress125x').css('width', prct125x + '%').attr('aria-valuenow', prct125x);
@@ -656,6 +764,11 @@ function showDailyChart(data) {
         chart: {
             type: 'bar',
             height: 350,
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
             //group: 'myWallet',
             //id: 'daily'
         },

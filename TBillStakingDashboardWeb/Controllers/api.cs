@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TBillStaking.Models;
@@ -186,25 +188,55 @@ namespace TBillStaking.Controllers
 
         [HttpGet]
         [HttpGet("balanceTdrop/{wallet}")]
-        public async Task GetBalanceTdrop(string wallet)
+        public IActionResult GetBalanceTdrop(string wallet)
         {
+            string balance = "";
+            string staked = "";
             string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03&wallet=" + wallet;
+            string urlStaked = "https://thetastats-nodejs-dev.azurewebsites.net/tdropStaked?wallet=" + wallet;
             HttpContext.Response.ContentType = "application/json";
-            using (var client = new System.Net.WebClient())
+            using (var client = new HttpClient())
             {
                 try
                 {
-                    byte[] bytes = await client.DownloadDataTaskAsync(jsonUrl);
-                    //write to response stream aka Response.Body
-                    await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                    var request = new HttpRequestMessage(HttpMethod.Get, jsonUrl);
+                    var response = client.Send(request);
+                    
+                    using var reader = new StreamReader(response.Content.ReadAsStream());
+                    var responseBody = reader.ReadToEnd();
+                    var balJson = JObject.Parse(responseBody);
+                    balance = balJson.GetValue("balance").ToString();
                 }
                 catch (Exception e)//404 or anything
                 {
                     HttpContext.Response.StatusCode = 400;//BadRequest
                 }
-                await HttpContext.Response.Body.FlushAsync();
-                HttpContext.Response.Body.Close();
+                
             }
+            
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, urlStaked);
+                    var response = client.Send(request);
+
+                    using var reader = new StreamReader(response.Content.ReadAsStream());
+                    var responseBody = reader.ReadToEnd();
+                    staked = responseBody;
+                }
+                catch (Exception e)//404 or anything
+                {
+                    HttpContext.Response.StatusCode = 400;//BadRequest
+                }
+                
+            }
+            var resp = new
+            {
+                balance = balance,
+                staked = staked
+            };
+            return Ok(resp);
         }
 
         [HttpGet]
@@ -1266,6 +1298,115 @@ namespace TBillStaking.Controllers
 
 
             return Ok(JsonSerializer.Serialize(nfts));
+        }
+
+        [HttpGet]
+        [HttpGet("botStats")]
+        public IActionResult GetBotStats()
+        {
+            string TvLocked = "";
+            string TvLocked24h = "";
+            string TbillLocked = "";
+            string TfuelLocked = "";
+            string GnoteLocked = "";
+            string GnoteLocked24h = "";
+            string TfuelLocked24h = "";
+            string TbillLocked24h = "";
+
+            int walletCalc = 0;
+            int walletCalcGnote = 0;
+            int walletCalc24h = 0;
+            int walletCalcGnote24h = 0;
+
+
+            HttpContext.Response.ContentType = "application/json";
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            List<TBillDailyStats> stats = new List<TBillDailyStats>();
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getLatestTbillStats", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            var tfuel24h = reader.GetDecimal("tfuelLocked24h");
+                            var gnote24h = reader.GetDecimal("gnoteLocked24h");
+                            var tbill24h = reader.GetDecimal("tbillLocked24h");
+                            var tv24h = reader.GetDecimal("tvLocked24h");
+                            TvLocked = String.Format("{0:n}", reader.GetDecimal("tvLocked"));
+                            TbillLocked = String.Format("{0:n}", reader.GetDecimal("tbillLocked"));
+                            TfuelLocked = String.Format("{0:n}", reader.GetDecimal("tfuelLocked"));
+                            GnoteLocked = String.Format("{0:n}", reader.GetDecimal("gnoteLocked"));
+                            TfuelLocked24h = (tfuel24h > 0 ? "+" : "") + String.Format("{0:n}", tfuel24h);
+                            GnoteLocked24h = (gnote24h > 0 ? "+" : "") + String.Format("{0:n}", gnote24h);
+                            TbillLocked24h = (tbill24h > 0 ? "+" : "") + String.Format("{0:n}", tbill24h);
+                            TvLocked24h = (tv24h > 0 ? "+" : "") + String.Format("{0:n}", tv24h);
+
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+
+                using (var command = new SqlCommand("[dbo].[ups_getLPWalletCount]", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.Parameters.Add("@top", SqlDbType.Int).Value = 2;
+                    SqlDataReader reader = command.ExecuteReader();
+                    int rowCnt = 1;
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            if (rowCnt == 1)
+                            {
+                                walletCalc = reader.GetInt32("walletCount");
+                                walletCalcGnote = reader.GetInt32("walletCountGnote");
+                                //lpWalletCount = reader.GetInt32("walletCount").ToString();
+                            }
+                            else if (rowCnt == 2)
+                            {
+                                walletCalc24h = (walletCalc - reader.GetInt32("walletCount"));
+                                walletCalcGnote24h = (walletCalcGnote - reader.GetInt32("walletCountGnote"));
+                            }
+                            rowCnt++;
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+            var resp = new
+            {
+                TvLocked = TvLocked,
+                TbillLocked = TbillLocked,
+                TfuelLocked = TfuelLocked,
+                GnoteLocked = GnoteLocked,
+                TvLocked24hPct = TvLocked24h,
+                GnoteLocked24hPct = GnoteLocked24h,
+                TfuelLocked24hPct = TfuelLocked24h,
+                TbillLocked24hPct = TbillLocked24h,
+                walletCalc = walletCalc,
+                walletCalcGnote = walletCalcGnote,
+                walletCalc24h = walletCalc24h,
+                walletCalcGnote24h = walletCalcGnote24h
+            };
+            return Ok(resp);
         }
     }
 }
