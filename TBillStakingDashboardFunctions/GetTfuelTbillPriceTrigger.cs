@@ -10,7 +10,7 @@ namespace TBillStakingDashboardFunctions
         [FunctionName("GetTfuelTbillPriceTrigger")]
         public static void Run([TimerTrigger("0 */10 * * * *")]TimerInfo myTimer, ILogger log)
         {
-            Exec.GetTfuelTbillPrice.Execute();
+            //Exec.GetTfuelTbillPrice.Execute();
             
         }
     }
