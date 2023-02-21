@@ -6,7 +6,7 @@
 
 
 @section scripts {
-    <script type="text/javascript" src="js/pageMyWallet.js?39" charset="utf-8"></script>
+    <script type="text/javascript" src="js/pageMyWallet.js?40" charset="utf-8"></script>
 }
 
 <style>
@@ -71,7 +71,7 @@
     &nbsp;
 </div>
 <div class="row">
-    <div class="col-lg-8 col-sm-12 col-12">
+    @*<div class="col-lg-8 col-sm-12 col-12">
         <div class="row">
             <h5>LP info</h5>
 
@@ -110,8 +110,7 @@
                     <label id="daysInLP" class="form-label"></label>
                 </p>
             </div>
-            @*</div>
-            <div class="row">*@
+            
             <div class="col-lg-3 col-sm-6 col-6">
                 <p>
                     <strong>Day's Total Reward</strong>
@@ -142,15 +141,7 @@
                     <label id="lpPctGnote" class="form-label"></label>
                 </p>
             </div>
-            @*<div class="col-lg-3 col-sm-6 col-6" id="lpPctBlock">
-            <p>
-            <strong>LP %</strong>
-            <br />
-            <label id="lpPct" class="form-label"></label>
-            </p>
-            </div>*@
-            @*</div>
-            <div class="row">*@
+            
 
 
 
@@ -163,13 +154,7 @@
                     <img height="20" src="~/img/gnote.png" />&nbsp;<label id="univ2Gnote" class="form-label"></label>
                 </p>
             </div>
-            @*<div class="col-lg-3 col-sm-6 col-6" id="realIlBlock">
-            <p>
-            <strong>Realized IL</strong>
-            <br />
-            <label id="realIl" class="form-label"></label>
-            </p>
-            </div>*@
+            
             <div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">
                 <p>
                     <strong>Current IL </strong> <i id="currIlPopover" class="bi bi-question-circle" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content=" "></i>
@@ -191,13 +176,7 @@
                     <label id="currHwm" class="form-label"></label>
                 </p>
             </div>
-            @*<div class="col-lg-3 col-sm-6 col-6" id="currIlBlock">
-            <p>
-            <strong>IL to be Airdropped</strong>
-            <br />
-            <label id="ILToBeDropped" class="form-label"></label>
-            </p>
-            </div>*@
+            
             <div class="col-lg-3 col-sm-6 col-6" id="extraIlBlock">
                 <p>
                     <strong>Days until mint</strong>
@@ -214,7 +193,7 @@
         <div class="col-lg-12 col-sm-12">
             <div id="chartTVL" class="bg-dark" style="border:0px;"></div>
         </div>
-    </div>
+    </div>*@
     <div class="col-lg-12 col-sm-12 col-12">
         <div class="row">
             <h5>Wallet balance</h5>
@@ -286,7 +265,7 @@
 </div>
 
 
-<div class="row">
+@*<div class="row">
     <div class="col-lg-4 col-sm-12">
         <div id="chartDaily" class="bg-dark" style="border:0px;"></div>
     </div>
@@ -297,7 +276,7 @@
         <div id="chartUniv2" class="bg-dark" style="border:0px;"></div>
     </div>
 
-</div>
+</div>*@
 
 <div class="row">
     &nbsp;
@@ -306,7 +285,7 @@
     <div id="mynft">
         <h5 class="mynfth5">My NFTs</h5> &nbsp; <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#nftValueModal">Show NFTs value</button>
     </div>
-    <div class="col-lg-8 col-sm-12">
+    <div class="col-lg-12 col-sm-12">
         <div class="row">
             <div class="table-wrapper">
                 <table id="myNFTsTable" class="table table-light table-sm tableFixHead">
@@ -328,7 +307,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-12">
+    @*<div class="col-lg-4 col-sm-12">
         <div class="row">
             <h5>
                 TFuel LP
@@ -426,12 +405,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 <div class="row">
     &nbsp;
 </div>
-<div class="row">
+@*<div class="row">
     <h5>Daily Rewards</h5>
     <div class="table-wrapper">
         <table id="rewardsTable" class="table table-light table-sm tableFixHead">
@@ -492,7 +471,7 @@
             </tbody>
         </table>
     </div>
-</div>
+</div>*@
 
 <div class="row">
     &nbsp;

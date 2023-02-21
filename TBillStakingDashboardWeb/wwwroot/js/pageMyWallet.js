@@ -80,9 +80,109 @@ function fetchWalletData() {
 
     var wallet = $("#walletAddress").val();
 
+    if (wallet != "") {
+        fetchNFTforWallet();
+    }
+
     //add wallet to URL
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?wallet=' + wallet;
     window.history.replaceState(null, null, newurl);
+
+
+    if (wallet != "") {
+        priceTdrop = 0;
+        priceTheta = 0;
+        $.getJSON("api/getPriceAll", function (data) {
+            $.each(data['body'], function (key, val) {
+                if (val['_id'] === 'TDROP') {
+                    priceTdrop = val['price'];
+                }
+
+                if (val['_id'] === 'THETA') {
+                    priceTheta = val['price'];
+                }
+
+            });
+
+            //get TDrop  balance
+            $.getJSON("api/balanceTdrop/" + wallet, function (data) {
+                var balance = data.balance;
+                var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balUSD = ((parseFloat(balance) / 1000000000000000000) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                if (parseFloat(data.balance) > 0) {
+                    $("#tdropBlock").show();
+                    $("#tdropBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + bal + '<br/>$' + balUSD);
+                    updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
+                }
+                if (parseFloat(data.staked) > 0) {
+
+                    var staked = (parseFloat(data.staked)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    var stakedUSD = ((parseFloat(data.staked)) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    $("#tdropStakeBlock").show();
+                    $("#tdropStakeBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + staked + '<br/>$' + stakedUSD);
+                    updateTotalBalance((parseFloat(data.staked)) * priceTdrop);
+                }
+
+            });
+
+            $.getJSON("api/getBalance/" + wallet, function (data) {
+                var json = JSON.parse(data);
+                var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                var balanceTFuelUSD = (parseFloat(json.TFuel) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceTBillUSD = (parseFloat(json.TBill) * tbillRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeTFuelUSD = (parseFloat(json.TFuelStake) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var stakeThetaUSD = (parseFloat(json.ThetaStake) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                var balanceThetaUSD = (parseFloat(json.Theta) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                updateTotalBalance(parseFloat(json.TFuel) * tfuelRate);
+                updateTotalBalance(parseFloat(json.TBill) * tbillRate);
+                updateTotalBalance(parseFloat(json.TFuelStake) * tfuelRate);
+                updateTotalBalance(parseFloat(json.ThetaStake) * priceTheta);
+                updateTotalBalance(parseFloat(json.Theta) * priceTheta);
+                //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+                //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+
+                $("#tbillBalance").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + balanceTBill + '<br/>' + '$' + balanceTBillUSD);
+                $("#tfuelBalance").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + balanceTFuel + '<br/>' + '$' + balanceTFuelUSD);
+                if (parseFloat(json.Theta) > 0) {
+                    $("#thetaBlock").show();
+                    $("#thetaBalance").html('<img height="20" src="img/theta.png" />&nbsp;' + balanceTheta + '<br/>$' + balanceThetaUSD);
+                }
+                if (parseFloat(json.ThetaStake) > 0) {
+                    $("#thetaStakeBlock").show();
+                    $("#thetaStake").html('<img height="20" src="img/theta.png" />&nbsp;' + stakeTheta + '<br/>$' + stakeThetaUSD);
+                }
+                if (parseFloat(json.TFuelStake) > 0) {
+                    $("#tfuelStakeBlock").show();
+                    $("#tfuelStake").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + stakeTFuel + '<br/>' + '$' + stakeTFuelUSD);
+                }
+
+            });
+
+        });
+    }
+
+    //get gNOTE balance
+    if (wallet != "") {
+        $.getJSON("api/balanceGnote/" + wallet, function (data) {
+            //var json = JSON.parse(data);
+            var balance = data.balance;
+            var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
+            var balanceGnoteUSD = (parseFloat(balance) / 1000000000000000000 * gnoteRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            $("#gNoteBalance").html('<img height="20" src="/img/gnote.png" />&nbsp;' + bal + '<br/>' + '$' + balanceGnoteUSD);
+            updateTotalBalance(parseFloat(balance) / 1000000000000000000 * gnoteRate);
+        });
+    }
+
+    // skip the rest
+    return;
 
     var dailyTotal = 0;
     if (wallet != "") {
@@ -402,97 +502,7 @@ function fetchWalletData() {
         });
     }
 
-    if (wallet != "") {
-        priceTdrop = 0;
-        priceTheta = 0;
-        $.getJSON("api/getPriceAll", function (data) {
-            $.each(data['body'], function (key, val) {
-                if (val['_id'] === 'TDROP') {
-                    priceTdrop = val['price'];
-                }
-
-                if (val['_id'] === 'THETA') {
-                    priceTheta = val['price'];
-                }
-
-            });
-
-            //get TDrop  balance
-            $.getJSON("api/balanceTdrop/" + wallet, function (data) {
-                var balance = data.balance;
-                var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var balUSD = ((parseFloat(balance) / 1000000000000000000) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                
-                if (parseFloat(data.balance) > 0) {
-                    $("#tdropBlock").show();
-                    $("#tdropBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + bal + '<br/>$' + balUSD);
-                    updateTotalBalance((parseFloat(balance) / 1000000000000000000) * priceTdrop);
-                }
-                if (parseFloat(data.staked) > 0) {
-                    
-                    var staked = (parseFloat(data.staked)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    var stakedUSD = ((parseFloat(data.staked)) * priceTdrop).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                    $("#tdropStakeBlock").show();
-                    $("#tdropStakeBalance").html('<img height="20" src="/img/tdrop_flat.png" />&nbsp;' + staked + '<br/>$' + stakedUSD);
-                    updateTotalBalance((parseFloat(data.staked)) * priceTdrop);
-                }
-                
-            });
-
-            $.getJSON("api/getBalance/" + wallet, function (data) {
-                var json = JSON.parse(data);
-                var balanceTheta = json.Theta.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var balanceTFuel = json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var balanceTBill = json.TBill.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var stakeTheta = json.ThetaStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var stakeTFuel = json.TFuelStake.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                var balanceTFuelUSD = (parseFloat(json.TFuel) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var balanceTBillUSD = (parseFloat(json.TBill) * tbillRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var stakeTFuelUSD = (parseFloat(json.TFuelStake) * tfuelRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var stakeThetaUSD = (parseFloat(json.ThetaStake) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                var balanceThetaUSD = (parseFloat(json.Theta) * priceTheta).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                updateTotalBalance(parseFloat(json.TFuel) * tfuelRate);
-                updateTotalBalance(parseFloat(json.TBill) * tbillRate);
-                updateTotalBalance(parseFloat(json.TFuelStake) * tfuelRate);
-                updateTotalBalance(parseFloat(json.ThetaStake) * priceTheta);
-                updateTotalBalance(parseFloat(json.Theta) * priceTheta);
-                //console.log(balanceTFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
-                //console.log(json.TFuel.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
-
-                $("#tbillBalance").html('<img height="20" src="/img/tbill.svg" />&nbsp;' + balanceTBill + '<br/>' + '$' + balanceTBillUSD);
-                $("#tfuelBalance").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + balanceTFuel + '<br/>' + '$' + balanceTFuelUSD);
-                if (parseFloat(json.Theta) > 0) {
-                    $("#thetaBlock").show();
-                    $("#thetaBalance").html('<img height="20" src="img/theta.png" />&nbsp;' + balanceTheta + '<br/>$' + balanceThetaUSD);
-                }
-                if (parseFloat(json.ThetaStake) > 0) {
-                    $("#thetaStakeBlock").show();
-                    $("#thetaStake").html('<img height="20" src="img/theta.png" />&nbsp;' + stakeTheta + '<br/>$' + stakeThetaUSD);
-                }
-                if (parseFloat(json.TFuelStake) > 0) {
-                    $("#tfuelStakeBlock").show();
-                    $("#tfuelStake").html('<img height="20" src="/img/tfuel.svg" />&nbsp;' + stakeTFuel + '<br/>' + '$' + stakeTFuelUSD);
-                }
-                
-            });
-
-        });
-    }
-
-    //get gNOTE balance
-    if (wallet != "") {
-        $.getJSON("api/balanceGnote/" + wallet, function (data) {
-            //var json = JSON.parse(data);
-            var balance = data.balance;
-            var bal = (parseFloat(balance) / 1000000000000000000).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
-            var balanceGnoteUSD = (parseFloat(balance) / 1000000000000000000 * gnoteRate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            $("#gNoteBalance").html('<img height="20" src="/img/gnote.png" />&nbsp;' + bal + '<br/>' + '$' + balanceGnoteUSD);
-            updateTotalBalance(parseFloat(balance) / 1000000000000000000 * gnoteRate);
-        });
-    }
+    
 
 }
 
