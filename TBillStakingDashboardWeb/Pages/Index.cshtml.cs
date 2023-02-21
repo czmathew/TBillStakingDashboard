@@ -23,6 +23,9 @@ namespace TBillStaking.Pages
         public string DisplayDevMessage { get; set; }
         [ViewData]
         public string DisplayNewDomainMessage { get; set; }
+
+        [ViewData]
+        public string DisplayTBillPauseMessage { get; set; }
         public List<Tuple<string, string>> LpShare { get; set; }
         public List<Tuple<string, string>> LpShareGnote { get; set; }
         public List<Tuple<string, string>> LpRange { get; set; }
@@ -77,6 +80,11 @@ namespace TBillStaking.Pages
                 if (_configuration["DisplayNewDomainMessage"] != null)
                 {
                     DisplayNewDomainMessage = _configuration["DisplayNewDomainMessage"];
+                }
+                DisplayTBillPauseMessage = "false";
+                if (_configuration["DisplayTBillPauseMessage"] != null)
+                {
+                    DisplayTBillPauseMessage = _configuration["DisplayTBillPauseMessage"];
                 }
                 NFTs = new List<NFTDetails>();
                 NFTSales = new List<NFTSaleDetails>();
