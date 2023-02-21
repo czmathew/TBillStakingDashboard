@@ -1,0 +1,109 @@
+﻿@page
+@model TBillStakingDashboardWeb.Pages.GnoteModel
+@{
+    Layout = "_Layout";
+}
+
+
+@section scripts {
+    <script type="text/javascript" src="js/pageGnote.js?5" charset="utf-8"></script>
+}
+
+    <script>
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+            )
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+            )
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+            )
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+
+    <div class="row">
+        <h4>gNOTE price</h4>
+        <style>
+
+            #chartBultPrice {
+                max-width: 650px;
+                margin: 5px auto;
+            }
+        </style>
+        <div class=col-lg-4 col-sm-12">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-6">
+                    <p>
+                        <strong>gNOTE / Tfuel</strong>
+                        <br />
+                    <label id="CurrentGnote_Tfuel" class="form-label">@Model.CurrentGnote_Tfuel</label>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-6">
+                    <p>
+                        <strong>Tfuel / gNOTE</strong>
+                        <br />
+                        <label id="CurrentTfuel_Gnote" class="form-label">@Model.CurrentTfuel_Gnote</label>
+                    </p>
+                </div>
+            </div>
+            <h4>gNOTE LP</h4>
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-6">
+                    <p>
+                        <strong>gNOTE reserve</strong>
+                        <br />
+                    <label id="Gnote_reserve" class="form-label">@Model.Gnote_reserve</label>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-6">
+                    <p>
+                        <strong>Tfuel reserve</strong>
+                        <br />
+                    @*<label id="Tfuel_reserve" class="form-label">@Model.Tfuel_reserve</label>*@
+                        <small>to be updated once LP is active</small>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-6">
+                    <p>
+                        <strong>gNOTE Supply</strong>
+                        <br />
+                        @*<img height="20" src="~/img/gnote.png" /><label id="gnoteSupply" class="form-label">...</label>*@
+                    <small>to be updated once LP is active</small>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-6">
+                </div>
+            </div>
+        </div>
+       @* <div class=col-lg-8 col-sm-12">
+
+            <input type="radio" class="btn-check" name="optionsPeriod" id="optionYear" autocomplete="off" value="365">
+            <label class="btn btn-secondary" for="optionYear">Year</label>
+            <input type="radio" class="btn-check" name="optionsPeriod" id="optionMonth" autocomplete="off" value="31" checked>
+            <label class="btn btn-secondary" for="optionMonth">Month</label>
+            <input type="radio" class="btn-check" name="optionsPeriod" id="optionWeek" autocomplete="off" value="7">
+            <label class="btn btn-secondary" for="optionWeek">Week</label>
+            <br /><br />
+            <div class="row">
+                <div class=col-lg-6 col-sm-12">
+                    <div id="chartGnoteTfuelPrice" class="bg-dark" style="border:0px;"></div>
+                </div>
+                <div class=col-lg-6 col-sm-12">
+                    <div id="chartGnoteUSDPrice" class="bg-dark" style="border:0px;"></div>
+                </div>
+            </div>
+        </div>*@
+
+
+    </div>
