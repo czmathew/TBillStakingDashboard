@@ -897,6 +897,57 @@ namespace TBillStaking.Controllers
             return Ok(JsonSerializer.Serialize(DailyLPToken));
         }
 
+
+
+        [HttpGet]
+        [HttpGet("gnoteStats")]
+        public IActionResult GetGnoteStats()
+        {
+            String CurrentGnote_Tfuel = "";
+            String CurrentTfuel_Gnote = "";
+            String Tfuel_reserve = "";
+            String Gnote_reserve = "";
+            var DailyLPToken = new List<Tuple<string, string>> { };
+
+            string connString = _configuration.GetConnectionString("sql_tbill");
+            using (SqlConnection connection = new SqlConnection(connString))
+            {
+                using (var command = new SqlCommand("usp_getGnoteTfuelStats", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            CurrentGnote_Tfuel = reader.GetString("gnote_tfuel");
+                            CurrentTfuel_Gnote = reader.GetString("tfuel_gnote");
+                            Tfuel_reserve = reader.GetString("tfuel_reserve");
+                            Gnote_reserve = reader.GetString("gnote_reserve");
+                        }
+                    }
+                    finally
+                    {
+                        // Always call Close when done reading.
+                        reader.Close();
+                    }
+                }
+            }
+
+
+            var resp = new
+            {
+                CurrentGnote_Tfuel = CurrentGnote_Tfuel,
+                CurrentTfuel_Gnote = CurrentTfuel_Gnote,
+                Tfuel_reserve = Tfuel_reserve,
+                Gnote_reserve = Gnote_reserve
+            };
+            return Ok(resp);
+        }
+
         [HttpPost]
         [HttpPost("getNFTforWallet")]
         public IActionResult GetNFTforWallet([FromForm] string walletAddress)

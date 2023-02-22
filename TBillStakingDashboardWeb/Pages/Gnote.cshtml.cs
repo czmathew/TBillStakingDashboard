@@ -35,42 +35,42 @@ namespace TBillStakingDashboardWeb.Pages
             {
                 Wallet = HttpContext.Request.Query["wallet"];
             }
-            try
-            {
-                string connString = _configuration.GetConnectionString("sql_Tfuel");
-                using (SqlConnection connection = new SqlConnection(connString))
-                {
-                    connection.Open();
-                    using (var command = new SqlCommand("[dbo].[usp_getGnoteTfuelStats]", connection)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    })
-                    {
-                        SqlDataReader reader = command.ExecuteReader();
-                        try
-                        {
-                            while (reader.Read())
-                            {
-                                CurrentGnote_Tfuel = reader.GetString("gnote_Tfuel");
-                                CurrentTfuel_Gnote = reader.GetString("Tfuel_gnote");
-                                Tfuel_reserve = reader.GetString("Tfuel_reserve");
-                                Gnote_reserve = reader.GetString("gnote_reserve");
-                                //lpWalletCount = reader.GetInt32("walletCount").ToString();
+            //    try
+            //    {
+            //        string connString = _configuration.GetConnectionString("sql_Tfuel");
+            //        using (SqlConnection connection = new SqlConnection(connString))
+            //        {
+            //            connection.Open();
+            //            using (var command = new SqlCommand("[dbo].[usp_getGnoteTfuelStats]", connection)
+            //            {
+            //                CommandType = CommandType.StoredProcedure
+            //            })
+            //            {
+            //                SqlDataReader reader = command.ExecuteReader();
+            //                try
+            //                {
+            //                    while (reader.Read())
+            //                    {
+            //                        CurrentGnote_Tfuel = reader.GetString("gnote_Tfuel");
+            //                        CurrentTfuel_Gnote = reader.GetString("Tfuel_gnote");
+            //                        Tfuel_reserve = reader.GetString("Tfuel_reserve");
+            //                        Gnote_reserve = reader.GetString("gnote_reserve");
+            //                        //lpWalletCount = reader.GetInt32("walletCount").ToString();
 
-                            }
-                        }
-                        finally
-                        {
-                            // Always call Close when done reading.
-                            reader.Close();
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //                    }
+            //                }
+            //                finally
+            //                {
+            //                    // Always call Close when done reading.
+            //                    reader.Close();
+            //                }
+            //            }
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        throw;
+            //    }
         }
     }
 }
