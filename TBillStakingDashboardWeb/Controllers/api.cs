@@ -167,7 +167,7 @@ namespace TBillStaking.Controllers
         [HttpGet("balanceGnote/{wallet}")]
         public async Task GetBalanceGnote(string wallet)
         {
-            string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0xA3d79C4088aE87EF59254120Fe646560828084c3&wallet=" + wallet;
+            string jsonUrl = "https://thetastats-nodejs-prd.azurewebsites.net/balance?contract=0xA3d79C4088aE87EF59254120Fe646560828084c3&wallet=" + wallet;
             HttpContext.Response.ContentType = "application/json";
             using (var client = new System.Net.WebClient())
             {
@@ -192,8 +192,8 @@ namespace TBillStaking.Controllers
         {
             string balance = "";
             string staked = "";
-            string jsonUrl = "https://thetastats-nodejs-dev.azurewebsites.net/balance?contract=0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03&wallet=" + wallet;
-            string urlStaked = "https://thetastats-nodejs-dev.azurewebsites.net/tdropStaked?wallet=" + wallet;
+            string jsonUrl = "https://thetastats-nodejs-prd.azurewebsites.net/balance?contract=0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03&wallet=" + wallet;
+            string urlStaked = "https://thetastats-nodejs-prd.azurewebsites.net/tdropStaked?wallet=" + wallet;
             HttpContext.Response.ContentType = "application/json";
             using (var client = new HttpClient())
             {
