@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ namespace TBillStakingDashboardFunctions.Exec
 {
     static class GetTBillNTFForSale
     {
-        public static void Execute()
+        public static void Execute(ILogger log)
         {
 
             using (WebClient wc = new WebClient())
@@ -23,6 +24,7 @@ namespace TBillStakingDashboardFunctions.Exec
                 {
                     try
                     {
+                        log.LogInformation($"GetTBillNTFForSale calling: " + "https://api.opentheta.io/search?collection=tbill-multiplier&page=" + i.ToString());
                         var json = wc.DownloadString("https://api.opentheta.io/search?collection=tbill-multiplier&page=" + i.ToString());
                         var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
@@ -61,6 +63,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     foreach (var nftType in nftMeta)
                     {
 
+                        log.LogInformation($"GetTBillNTFForSale calling: " + "https://api.opentheta.io/edition?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&ID=" + nftType.Item3 + " &filter=sale");
                         var json = wc.DownloadString("https://api.opentheta.io/edition?contract=0x172d0bd953566538f050aabfeef5e2e8143e09f4&ID=" + nftType.Item3 + " &filter=sale");
                         var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,7 +15,7 @@ namespace TBillStakingDashboardFunctions.Exec
     static class GetTBillNTFSales
     {
 
-        public static void Execute()
+        public static void Execute(ILogger log)
         {
             string[] tbillMultiplierAddresses = { "0x172d0bd953566538f050aabfeef5e2e8143e09f4" };
 
@@ -32,6 +33,7 @@ namespace TBillStakingDashboardFunctions.Exec
                     int i = 0;
                     while (i <= 10)
                     {
+                        log.LogInformation($"GetTBillNTFSales calling: " + "https://api.opentheta.io/recentEvents?page=" + i.ToString() + "&type=10");
                         var json = wc.DownloadString("https://api.opentheta.io/recentEvents?page=" + i.ToString() + "&type=10");
                         var jsonClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
 
