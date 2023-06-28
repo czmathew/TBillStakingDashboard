@@ -75,8 +75,10 @@ namespace TBillStakingDashboardFunctions.Exec
                     cmd.Parameters.AddWithValue("@instantRate", decimal.Parse(jsonClass.instantRate.ToString()));
                     cmd.Parameters.AddWithValue("@rebaseTop", decimal.Parse(jsonClass.noRebaseRange.top.ToString()));
                     cmd.Parameters.AddWithValue("@rebaseBottom", decimal.Parse(jsonClass.noRebaseRange.bottom.ToString()));
-                    cmd.Parameters.AddWithValue("@lpTokenRate", decimal.Parse(jsonClass.lpTokenRate.ToString()));
-                    cmd.Parameters.AddWithValue("@gnoteLpTokenRate", decimal.Parse(jsonClass.gnoteLpTokenRate.ToString()));
+                    //cmd.Parameters.AddWithValue("@lpTokenRate", decimal.Parse(jsonClass.lpTokenRate.ToString()));
+                    cmd.Parameters.AddWithValue("@lpTokenRate", decimal.Parse("0"));
+                    //cmd.Parameters.AddWithValue("@gnoteLpTokenRate", decimal.Parse(jsonClass.gnoteLpTokenRate.ToString()));
+                    cmd.Parameters.AddWithValue("@gnoteLpTokenRate", decimal.Parse("0"));
 
                     cmd.ExecuteNonQuery();
 

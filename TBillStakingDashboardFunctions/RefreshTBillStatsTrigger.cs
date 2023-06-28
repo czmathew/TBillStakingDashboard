@@ -12,7 +12,7 @@ namespace TBillStakingDashboardFunctions
         {
             //log.LogInformation($"RefreshTBillStatsTrigger executed at: {DateTime.Now}");
             //Exec.GetTbillStats.Execute();
-            //Exec.GetTbillRates.Execute();
+            Exec.GetTbillRates.Execute();
             //log.LogInformation($"RefreshTBillStatsTrigger finised at: {DateTime.Now}");
         }
     }
